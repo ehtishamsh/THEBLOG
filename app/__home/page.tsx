@@ -8,7 +8,7 @@ function HomePage() {
     <>
       <Navbar />
       <HeroSection />
-      <div className="max-w-7xl mx-auto mt-8">
+      <div className="max-w-7xl mx-auto mt-8 px-5">
         <RecentBlogs />
       </div>
     </>

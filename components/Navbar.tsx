@@ -10,10 +10,18 @@ function Navbar() {
           The Blog
         </Link>
         <div className="flex justify-center items-center text-xl gap-7">
-          <Link href={"/"}>Blog</Link>
-          <Link href={"/posts"}>Projects</Link>
-          <Link href={"/newsletter"}>Newsletter</Link>
-          <Link href={"/about"}>About</Link>
+          <Link href={"/"} className="max-sm:hidden">
+            Blog
+          </Link>
+          <Link href={"/posts"} className="max-sm:hidden">
+            Projects
+          </Link>
+          <Link href={"/newsletter"} className="max-sm:hidden">
+            Newsletter
+          </Link>
+          <Link href={"/about"} className="max-sm:hidden">
+            About
+          </Link>
           <ModeToggle />
         </div>
       </nav>
