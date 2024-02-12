@@ -5,7 +5,7 @@ import React from "react";
 function RecentBlogData() {
   return (
     <>
-      <Link className="transition-all duration-400 " href={"/posts/1"}>
+      <Link className="transition-all duration-400 " href={"/blog/1"}>
         <img
           src="blog.jpg"
           alt=""
@@ -39,7 +39,7 @@ function RecentBlogData() {
       <div className="transition-all duration-400 flex gap-9 flex-col justify-center items-center">
         <Link
           className="transition-all duration-400 flex gap-5 max-md:flex-col"
-          href={"/posts/1"}
+          href={"/blog/1"}
         >
           <img
             src="blog.jpg"
@@ -72,7 +72,7 @@ function RecentBlogData() {
         </Link>
         <Link
           className="transition-all duration-400 flex gap-5 max-md:flex-col"
-          href={"/posts/1"}
+          href={"/blog/1"}
         >
           <img
             src="blog.jpg"
@@ -106,7 +106,7 @@ function RecentBlogData() {
       </div>
       <Link
         className="transition-all duration-400  flex gap-9 w-full max-lg:flex-col"
-        href={"/posts/1"}
+        href={"/blog/1"}
       >
         <img
           src="blog.jpg"

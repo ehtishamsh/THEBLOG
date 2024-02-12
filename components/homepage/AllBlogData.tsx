@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import blogData from "./utils/Data";
+import blogData from "../utils/Data";
 import Link from "next/link";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import GetColor from "./utils/GetColor";
+import GetColor from "../utils/GetColor";
 
 interface data {
   title: string;
@@ -15,10 +15,10 @@ interface data {
   id: number;
 }
 function AllBlogData() {
-  const [data, setData] = useState(blogData);
+  const [data, setData] = useState<data[]>(blogData);
   const createElement = data.map((item: data) => {
     return (
-      <Link href={item.link} key={item.id}>
+      <Link href={`/blog${item.link}`} key={item.id}>
         <img
           src={item.image}
           alt={item.title}
