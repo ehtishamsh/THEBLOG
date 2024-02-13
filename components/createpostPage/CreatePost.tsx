@@ -1,18 +1,21 @@
 "use client";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Image, Plus, Upload, Video, VideoIcon } from "lucide-react";
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.bubble.css";
 
 function CreatePost() {
   const [title, setTitle] = useState<string>("");
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
   const handlePlus = (e: React.MouseEvent): void => {
     e.preventDefault();
     const imageButtons = document.querySelector<HTMLElement>(".image_menu");
     setShowMenu((prev) => !prev);
   };
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: "<p>Hello World!</p>",
+  });
 
   return (
     <div className="px-2 py-6 mt-7">
@@ -66,12 +69,7 @@ function CreatePost() {
               </div>
             </div>
           </div>
-          <ReactQuill
-            placeholder="write something"
-            theme="bubble"
-            onChange={setValue}
-            value={value}
-          />
+          <EditorContent editor={editor} />
         </form>
       </div>
     </div>
