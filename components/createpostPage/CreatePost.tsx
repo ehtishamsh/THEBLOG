@@ -1,6 +1,6 @@
 "use client";
-import { Image, Plus, Upload, Video, VideoIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
+
 import Tiptap from "./Tiptap";
 
 function CreatePost() {
@@ -13,6 +13,7 @@ function CreatePost() {
       setLoading(false);
     }, 4000);
   }, []);
+
   return (
     <div className="px-2 py-6 mt-7 relative">
       <div className="max-w-7xl mx-auto flex flex-col gap-5">

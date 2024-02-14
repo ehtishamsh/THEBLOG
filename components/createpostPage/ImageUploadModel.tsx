@@ -26,7 +26,7 @@ const ImageUploadModal = ({
   return (
     <div className=" fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
       <div className="  w-96 p-6 rounded-sm  bg-white border border-black relative">
-        <label className="block mb-2">Image URL:</label>
+        <label className="block mb-2 text-black">Image URL:</label>
         <input
           type="text"
           value={imageUrl}
@@ -35,17 +35,19 @@ const ImageUploadModal = ({
         />
         <button
           onClick={handleUrlSubmit}
-          className="bg-gray-900 text-white px-4 py-2 text-sm rounded hover:bg-gray-800"
+          className="bg-gray-900 text-white px-4 py-2 text-sm rounded hover:bg-gray-800 "
         >
           Add from URL
         </button>
 
-        <label className="block mt-4 mb-2">Upload from Device:</label>
+        <label className="block mt-4 mb-2 text-black">
+          Upload from Device:
+        </label>
         <input
           type="file"
           accept="image/*"
           onChange={handleFileUpload}
-          className="file:bg-gray-900 file:text-white file:px-5 file:border-none file:py-2 file:text-sm file:rounded file:hover:bg-gray-800"
+          className="file:bg-gray-900 text-black file:text-white file:px-5 file:border-none file:py-2 file:text-sm file:rounded file:hover:bg-gray-800"
         />
 
         <button

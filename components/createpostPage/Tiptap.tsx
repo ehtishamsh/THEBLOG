@@ -6,6 +6,10 @@ import {
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
   Bold,
   BoldIcon,
   Code,
@@ -19,7 +23,11 @@ import {
   Undo,
 } from "lucide-react";
 import React, { useCallback, useState } from "react";
-import { ListBulletIcon } from "@radix-ui/react-icons";
+import {
+  AlignLeftIcon,
+  AlignRightIcon,
+  ListBulletIcon,
+} from "@radix-ui/react-icons";
 import { BiParagraph } from "react-icons/bi";
 import { GrOrderedList } from "react-icons/gr";
 import Heading from "@tiptap/extension-heading";
@@ -30,10 +38,14 @@ import ImageUploadModal from "./ImageUploadModel";
 import { GoHorizontalRule } from "react-icons/go";
 import { BsBlockquoteLeft } from "react-icons/bs";
 import { PiCodeBlock } from "react-icons/pi";
+import TextAlign from "@tiptap/extension-text-align";
 import CodeBlock from "@tiptap/extension-code-block";
 import Placeholder from "@tiptap/extension-placeholder";
 const extensions = [
   StarterKit,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
   Heading.configure({ levels: [1, 2, 3] }).extend({
     levels: [1, 2, 3],
     renderHTML({ node, HTMLAttributes }) {
@@ -65,7 +77,7 @@ const extensions = [
   CodeBlock.configure({
     HTMLAttributes: {
       class:
-        "dark:bg-slate-700 bg-slate-700  dark:text-gray-300 text-gray-400 text-sm font-mono my-4  rounded-md p-4",
+        "dark:bg-slate-700 bg-slate-700  dark:text-gray-300 text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
     },
   }),
   ListItem.configure({
@@ -113,7 +125,7 @@ function Tiptap() {
   }
   return (
     <div>
-      <div className="flex gap-3 flex-wrap items-center p-2 bg-gray-800 justify-center rounded-lg">
+      <div className="flex gap-3 flex-wrap items-center p-2 bg-gray-800 justify-center  rounded-lg">
         <button onClick={openModal}>
           <ImageIcon size={20} className="text-gray-400" />
         </button>
@@ -191,7 +203,34 @@ function Tiptap() {
         >
           <Heading3 size={20} className="text-gray-400" />
         </button>
-
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          className={editor.isActive({ textAlign: "left" }) ? "is-active" : ""}
+        >
+          <AlignLeft width={20} height={20} className="text-gray-400" />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          className={
+            editor.isActive({ textAlign: "center" }) ? "is-active" : ""
+          }
+        >
+          <AlignCenter width={20} height={20} className="text-gray-400" />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          className={editor.isActive({ textAlign: "right" }) ? "is-active" : ""}
+        >
+          <AlignRight width={20} height={20} className="text-gray-400" />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+          className={
+            editor.isActive({ textAlign: "justify" }) ? "is-active" : ""
+          }
+        >
+          <AlignJustify width={20} height={20} className="text-gray-400" />
+        </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={editor.isActive("bulletList") ? "is-active" : ""}
@@ -210,6 +249,7 @@ function Tiptap() {
         >
           <PiCodeBlock width={20} height={20} className="text-gray-400" />
         </button>
+
         <button
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={editor.isActive("blockquote") ? "is-active" : ""}
