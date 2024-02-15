@@ -1,8 +1,7 @@
 "use client";
-// Multiselect.tsx
 
 import React, { useState, ChangeEvent } from "react";
-import GetColor from "../utils/GetColor"; // Assuming GetColor is in the same directory
+import CBColor from "../utils/CBColor";
 
 interface Tag {
   id: number;
@@ -36,11 +35,6 @@ const Multiselect: React.FC<{
     }
   };
 
-  const handleRemoveTag = (tagToRemove: Tag) => {
-    const updatedTags = selectedTags.filter((tag) => tag.id !== tagToRemove.id);
-    setSelectedTags(updatedTags);
-  };
-
   return (
     <div className="flex flex-col space-y-4">
       <label
@@ -57,6 +51,7 @@ const Multiselect: React.FC<{
           placeholder="Type to add tags"
           className="w-[28rem] max-sm:w-[20rem] px-4 py-2 border placeholder:text-placeholder-default dark:border-border transition-all duration-300 dark:bg-background bg-white border-gray-400 rounded focus:outline-gray-500 dark:focus:outline-white"
         />
+
         {tagSuggestions.length > 0 && (
           <ul className="absolute z-10 w-[28rem] max-sm:w-[20rem] mt-2 bg-white border-border dark:bg-background border dark:border-border rounded">
             {tagSuggestions.map((tag) => (
@@ -74,13 +69,11 @@ const Multiselect: React.FC<{
       <div className="flex flex-wrap">
         {selectedTags.map((tag) => (
           <div key={tag.id} className="flex items-center mr-2 mt-2">
-            <GetColor tag={tag.name} />
-            <button
-              onClick={() => handleRemoveTag(tag)}
-              className="ml-2 focus:outline-none"
-            >
-              X
-            </button>
+            <CBColor
+              tag={tag}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
           </div>
         ))}
       </div>

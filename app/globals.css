@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.tiptop-button {
+  @apply dark:text-gray-200 p-2 transition-all duration-300 max-sm:p-1 text-gray-600 hover:bg-gray-300 dark:hover:bg-muted rounded-md;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
