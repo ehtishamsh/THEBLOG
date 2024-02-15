@@ -2,10 +2,86 @@
 import React, { useState, useEffect } from "react";
 
 import Tiptap from "./Tiptap";
+import Multiselect from "./MultiSelect";
+import { Editor, mergeAttributes, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading";
+import Paragraph from "@tiptap/extension-paragraph";
+import ListItem from "@tiptap/extension-list-item";
+import Image from "@tiptap/extension-image";
 
+import TextAlign from "@tiptap/extension-text-align";
+import CodeBlock from "@tiptap/extension-code-block";
+import Placeholder from "@tiptap/extension-placeholder";
+const extensions = [
+  StarterKit,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
+  Heading.configure({ levels: [1, 2, 3] }).extend({
+    levels: [1, 2, 3],
+    renderHTML({ node, HTMLAttributes }) {
+      const level = this.options.levels.includes(node.attrs.level)
+        ? node.attrs.level
+        : this.options.levels[0];
+      const classes: Record<number, string> = {
+        1: "text-4xl",
+        2: "text-2xl",
+        3: "text-xl",
+      };
+      return [
+        `h${level}`,
+        mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+          class: `font-bold ${classes[level]}`,
+        }),
+        0,
+      ];
+    },
+  }),
+  Paragraph.configure({
+    HTMLAttributes: {
+      class: "text-base dark:text-gray-200 text-gray-600 mb-2",
+    },
+  }),
+  Placeholder.configure({
+    placeholder: "Write something... ",
+  }),
+  CodeBlock.configure({
+    HTMLAttributes: {
+      class:
+        "dark:bg-slate-700 bg-slate-700  dark:text-gray-300 text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
+    },
+  }),
+  ListItem.configure({
+    HTMLAttributes: {
+      class: "list-disc list-outside mb-4 ml-10",
+    },
+  }),
+  Image.configure({
+    inline: true,
+    allowBase64: true,
+    HTMLAttributes: {
+      class: "w-full max-h-[400px] object-cover",
+    },
+  }),
+];
+const content = "";
+interface Tag {
+  id: number;
+  name: string;
+}
+const demoTags: Tag[] = [
+  { id: 1, name: "Design" },
+  { id: 2, name: "JavaScript" },
+  { id: 3, name: "Tailwind CSS" },
+  { id: 4, name: "Node.js" },
+  { id: 5, name: "GraphQL" },
+  { id: 6, name: "Redux" },
+];
 function CreatePost() {
   const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -13,22 +89,42 @@ function CreatePost() {
       setLoading(false);
     }, 4000);
   }, []);
-
+  const editor: Editor | null = useEditor({ extensions, content });
+  const handleSave = () => {
+    const savedContent = editor?.getHTML();
+    // Here you can save the content to your backend or wherever it needs to be saved.
+    // Example: api.saveContent(savedContent);
+    console.log("Content saved:", [
+      { title, content: `${savedContent}`, tags: selectedTags },
+    ]);
+  };
   return (
     <div className="px-2 py-6 mt-7 relative">
       <div className="max-w-7xl mx-auto flex flex-col gap-5">
         <input
           type="text"
-          className=" outline-none p-2 bg-transparent text-4xl mb-5"
-          placeholder="Title"
+          className=" outline-none p-2 bg-transparent text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
+          placeholder="Write the title here..."
           onChange={(e) => {
             setTitle(e.target.value);
           }}
         />
-        <Tiptap />
+
+        <Tiptap editor={editor} />
+        <Multiselect
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          demoTags={demoTags}
+        />
+        <button
+          onClick={handleSave}
+          className="w-full dark:bg-background  text-white px-4 py-2 rounded-md dark:hover:bg-muted border dark:border-border transition-all duration-300"
+        >
+          Save
+        </button>
       </div>
       <div
-        className={`h-[60vh] max-md:h-[70vh] z-999 absolute  dark:bg-slate-950 bg-white inset-0 flex items-center transition-all duration-300 justify-center ${
+        className={`h-[80vh] max-md:h-[70vh] z-999 absolute  dark:bg-background bg-white inset-0 flex items-center transition-all duration-300 justify-center ${
           !loading
             ? "opacity-0 [visibility:hidden]"
             : "opacity-100 [visibility:visible]"
