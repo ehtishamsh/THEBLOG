@@ -44,7 +44,7 @@ const extensions = [
     },
   }),
   Placeholder.configure({
-    placeholder: "Write something... ",
+    placeholder: "Write the content here... ",
   }),
   CodeBlock.configure({
     HTMLAttributes: {
@@ -80,6 +80,7 @@ const demoTags: Tag[] = [
 ];
 function CreatePost() {
   const [title, setTitle] = useState<string>("");
+  const [description, setdescription] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
@@ -95,7 +96,7 @@ function CreatePost() {
     // Here you can save the content to your backend or wherever it needs to be saved.
     // Example: api.saveContent(savedContent);
     console.log("Content saved:", [
-      { title, content: `${savedContent}`, tags: selectedTags },
+      { title, description, content: `${savedContent}`, tags: selectedTags },
     ]);
   };
   return (
@@ -109,6 +110,14 @@ function CreatePost() {
             setTitle(e.target.value);
           }}
         />
+        <input
+          type="text"
+          className=" outline-none p-2 bg-transparent text-2xl max-md:text-xl max-sm:text-lg  mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
+          placeholder="Write the description here..."
+          onChange={(e) => {
+            setdescription(e.target.value);
+          }}
+        />
 
         <Tiptap editor={editor} />
         <Multiselect
@@ -118,13 +127,13 @@ function CreatePost() {
         />
         <button
           onClick={handleSave}
-          className="w-full dark:bg-background  text-white px-4 py-2 rounded-md dark:hover:bg-muted border dark:border-border transition-all duration-300"
+          className="w-full bg-[hsl(240_,10%_,3.9%)] px-4 py-2 rounded-md  border border-[hsl(240_,3.7%_,15.9%)] hover:bg-[hsl(240_,3.7%_,15.9%)] text-white transition-all duration-300"
         >
           Save
         </button>
       </div>
       <div
-        className={`h-[80vh] max-md:h-[70vh] z-999 absolute  dark:bg-background bg-white inset-0 flex items-center transition-all duration-300 justify-center ${
+        className={`h-[100vh] max-md:h-[80vh] z-999 absolute  dark:bg-background bg-white inset-0 flex items-center transition-all duration-300 justify-center ${
           !loading
             ? "opacity-0 [visibility:hidden]"
             : "opacity-100 [visibility:visible]"

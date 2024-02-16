@@ -27,7 +27,7 @@ function CBColor({
   };
   const defaultColors = "bg-gray-100 text-gray-700";
 
-  const classNames = `transition-all duration-400 p-2 rounded-3xl ${
+  const classNames = `transition-all duration-400 p-2 rounded-md cursor-pointer ${
     tagColors[tag.name] || defaultColors
   } text-sm font-semibold`;
 
