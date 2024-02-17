@@ -40,7 +40,7 @@ export default function SignIn() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     const signInData = await signIn("credentials", {
       email: values.email,
@@ -51,10 +51,11 @@ export default function SignIn() {
       setLoading(false);
       console.log(signInData.error);
     } else {
-      setLoading(false);
       router.push("/");
+      router.refresh();
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto my-10 px-5 relative">
