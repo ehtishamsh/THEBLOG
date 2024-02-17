@@ -3,7 +3,7 @@ import React from "react";
 import { ModeToggle } from "./ThemeSwitchButton";
 import { User2Icon } from "lucide-react";
 
-function Navbar() {
+async function AuthNav() {
   return (
     <header className="px-5 py-8">
       <nav className="max-w-7xl mx-auto flex justify-between items-center">
@@ -17,7 +17,8 @@ function Navbar() {
           <Link href={"/projects"} className="max-sm:hidden">
             Projects
           </Link>
-          <Link href={"/create"} className="max-sm:hidden">
+
+          <Link href={"/createpost"} className="max-sm:hidden">
             Create Post
           </Link>
           <Link href={"/login"} className="max-sm:hidden">
@@ -30,4 +31,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default AuthNav;
