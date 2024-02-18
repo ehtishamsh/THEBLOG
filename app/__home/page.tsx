@@ -7,13 +7,11 @@ import React from "react";
 function HomePage() {
   return (
     <>
-      
       <HeroSection />
       <div className="max-w-7xl mx-auto mt-8 px-5">
         <RecentBlogs />
         <AllBlogs />
         <Pagination />
-  
       </div>
     </>
   );

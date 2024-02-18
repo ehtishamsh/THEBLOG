@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -36,6 +36,7 @@ const formSchema = z
   });
 export default function SignUp() {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,21 +61,25 @@ export default function SignUp() {
     if (response.ok) {
       router.push("/sign-in");
     } else {
-      console.log("Registration failed");
+      toast({
+        title: "Error",
+        description: "Something went wrong.",
+        variant: "destructive",
+      });
     }
   }
 
   return (
     <div className="max-w-7xl mx-auto my-10 px-5">
       <div className=" grid grid-cols-2 max-md:grid-cols-1 border border-border rounded-3xl">
-        <div className="relative bg-muted  overflow-hidden rounded-l-3xl border-r border-border">
+        <div className="relative bg-muted  overflow-hidden rounded-l-3xl border-r border-border max-md:rounded-md max-md:border  ">
           <img
             src="accountpageimg.png"
             alt=""
-            className="bg-cover bg-no-repeat bg-center "
+            className="bg-cover bg-no-repeat bg-center max-h-[700px] w-full"
           />
         </div>
-        <div className=" mx-auto flex  flex-col items-center justify-center w-full space-y-6 sm:w-[350px]">
+        <div className=" mx-auto flex  flex-col items-center justify-center w-full space-y-6 sm:w-[350px] max-md:px-8 max-md:py-5">
           <div className="flex flex-col items-center space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight ">
               Create an account

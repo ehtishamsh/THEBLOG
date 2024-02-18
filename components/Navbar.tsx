@@ -23,11 +23,11 @@ const Navbar = async () => {
           </Link>
 
           {session?.user ? (
-            <Link href={"/createpost"} className="max-sm:hidden">
+            <Link href={"/create"} className="max-sm:hidden">
               Create Post
             </Link>
           ) : null}
-          <AccountDropDown />
+          <AccountDropDown session={session} />
           <ModeToggle />
         </div>
       </nav>

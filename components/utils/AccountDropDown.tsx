@@ -2,27 +2,22 @@
 
 import * as React from "react";
 import {
-  DropdownMenuCheckboxItemProps,
-  DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
-import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User2Icon } from "lucide-react";
-import Link from "next/link";
+import { LogOut, User2Icon } from "lucide-react";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+import { BiLogIn } from "react-icons/bi";
+import SignOut from "../form/SignOut";
 
 export function AccountDropDown({ session }: any) {
-  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
-  const [showPanel, setShowPanel] = React.useState<Checked>(false);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,26 +25,36 @@ export function AccountDropDown({ session }: any) {
           <User2Icon width={20} height={20} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-36">
+      <DropdownMenuContent className="w-36 max-sm:w-28">
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>
-          {session?.user}
-          <>
-            <Link
-              href={"/sign-in"}
-              className="transition-all duration-400  text-center"
-            >
-              Sign in
-            </Link>
-            <Link
-              href={"/sign-up"}
-              className="transition-all duration-400  text-center"
-            >
-              Sign up
-            </Link>
-          </>
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          {!session?.user ? (
+            <>
+              <DropdownMenuItem
+                className=" cursor-pointer"
+                onClick={() => (window.location.href = "/sign-in")}
+              >
+                Sign in
+                <DropdownMenuShortcut>
+                  <BiLogIn size={20} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                className=" cursor-pointer"
+                onClick={() => (window.location.href = "/sign-up")}
+              >
+                Sign up
+              </DropdownMenuItem>
+            </>
+          ) : (
+            <>
+              <SignOut />
+            </>
+          )}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
