@@ -45,6 +45,7 @@ export async function POST(req: Request) {
         username,
         email,
         password: hashedPassword,
+        role: "user",
       },
     }); // create new user
     const { password: _, ...user } = newUser; // remove password from user

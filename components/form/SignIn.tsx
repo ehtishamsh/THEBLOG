@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
@@ -51,8 +48,14 @@ export default function SignIn() {
         variant: "destructive",
       });
     } else {
-      router.push("/");
-      router.refresh();
+      const userSession = await getSession();
+      if (userSession?.user?.role === "admin") {
+        router.push("/dashboard/admin");
+        router.refresh();
+      } else {
+        router.push("/");
+        router.refresh();
+      }
     }
   };
 

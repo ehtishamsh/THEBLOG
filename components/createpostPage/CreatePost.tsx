@@ -13,6 +13,7 @@ import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import CodeBlock from "@tiptap/extension-code-block";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Input } from "../ui/input";
 const extensions = [
   StarterKit,
   TextAlign.configure({
@@ -81,11 +82,12 @@ const demoTags: Tag[] = [
 function CreatePost() {
   const [title, setTitle] = useState<string>("");
   const [description, setdescription] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [img, setImg] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(false);
     setTimeout(() => {
       setLoading(false);
     }, 4000);
@@ -99,6 +101,14 @@ function CreatePost() {
       { title, description, content: `${savedContent}`, tags: selectedTags },
     ]);
   };
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const imageUrl: string = URL.createObjectURL(file);
+      setImg(imageUrl);
+    }
+  };
+
   return (
     <div className="px-2 py-6 mt-7 relative">
       <div className="max-w-7xl mx-auto flex flex-col gap-5">
@@ -110,6 +120,16 @@ function CreatePost() {
             setTitle(e.target.value);
           }}
         />
+        <h1 className="text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
+          Upload Cover Image...
+        </h1>
+        <Input
+          onChange={handleFileUpload}
+          id="picture"
+          accept="image/*"
+          type="file"
+        />
+        <img src={`${img}`} alt="" className="max-w-96" />
         <input
           type="text"
           className=" outline-none p-2 bg-transparent text-2xl max-md:text-xl max-sm:text-lg  mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
