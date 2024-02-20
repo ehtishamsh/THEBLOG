@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { DropdownMenuItem, DropdownMenuShortcut } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";

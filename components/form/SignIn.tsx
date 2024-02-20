@@ -50,7 +50,7 @@ export default function SignIn() {
     } else {
       const userSession = await getSession();
       if (userSession?.user?.role === "admin") {
-        router.push("/dashboard/admin");
+        router.push("/admin");
         router.refresh();
       } else {
         router.push("/");
