@@ -1,9 +1,11 @@
-import HomePage from "./__home/page";
+"use client";
+import { redirect, usePathname } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <HomePage />
-    </div>
-  );
+  const pathname = usePathname();
+  if (pathname === "/") {
+    redirect("/home");
+  } else {
+    return null;
+  }
 }
