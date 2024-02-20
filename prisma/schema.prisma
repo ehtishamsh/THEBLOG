@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model User {
-  id      Int      @id @default(autoincrement())
+  id      String      @id @default(uuid()) 
   email   String   @unique
   username String  @unique
   password String
@@ -21,12 +21,12 @@ role String @default("user")
 }
 
 model Tag {
-  id     String @id @default(cuid())
+  id     String @id @default(uuid())
   tagName String @unique
    blogDetail BlogDetail[]
 }
 model Blog {
-id     String @id @default(cuid())
+id     String @id @default(uuid())
 title String
 description String
 image String
@@ -36,8 +36,8 @@ slug String
 }
 
 model BlogDetail {
-id Int @id @default(autoincrement())
-userID Int 
+id String @id @default(uuid())
+userID String 
 user User @relation(fields: [userID], references: [id])
 tagID String
 tag Tag @relation(fields: [tagID], references: [id])
