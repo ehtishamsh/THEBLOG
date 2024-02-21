@@ -29,6 +29,14 @@ export function AccountDropDown({ session }: any) {
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          {session?.user?.role === "admin" ? (
+            <DropdownMenuItem
+              onClick={() => (window.location.href = "/admin")}
+              className="cursor-pointer"
+            >
+              Admin Dashboard
+            </DropdownMenuItem>
+          ) : null}
           {!session?.user ? (
             <>
               <DropdownMenuItem
