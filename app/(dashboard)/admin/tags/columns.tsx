@@ -7,10 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Edit, MoreHorizontal, Trash } from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,11 +24,21 @@ export type Tag = {
 export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: "tagName",
-    header: "Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tag Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Last Seen",
+    header: "Created At",
     cell: ({ row }) => {
       const createdAt = row.original.createdAt;
       const date = new Date(createdAt).toLocaleString("en-US", {
@@ -36,7 +47,7 @@ export const columns: ColumnDef<Tag>[] = [
         year: "numeric",
       });
 
-      return <div className="text-right font-medium">{date}</div>;
+      return <div className="text-left font-medium">{date}</div>;
     },
   },
   {
@@ -45,7 +56,7 @@ export const columns: ColumnDef<Tag>[] = [
 
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const tag = row.original;
 
       return (
         <DropdownMenu>
@@ -57,14 +68,16 @@ export const columns: ColumnDef<Tag>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => {}}>
+              <Edit className="mr-1 h-5 w-5" />
+              Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem className="danger">
+              <Trash className="mr-1 h-5 w-5" />
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
