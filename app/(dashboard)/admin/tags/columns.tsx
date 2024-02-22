@@ -7,13 +7,12 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, MoreHorizontal, Trash } from "lucide-react";
-
-// This type is used to define the shape of our data.
+import Link from "next/link";
+import { redirect } from "next/navigation";
 // You can use a Zod schema here if you want.
 export type Tag = {
   id: string;
@@ -69,9 +68,15 @@ export const columns: ColumnDef<Tag>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => {}}>
-              <Edit className="mr-1 h-5 w-5" />
-              Edit
+            <DropdownMenuItem>
+              <Link
+                href={"/admin/tags/[id]"}
+                as={`/admin/tags/${tag.id}`}
+                className="flex gap-4"
+              >
+                <Edit className="mr-1 h-5 w-5" />
+                Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="danger">

@@ -1,5 +1,7 @@
 import { Tag, columns } from "@/app/(dashboard)/admin/tags/columns";
 import { DataTable } from "@/app/(dashboard)/admin/tags/data-table";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 async function getData(): Promise<Tag[]> {
   // Fetch data from your API here.
@@ -14,7 +16,7 @@ export default async function Tags() {
   const data = await getData();
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto pb-8">
       <DataTable columns={columns} data={data} />
     </div>
   );
