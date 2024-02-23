@@ -31,6 +31,8 @@ async function page() {
         </div>
         <DropdownMenuSeparator />
         <Tags />
+        <DropdownMenuSeparator />
+      
       </div>
     );
   }

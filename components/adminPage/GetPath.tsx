@@ -13,17 +13,28 @@ interface PathSegment {
 const GetPath: React.FC = () => {
   const router = usePathname();
 
+  const isUUID = (id: string): boolean => {
+    // Replace this with your own UUID validation logic
+    const uuidRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    return uuidRegex.test(id);
+  };
+
   const getPathSegments = (): PathSegment[] => {
     const segments = router.split("/").filter(Boolean);
 
     return segments.map((segment, index) => {
       const path = `/${segments.slice(0, index + 1).join("/")}`;
-      const name =
-        index === segments.length - 1 && /^\d+$/.test(segment)
-          ? "Edit"
-          : segment.includes("admin")
+      let name;
+
+      if (index === segments.length - 1) {
+        // Check if it's a UUID
+        name = isUUID(segment) ? "Edit" : segment;
+      } else {
+        name = segment.includes("admin")
           ? "Dashboard"
           : segment.slice(0, 1).toUpperCase() + segment.slice(1);
+      }
 
       return { name, path };
     });

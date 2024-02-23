@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 
 function BlogPage() {
   const { blogID } = useParams();
-  console.log(blogID);
   return (
     <div className="px-2 py-8">
       <div className="max-w-6xl mx-auto">

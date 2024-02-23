@@ -1,13 +1,9 @@
 "use client";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import React, { useEffect } from "react";
+import React from "react";
 import GetPath from "../GetPath";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -16,8 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useParams, useRouter } from "next/navigation";
-import { db } from "@/lib/db";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "@/components/ui/use-toast";
+
 const formSchema = z.object({
   tagName: z
     .string()
@@ -25,15 +24,12 @@ const formSchema = z.object({
     .max(40, "Tag Name is too long"),
 });
 function TagAction() {
-  const params = useParams();
-  const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       tagName: "",
     },
   });
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response = await fetch("/api/admin/tag/add", {
       method: "POST",
@@ -63,12 +59,11 @@ function TagAction() {
     <div className=" flex flex-col gap-5 ">
       <GetPath />
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Edit Tag</h1>
-        <span className="text-sm text-muted-foreground">
-          Edit the existing tag.
-        </span>
+        <h1 className="text-3xl font-bold tracking-tight">Add Tag</h1>
+        <span className="text-sm text-muted-foreground">Add a new tag.</span>
       </div>
       <DropdownMenuSeparator />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
