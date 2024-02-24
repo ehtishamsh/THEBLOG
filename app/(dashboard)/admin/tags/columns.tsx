@@ -54,7 +54,7 @@ export const columns: ColumnDef<Tag>[] = [
     header: "Action",
 
     id: "actions",
-    cell: ({ row }) => {
+    cell: function Cell({ row }) {
       const tag = row.original;
       const [open, setOpen] = useState(false);
       const onDelete = async () => {
