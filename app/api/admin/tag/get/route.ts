@@ -16,17 +16,3 @@ export async function GETPOST() {
     console.log(error);
   }
 }
-export async function GETTAG({ params }: { params: string }) {
-  try {
-    const tag = await db?.tag.findFirst({
-      where: {
-        id: params,
-      },
-    });
-    return {
-      data: JSON.parse(JSON.stringify(tag)),
-    };
-  } catch (error) {
-    console.log(error);
-  }
-}

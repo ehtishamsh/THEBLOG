@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { db } from "@/lib/db";
 const formSchema = z.object({
   tagName: z
@@ -24,9 +24,9 @@ const formSchema = z.object({
     .min(1, "Tag Name is required")
     .max(40, "Tag Name is too long"),
 });
-function TagAction() {
+function TagAction({ tag }: { tag: string }) {
   const params = useParams();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,13 +34,20 @@ function TagAction() {
     },
   });
 
+  useEffect(() => {
+    if (tag !== undefined && tag !== "") {
+      form.setValue("tagName", tag);
+    }
+  }, []);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/admin/tag/add", {
+    const response = await fetch("/api/admin/tag/add/edit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        id: params.id,
         tagName: values.tagName,
       }),
     });
@@ -48,9 +55,9 @@ function TagAction() {
       toast({
         variant: "success",
         title: "Success",
-        description: "Tag added successfully",
+        description: "Tag edited successfully",
       });
-      form.reset();
+      router.refresh();
     } else {
       toast({
         variant: "destructive",
@@ -93,7 +100,7 @@ function TagAction() {
           />
           <DropdownMenuSeparator />
           <Button variant="default" className="max-w-96">
-            Add
+            Edit
           </Button>
         </form>
       </Form>

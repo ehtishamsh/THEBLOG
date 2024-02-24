@@ -25,15 +25,13 @@ const GetPath: React.FC = () => {
 
     return segments.map((segment, index) => {
       const path = `/${segments.slice(0, index + 1).join("/")}`;
-      let name;
 
+      let name;
       if (index === segments.length - 1) {
         // Check if it's a UUID
         name = isUUID(segment) ? "Edit" : segment;
       } else {
-        name = segment.includes("admin")
-          ? "Dashboard"
-          : segment.slice(0, 1).toUpperCase() + segment.slice(1);
+        name = segment.includes("admin") ? "Dashboard" : segment;
       }
 
       return { name, path };
@@ -57,7 +55,7 @@ const GetPath: React.FC = () => {
                 : "text-muted-foreground"
             }
           >
-            {segment.name}
+            {segment.name.slice(0, 1).toUpperCase() + segment.name.slice(1)}
           </Link>
         </span>
       ))}
