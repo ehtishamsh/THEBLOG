@@ -1,5 +1,6 @@
 import GetPath from "@/components/adminPage/GetPath";
 import Tags from "@/components/adminPage/Tags";
+import UserTags from "@/components/adminPage/UserTags";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { authOptions } from "@/lib/auth";
 import { Plus } from "lucide-react";
@@ -23,14 +24,14 @@ async function page() {
             </span>
           </div>
           <Link
-            href={"/admin/tags/new"}
+            href={"/admin/users/new"}
             className="flex items-center gap-5 bg-foreground text-black border-placeholder-default border px-3 py-2 rounded-lg"
           >
             <Plus width={20} height={20} /> Add
           </Link>
         </div>
         <DropdownMenuSeparator />
-        <Tags />
+        <UserTags />
         <DropdownMenuSeparator />
       </div>
     );

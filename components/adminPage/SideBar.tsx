@@ -37,6 +37,16 @@ function SideBar() {
                   <span>Tags</span>
                 </span>
               </Link>
+              <Link href={"/admin/users"} className="mt-5">
+                <span
+                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
+                    path === "/admin/users" ? "bg-accent" : ""
+                  } transparent`}
+                >
+                  <User2Icon className="mr-2 h-4 w-4" />
+                  <span>Users</span>
+                </span>
+              </Link>
             </nav>
           </div>
         </div>
