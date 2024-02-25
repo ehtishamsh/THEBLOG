@@ -28,7 +28,7 @@ interface User {
 
 export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
@@ -48,7 +48,19 @@ export const columns: ColumnDef<User>[] = [
 
   {
     accessorKey: "createdAt",
-    header: "createdAt",
+    header: "Created At",
+    cell: function Cell({ row }) {
+      const tag = row.original;
+      const date = new Date(tag.createdAt);
+      const formattedDate = `${
+        date.getMonth() + 1
+      }/${date.getDate()}/${date.getFullYear()}`;
+      return <span>{formattedDate}</span>;
+    },
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
   },
 
   {
@@ -56,12 +68,12 @@ export const columns: ColumnDef<User>[] = [
     header: "Action",
 
     id: "actions",
-    cell: function Cell ({ row }) {
+    cell: function Cell({ row }) {
       const tag = row.original;
       const [open, setOpen] = useState(false);
       const onDelete = async () => {
         try {
-          const response = await fetch("/api/admin/tag/delete", {
+          const response = await fetch("/api/admin/user/delete", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -72,11 +84,11 @@ export const columns: ColumnDef<User>[] = [
           if (response.ok) {
             setOpen(false);
             toast({
-              title: "Tag deleted",
-              description: "Tag deleted successfully",
+              title: "User deleted",
+              description: "User deleted successfully",
             });
           } else {
-            throw new Error("Failed to delete tag");
+            throw new Error("Failed to delete User");
           }
         } catch (error) {
           console.error(error);
@@ -103,8 +115,8 @@ export const columns: ColumnDef<User>[] = [
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Link
-                    href={"/admin/user/[id]"}
-                    as={`/admin/user/${tag?.id}`}
+                    href={"/admin/users/[id]"}
+                    as={`/admin/users/${tag?.id}`}
                     className="flex gap-4"
                   >
                     <Edit className="mr-1 h-5 w-5" />

@@ -23,12 +23,6 @@ async function page() {
               Manage the users.
             </span>
           </div>
-          <Link
-            href={"/admin/users/new"}
-            className="flex items-center gap-5 bg-foreground text-black border-placeholder-default border px-3 py-2 rounded-lg"
-          >
-            <Plus width={20} height={20} /> Add
-          </Link>
         </div>
         <DropdownMenuSeparator />
         <UserTags />
