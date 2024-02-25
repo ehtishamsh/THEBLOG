@@ -48,16 +48,19 @@ function TagAction({ name, emailAdd }: { name: string; emailAdd: string }) {
   }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch(`http://localhost:3000/api/admin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: values.username,
-        email: values.email,
-      }),
-    });
+    const response = await fetch(
+      `http://localhost:3000/api/admin/user/getSingle/${params.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: values.username,
+          email: values.email,
+        }),
+      }
+    );
     if (response.ok) {
       toast({
         variant: "success",

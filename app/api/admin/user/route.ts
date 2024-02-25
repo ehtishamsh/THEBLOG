@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    const data = await db?.user?.findMany();
+    const data = await db?.user?.findMany({
+      where: {
+        role: "user",
+      },
+    });
 
     const users = data.map((user) => ({
       ...user,
