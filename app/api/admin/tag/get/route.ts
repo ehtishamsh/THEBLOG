@@ -1,18 +1,14 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-interface ITag {
-  id: string;
-  tagName: string;
-}
-export async function GETPOST() {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const tags = await db?.tag.findMany();
-    const data: ITag[] = tags;
-    return {
-      data: JSON.parse(JSON.stringify(data)),
-    };
+    return NextResponse.json({ tags, status: 200 });
   } catch (error) {
-    console.log(error);
+    return NextResponse.json(
+      { message: "Something went wrong" },
+      { status: 500 }
+    );
   }
 }

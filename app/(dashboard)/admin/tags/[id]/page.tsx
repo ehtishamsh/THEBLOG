@@ -1,12 +1,15 @@
-import { GET } from "@/app/api/admin/tag/get/getSingle/route";
 import TagAction from "@/components/adminPage/tagsid/TagAction";
+import { db } from "@/lib/db";
 import React from "react";
 
 async function page({ params }: { params: { id: string } }) {
-  const getData = await GET(params.id);
+  const data = await fetch(`http://localhost:3000/api/admin/tag/${params.id}`, {
+    method: "GET",
+  });
+  const data1 = await data.json();
   return (
     <div className="px-5 mt-8">
-      <TagAction tag={getData?.data?.tagName} />
+      <TagAction tag={data1.tag.tagName} />
     </div>
   );
 }
