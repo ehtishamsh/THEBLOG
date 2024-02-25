@@ -1,34 +1,20 @@
 import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
 import { json } from "stream/consumers";
 
-export async function GETUSER() {
+export async function GET(req: NextRequest) {
   try {
-    const total = await db?.user.count();
-    return {
-      total: JSON.parse(JSON.stringify(total)),
-    };
+    const totalusers = await db?.user.count();
+    const totaltags = await db?.tag.count();
+    const totalblogs = await db?.blog.count();
+    return NextResponse.json({
+      totalusers,
+      totaltags,
+      totalblogs,
+      status: 200,
+    });
   } catch (error) {
     console.log(error);
-  }
-}
-export async function GETBLOGS() {
-  try {
-    const total = await db?.blog.count();
-    return {
-      total: JSON.parse(JSON.stringify(total)),
-    };
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function GETTAGS() {
-  try {
-    const total = await db?.tag.count();
-    return {
-      total: JSON.parse(JSON.stringify(total)),
-    };
-  } catch (error) {
-    console.log(error);
+    return NextResponse.json({ message: "Something went wrong", status: 500 });
   }
 }

@@ -1,13 +1,14 @@
 import React from "react";
 import { AvatarIcon } from "@radix-ui/react-icons";
-import { GETBLOGS, GETTAGS, GETUSER } from "@/app/api/admin/total/route";
-import { BsTags,  } from "react-icons/bs";
+import { BsTags } from "react-icons/bs";
 import { EditIcon } from "lucide-react";
 
 async function Dashboard() {
-  const getTotalUser = await GETUSER();
-  const getTotalTags = await GETTAGS();
-  const getTotalBlogs = await GETBLOGS();
+  const getTotal = await fetch("http://localhost:3000/api/admin/total", {
+    method: "GET",
+  });
+  const total = await getTotal.json();
+  console.log(total);
   return (
     <div className="px-5 mt-8">
       <h1 className="text-3xl font-bold tracking-tight">Hi, Welcome back 👋</h1>
@@ -23,7 +24,7 @@ async function Dashboard() {
             <AvatarIcon className="w-6 h-6 text-muted-foreground" />
           </h1>
           <h1 className="text-2xl font-bold flex flex-col">
-            + {getTotalUser?.total}
+            + {total?.totalusers}
             <span className="text-xs text-muted-foreground font-normal">
               Last 30 days
             </span>
@@ -35,7 +36,7 @@ async function Dashboard() {
             <BsTags className="w-6 h-6 text-muted-foreground" />
           </h1>
           <h1 className="text-2xl font-bold flex flex-col">
-            + {getTotalTags?.total}
+            + {total?.totaltags}
             <span className="text-xs text-muted-foreground font-normal">
               Last 30 days
             </span>
@@ -47,7 +48,7 @@ async function Dashboard() {
             <EditIcon className="w-6 h-6 text-muted-foreground" />
           </h1>
           <h1 className="text-2xl font-bold flex flex-col">
-            + {getTotalBlogs?.total}
+            + {total?.totalblogs}
             <span className="text-xs text-muted-foreground font-normal">
               Last 30 days
             </span>
