@@ -9,13 +9,6 @@ export function middleware(request: NextRequest) {
   if (isPublicPath && tokken) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
-
-  if (path === "/create/blog") {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-  if (path === "/create") {
-    return NextResponse.redirect(new URL("/create/blog", request.url));
-  }
   return NextResponse.next();
 }
 export const config = {
