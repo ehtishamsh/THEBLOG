@@ -4,13 +4,15 @@ import { authOptions } from "./lib/auth";
 import { useSession } from "next-auth/react";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isPublicPath =
-    path == "/sign-in" || path == "/sign-up" || path == "/" || path == "/home";
+  const isPublicPath = path == "/sign-in" || path == "/sign-up";
   const tokken = request.cookies?.get("next-auth.session-token")?.value || "";
   if (isPublicPath && tokken) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
-  if (!isPublicPath && !tokken) {
+  if (!tokken && !isPublicPath) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+  if (path === "/create/blog") {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
   if (path === "/create") {
@@ -19,14 +21,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/sign-in",
-    "/sign-up",
-    "/home",
-    "/",
-    "/create/:path*",
-  ],
+  matcher: ["/admin/:path*", "/sign-in", "/sign-up", "/home", "/"],
 };
 
 export { default } from "next-auth/middleware";
