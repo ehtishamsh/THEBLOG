@@ -8,7 +8,7 @@ import React from "react";
 async function page() {
   const session = await getServerSession(authOptions);
   if (session == null) {
-    return redirect("api/auth/signin");
+    return redirect("/sign-in");
   } else {
     return (
       <div className="relative">
