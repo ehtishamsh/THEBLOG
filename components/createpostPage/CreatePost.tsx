@@ -14,6 +14,8 @@ import TextAlign from "@tiptap/extension-text-align";
 import CodeBlock from "@tiptap/extension-code-block";
 import Placeholder from "@tiptap/extension-placeholder";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { BsTrash } from "react-icons/bs";
 const extensions = [
   StarterKit,
   TextAlign.configure({
@@ -68,18 +70,11 @@ const extensions = [
 ];
 const content = "";
 interface Tag {
-  id: number;
-  name: string;
+  id: string;
+  tagName: string;
 }
-const demoTags: Tag[] = [
-  { id: 1, name: "Design" },
-  { id: 2, name: "JavaScript" },
-  { id: 3, name: "Tailwind CSS" },
-  { id: 4, name: "Node.js" },
-  { id: 5, name: "GraphQL" },
-  { id: 6, name: "Redux" },
-];
 function CreatePost() {
+  const [tags, setTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState<string>("");
   const [description, setdescription] = useState<string>("");
   const [img, setImg] = useState<string>("");
@@ -87,18 +82,37 @@ function CreatePost() {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    setLoading(false);
-    setTimeout(() => {
+    setLoading(true);
+    const fetchTags = async () => {
+      const response = await fetch("http://localhost:3000/api/user/tags");
+      const data = await response.json();
+      setTags(data.tags);
       setLoading(false);
-    }, 4000);
+    };
+    fetchTags();
+    return () => {
+      fetchTags();
+    };
   }, []);
   const editor: Editor | null = useEditor({ extensions, content });
   const handleSave = () => {
     const savedContent = editor?.getHTML();
-    // Here you can save the content to your backend or wherever it needs to be saved.
-    // Example: api.saveContent(savedContent);
+    const removeblog = img.replace("blob:http://localhost:3000/", "");
     console.log("Content saved:", [
-      { title, description, content: `${savedContent}`, tags: selectedTags },
+      {
+        title,
+        description,
+        content: `${savedContent}`,
+        tags: selectedTags,
+        img,
+        slug:
+          title
+            .toLowerCase()
+            .replace(/ /g, "-")
+            .replace(/[^\w-]+/g, "") +
+          "-" +
+          Date.now().toFixed(0),
+      },
     ]);
   };
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,7 +143,18 @@ function CreatePost() {
           accept="image/*"
           type="file"
         />
-        <img src={`${img}`} alt="" className="max-w-96" />
+        <div className="relative max-w-96 ">
+          <img src={`${img}`} alt="" className="object-cover" />
+          <Button
+            variant="outline"
+            className={`absolute top-2 right-2 w-10 h-10 p-2 rounded-full ${
+              img === "" ? "hidden" : ""
+            }`}
+            onClick={() => setImg("")}
+          >
+            <BsTrash className="text-xl" />
+          </Button>
+        </div>
         <input
           type="text"
           className=" outline-none p-2 bg-transparent text-2xl max-md:text-xl max-sm:text-lg  mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
@@ -143,7 +168,7 @@ function CreatePost() {
         <Multiselect
           selectedTags={selectedTags}
           setSelectedTags={setSelectedTags}
-          demoTags={demoTags}
+          tags={tags}
         />
         <button
           onClick={handleSave}

@@ -4,9 +4,9 @@ import { json } from "stream/consumers";
 
 export async function GET(req: NextRequest) {
   try {
-    const totalusers = await db?.user.count();
-    const totaltags = await db?.tag.count();
-    const totalblogs = await db?.blog.count();
+    const totalusers: number | undefined = await db?.user.count();
+    const totaltags: number | undefined = await db?.tag.count();
+    const totalblogs: number | undefined = await db?.blog.count();
     return NextResponse.json({
       totalusers,
       totaltags,

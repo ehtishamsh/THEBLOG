@@ -1,7 +1,5 @@
 "use client";
-
 import AlertDelete from "@/components/adminPage/AlertDelete";
-import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import {
@@ -17,6 +15,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 // You can use a Zod schema here if you want.
 interface User {
@@ -50,8 +49,8 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "createdAt",
     header: "Created At",
     cell: function Cell({ row }) {
-      const tag = row.original;
-      const date = new Date(tag.createdAt);
+      const user = row.original;
+      const date = new Date(user.createdAt);
       const formattedDate = `${
         date.getMonth() + 1
       }/${date.getDate()}/${date.getFullYear()}`;
@@ -69,17 +68,17 @@ export const columns: ColumnDef<User>[] = [
 
     id: "actions",
     cell: function Cell({ row }) {
-      const tag = row.original;
+      const user = row.original;
       const [open, setOpen] = useState(false);
+      const router = useRouter();
       const onDelete = async () => {
         try {
-          const response = await fetch("/api/admin/user/delete", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: tag.id }),
-          });
+          const response = await fetch(
+            `http://localhost:3000/api/admin/user/delete/${user.id}`,
+            {
+              method: "DELETE",
+            }
+          );
 
           if (response.ok) {
             setOpen(false);
@@ -87,6 +86,8 @@ export const columns: ColumnDef<User>[] = [
               title: "User deleted",
               description: "User deleted successfully",
             });
+            // Refresh the data
+            router.refresh();
           } else {
             throw new Error("Failed to delete User");
           }
@@ -116,7 +117,7 @@ export const columns: ColumnDef<User>[] = [
                 <DropdownMenuItem>
                   <Link
                     href={"/admin/users/[id]"}
-                    as={`/admin/users/${tag?.id}`}
+                    as={`/admin/users/${user?.id}`}
                     className="flex gap-4"
                   >
                     <Edit className="mr-1 h-5 w-5" />

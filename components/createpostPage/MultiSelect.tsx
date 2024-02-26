@@ -4,15 +4,15 @@ import React, { useState, ChangeEvent } from "react";
 import CBColor from "../utils/CBColor";
 
 interface Tag {
-  id: number;
-  name: string;
+  id: string;
+  tagName: string;
 }
 
 const Multiselect: React.FC<{
   selectedTags: Tag[];
   setSelectedTags: React.Dispatch<React.SetStateAction<Tag[]>>;
-  demoTags: Tag[];
-}> = ({ selectedTags, setSelectedTags, demoTags }) => {
+  tags: Tag[];
+}> = ({ selectedTags, setSelectedTags, tags }) => {
   const [tagInput, setTagInput] = useState<string>("");
   const [tagSuggestions, setTagSuggestions] = useState<Tag[]>([]);
 
@@ -21,8 +21,8 @@ const Multiselect: React.FC<{
     setTagInput(input);
 
     // Filter demo tags based on input
-    const suggestions = demoTags.filter((tag) =>
-      tag.name.toLowerCase().includes(input.toLowerCase())
+    const suggestions = tags.filter((tag) =>
+      tag.tagName.toLowerCase().includes(input.toLowerCase())
     );
     setTagSuggestions(suggestions);
   };
@@ -60,7 +60,7 @@ const Multiselect: React.FC<{
                 onClick={() => handleAddTag(tag)}
                 className="px-4 py-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-muted transition-all duration-300"
               >
-                {tag.name}
+                {tag.tagName}
               </li>
             ))}
           </ul>

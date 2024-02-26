@@ -15,7 +15,14 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/admin/:path*", "/sign-in", "/sign-up", "/home", "/", "/create"],
+  matcher: [
+    "/admin/:path*",
+    "/sign-in",
+    "/sign-up",
+    "/home",
+    "/",
+    "/create/:path*",
+  ],
 };
 
 export { default } from "next-auth/middleware";

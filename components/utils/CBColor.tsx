@@ -1,8 +1,8 @@
 import React from "react";
 
 interface Tag {
-  id: number;
-  name: string;
+  id: string;
+  tagName: string;
 }
 function CBColor({
   tag,
@@ -28,12 +28,12 @@ function CBColor({
   const defaultColors = "bg-gray-100 text-gray-700";
 
   const classNames = `transition-all duration-400 p-2 rounded-md cursor-pointer ${
-    tagColors[tag.name] || defaultColors
+    tagColors[tag.tagName] || defaultColors
   } text-sm font-semibold`;
 
   return (
     <div className={classNames}>
-      {tag.name}
+      {tag.tagName}
       <button
         onClick={() => handleRemoveTag(tag)}
         className="ml-2 focus:outline-none"
