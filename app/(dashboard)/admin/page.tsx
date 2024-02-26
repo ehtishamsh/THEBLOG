@@ -5,8 +5,10 @@ import { redirect } from "next/navigation";
 
 async function page() {
   const session = await getServerSession(authOptions);
-  if (session == null || session.user?.role !== "admin") {
-    return redirect("api/auth/signin");
+  if (session == null) {
+    return redirect("/sign-in");
+  } else if (session.user?.role !== "admin") {
+    return redirect("/home");
   } else {
     return (
       <div className="relative">

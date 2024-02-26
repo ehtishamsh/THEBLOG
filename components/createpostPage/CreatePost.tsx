@@ -16,6 +16,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { BsTrash } from "react-icons/bs";
+import Uploadimg from "./Uploadimg";
 const extensions = [
   StarterKit,
   TextAlign.configure({
@@ -134,6 +135,7 @@ function CreatePost() {
             setTitle(e.target.value);
           }}
         />
+        <Uploadimg />
         <h1 className="text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
           Upload Cover Image...
         </h1>
