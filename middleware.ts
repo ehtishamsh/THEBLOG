@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   if (isPublicPath && tokken) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
-  if (path.includes("/create") && !tokken) {
+  if (path === "/create" && !tokken) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
   if (path === "/create") {
