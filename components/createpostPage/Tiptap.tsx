@@ -11,6 +11,8 @@ import {
   Heading3,
   ImageIcon,
   Italic,
+  List,
+  ListIcon,
   Redo,
   Strikethrough,
   Undo,
@@ -234,6 +236,17 @@ function Tiptap({ editor }: { editor: Editor | null }) {
             <ListBulletIcon width={20} height={20} />
           </button>
         </TooltipCom>
+        <TooltipCom text="Sink Bullet List">
+          <button
+            onClick={() =>
+              editor.chain().focus().sinkListItem("listItem").run()
+            }
+            disabled={!editor.can().sinkListItem("listItem")}
+            className="tiptop-button cursor-pointer"
+          >
+            <ListIcon width={20} height={20} />
+          </button>
+        </TooltipCom>
 
         <TooltipCom text="Ordered List">
           <button
@@ -245,6 +258,17 @@ function Tiptap({ editor }: { editor: Editor | null }) {
             }
           >
             <GrOrderedList width={20} height={20} />
+          </button>
+        </TooltipCom>
+        <TooltipCom text="Sink List">
+          <button
+            className="tiptop-button cursor-pointer"
+            onClick={() =>
+              editor.chain().focus().sinkListItem("listItem").run()
+            }
+            disabled={!editor.can().sinkListItem("listItem")}
+          >
+            <List width={20} height={20} />
           </button>
         </TooltipCom>
 
