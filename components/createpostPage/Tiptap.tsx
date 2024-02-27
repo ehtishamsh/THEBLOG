@@ -27,7 +27,6 @@ import { PiCodeBlock } from "react-icons/pi";
 import TooltipCom from "../utils/TooltipCom";
 function Tiptap({ editor }: { editor: Editor | null }) {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [modalImage, setModalImage] = useState<string>("");
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);

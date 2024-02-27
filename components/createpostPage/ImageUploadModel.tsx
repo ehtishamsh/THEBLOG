@@ -1,3 +1,4 @@
+import { UploadButton } from "@/app/utils/uploadthing";
 import React, { useState } from "react";
 import { HiXMark } from "react-icons/hi2";
 
@@ -17,13 +18,6 @@ const ImageUploadModal = ({
     setImageUrl("");
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      onImageUpload(imageUrl);
-    }
-  };
   const closeModal = () => setModalOpen(false);
   return (
     <div
@@ -49,11 +43,12 @@ const ImageUploadModal = ({
         <label className="block mt-4 mb-2 text-black">
           Upload from Device:
         </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileUpload}
-          className="file:bg-gray-900 text-black file:text-white file:px-5 file:border-none file:py-2 file:text-sm file:rounded file:hover:bg-gray-800"
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            console.log("Files", res);
+            onImageUpload(res[0].url);
+          }}
         />
 
         <button

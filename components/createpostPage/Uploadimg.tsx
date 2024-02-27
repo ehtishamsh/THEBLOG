@@ -1,13 +1,10 @@
-"use client";
-import { UploadButton, UploadDropzone } from "@/app/utils/uploadthing";
-import React from "react";
+import {
+  generateUploadButton,
+  generateUploadDropzone,
+} from "@uploadthing/react";
+import { UTApi } from "uploadthing/server";
 
-function Uploadimg({ setImage }: { setImage: any }) {
-  return (
-    <>
-      <UploadDropzone endpoint="imageUploader" />
-    </>
-  );
-}
+export const Uploadbutton = generateUploadButton();
+export const UploadDropzone = generateUploadDropzone();
 
-export default Uploadimg;
+export const utapi = new UTApi();
