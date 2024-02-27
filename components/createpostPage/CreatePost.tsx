@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import IMG from "next/image";
-import Tiptap from "./Tiptap";
-import Multiselect from "./MultiSelect";
+const Tiptap = dynamic(() => import("./Tiptap"));
+const Multiselect = dynamic(() => import("./MultiSelect"));
+const Delete = dynamic(() => import("./Delete"));
 import { Editor, mergeAttributes, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
@@ -12,14 +13,31 @@ import OrderedList from "@tiptap/extension-list-item";
 import Image from "@tiptap/extension-image";
 
 import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
 import CodeBlock from "@tiptap/extension-code-block";
 import Placeholder from "@tiptap/extension-placeholder";
-import Delete from "./Delete";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import BulletList from "@tiptap/extension-bullet-list";
+import dynamic from "next/dynamic";
+import { object, z } from "zod";
+import { Form } from "../ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const extensions = [
-  StarterKit,
+  StarterKit.configure({
+    bulletList: {
+      keepMarks: true,
+      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+    },
+    orderedList: {
+      keepMarks: true,
+      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+    },
+  }),
+  Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  TextStyle,
   TextAlign.configure({
     types: ["heading", "paragraph"],
   }),
@@ -58,12 +76,6 @@ const extensions = [
     },
   }),
 
-  BulletList.configure({
-    HTMLAttributes: {
-      class: " list-disc list-outside mb-4 ml-10",
-    },
-    keepAttributes: false,
-  }),
   Image.configure({
     inline: true,
     allowBase64: true,
@@ -72,9 +84,9 @@ const extensions = [
         "w-full max-h-[540px] object-cover rounded-lg border border-border",
     },
   }),
-  OrderedList.configure({
+  ListItem.configure({
     HTMLAttributes: {
-      class: "list-decimal list-outside mb-4 ml-10",
+      class: "my-2 ml-6",
     },
   }),
 ];
@@ -84,6 +96,16 @@ interface Tag {
   id: string;
   tagName: string;
 }
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required").max(50, "Title is too long"),
+  coverImage: z.string().min(1, "Cover Image is required"),
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(250, "Description is too long"),
+  tags: z.array(z.string().min(1, "Tag is required")),
+  content: z.string().min(1, "Content is required"),
+});
 function CreatePost() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState<string>("");
@@ -91,6 +113,16 @@ function CreatePost() {
   const [description, setdescription] = useState<string>("");
   const [imgurl, setImgurl] = useState<string>();
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      coverImage: "",
+      description: "",
+      tags: [],
+      content: "",
+    },
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
@@ -108,7 +140,7 @@ function CreatePost() {
     };
   }, []);
   const editor: Editor | null = useEditor({ extensions, content });
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     const savedContent = editor?.getHTML();
     console.log("Content saved:", [
       {
@@ -126,11 +158,11 @@ function CreatePost() {
           Date.now().toFixed(0),
       },
     ]);
-  };
+  }, [editor]);
 
   return (
     <div className="px-2 py-6 mt-7 relative">
-      <div className="max-w-7xl mx-auto flex flex-col gap-5 ">
+      <Form {...form}>
         <input
           type="text"
           className=" outline-none p-2 bg-transparent text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
@@ -193,7 +225,7 @@ function CreatePost() {
         </button>
 
         <li className="list-disc list-outside ">dfkldfjkldfjkldf</li>
-      </div>
+      </Form>
     </div>
   );
 }
