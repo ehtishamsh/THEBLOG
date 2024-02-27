@@ -97,3 +97,12 @@
     color: hsl(hue, saturation, lightness);
   }
 }
+
+.ProseMirror ol {
+  padding: 0 1rem !important;
+  list-style: decimal !important;
+}
+.ProseMirror ul {
+  padding: 0 1rem !important;
+  list-style: disc !important;
+}
