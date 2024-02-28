@@ -21,9 +21,20 @@ import { UploadDropzone } from "@/app/utils/uploadthing";
 import BulletList from "@tiptap/extension-bullet-list";
 import dynamic from "next/dynamic";
 import { object, z } from "zod";
-import { Form } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
+import { getSession, useSession } from "next-auth/react";
 
 const extensions = [
   StarterKit.configure({
@@ -98,15 +109,12 @@ interface Tag {
 }
 const formSchema = z.object({
   title: z.string().min(1, "Title is required").max(50, "Title is too long"),
-  coverImage: z.string().min(1, "Cover Image is required"),
   description: z
     .string()
     .min(1, "Description is required")
     .max(250, "Description is too long"),
-  tags: z.array(z.string().min(1, "Tag is required")),
-  content: z.string().min(1, "Content is required"),
 });
-function CreatePost() {
+function CreatePost({ email }: { email: string | null | undefined }) {
   const [tags, setTags] = useState<Tag[]>([]);
   const [title, setTitle] = useState<string>("");
   const [hide, setHide] = useState<boolean>(false);
@@ -117,10 +125,7 @@ function CreatePost() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      coverImage: "",
       description: "",
-      tags: [],
-      content: "",
     },
   });
   const [loading, setLoading] = useState<boolean>(false);
@@ -139,92 +144,185 @@ function CreatePost() {
       fetchTags();
     };
   }, []);
+
   const editor: Editor | null = useEditor({ extensions, content });
-  const handleSave = useCallback(() => {
-    const savedContent = editor?.getHTML();
-    console.log("Content saved:", [
-      {
-        title,
-        description,
-        content: `${savedContent}`,
-        tags: selectedTags,
-        img: imgurl,
-        slug:
-          title
-            .toLowerCase()
-            .replace(/ /g, "-")
-            .replace(/[^\w-]+/g, "") +
-          "-" +
-          Date.now().toFixed(0),
-      },
-    ]);
-  }, [editor]);
+
+  const handleSave = useCallback(
+    async (values: z.infer<typeof formSchema>) => {
+      const savedContent = editor?.getHTML();
+      if (imgurl === undefined || imgurl === null || imgurl === "") {
+        toast({
+          title: "Error",
+          description: "Please add an image",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      if (
+        savedContent === undefined ||
+        savedContent === null ||
+        savedContent === "" ||
+        savedContent?.length <= 300
+      ) {
+        toast({
+          title: "Error",
+          description: "Please add content",
+          variant: "destructive",
+        });
+        return null;
+      }
+      if (tags === undefined || tags === null || tags.length === 0) {
+        toast({
+          title: "Error",
+          description: "Please add tags",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      if (
+        tags.length === 0 &&
+        savedContent === "" &&
+        imgurl === undefined &&
+        savedContent?.length <= 300
+      ) {
+        toast({
+          title: "Error",
+          description: "Please add content and tags",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      if (email === undefined || email === "" || email === null) {
+        toast({
+          title: "Error",
+          description: "Please login",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      const response = await fetch("http://localhost:3000/api/user/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          title: values.title,
+          description: values.description,
+          content: `${savedContent}`,
+          tags: selectedTags,
+          cover: imgurl,
+          slug:
+            values.title
+              .toLowerCase()
+              .replace(/ /g, "-")
+              .replace(/[^\w-]+/g, "") +
+            "-" +
+            new Date().getTime(),
+        }),
+      });
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Post created successfully",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    },
+    [editor, title, description, selectedTags, imgurl]
+  );
 
   return (
     <div className="px-2 py-6 mt-7 relative">
       <Form {...form}>
-        <input
-          type="text"
-          className=" outline-none p-2 bg-transparent text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
-          placeholder="Write the title here..."
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-
-        <h1 className="text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
-          Upload Cover Image...
-        </h1>
-
-        {!hide && (
-          <UploadDropzone
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              console.log("Files", res);
-              setImgurl(res[0].url);
-              setLoading(false);
-              setHide(true);
-            }}
+        <form
+          className="flex flex-col  max-w-7xl mx-auto"
+          onSubmit={form.handleSubmit(handleSave)}
+        >
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className=" text-4xl !outline-none input---title border-none focus:!outline-none max-md:text-3xl max-sm:text-2xl mb-5 transition-all
+                              duration-300 placeholder:text-placeholder-default placeholder:italic"
+                    placeholder="Enter your title..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        )}
-        <div className="relative max-w-5xl mx-auto mb-6">
-          {imgurl && (
-            <IMG
-              src={imgurl}
-              alt="img"
-              className="w-full object-cover rounded-lg"
-              width={1024}
-              height={1024}
+
+          <h1 className="text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
+            Upload Cover Image...
+          </h1>
+          {!hide && (
+            <UploadDropzone
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                console.log("Files", res);
+                setImgurl(res[0].url);
+                setLoading(false);
+                setHide(true);
+              }}
             />
           )}
+          <div className="relative max-w-5xl mx-auto mb-6">
+            {imgurl && (
+              <IMG
+                src={imgurl}
+                alt="img"
+                className="w-full object-cover rounded-lg"
+                width={1024}
+                height={1024}
+              />
+            )}
 
-          {imgurl && (
-            <Delete imgurl={imgurl} setImgurl={setImgurl} setHide={setHide} />
-          )}
-        </div>
-        <input
-          type="text"
-          className=" outline-none p-2 bg-transparent text-2xl max-md:text-xl max-sm:text-lg  mb-5 transition-all duration-300 placeholder:text-placeholder-default placeholder:italic"
-          placeholder="Write the description here..."
-          onChange={(e) => {
-            setdescription(e.target.value);
-          }}
-        />
-
-        <Tiptap editor={editor} />
-        <Multiselect
-          selectedTags={selectedTags}
-          setSelectedTags={setSelectedTags}
-          tags={tags}
-        />
-        <button
-          onClick={handleSave}
-          className="w-full bg-[hsl(240_,10%_,3.9%)] px-4 py-2 rounded-md  border border-[hsl(240_,3.7%_,15.9%)] hover:bg-[hsl(240_,3.7%_,15.9%)] text-white transition-all duration-300"
-        >
-          Save
-        </button>
-
-        <li className="list-disc list-outside ">dfkldfjkldfjkldf</li>
+            {imgurl && (
+              <Delete imgurl={imgurl} setImgurl={setImgurl} setHide={setHide} />
+            )}
+          </div>
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className=" text-2xl !outline-none input---title border-none focus:!outline-none max-md:text-xl max-sm:text-base mb-5 transition-all
+                              duration-300 placeholder:text-placeholder-default placeholder:italic"
+                    placeholder="Enter your ..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Tiptap editor={editor} />
+          <Multiselect
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+            tags={tags}
+          />
+          <Button type="submit" variant={"outline"}>
+            Save
+          </Button>
+        </form>
       </Form>
     </div>
   );

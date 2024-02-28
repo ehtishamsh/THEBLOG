@@ -106,3 +106,8 @@
   padding: 0 1rem !important;
   list-style: disc !important;
 }
+
+.input---title {
+  padding: 2.3rem 1rem;
+  border-radius: 0.5rem;
+}
