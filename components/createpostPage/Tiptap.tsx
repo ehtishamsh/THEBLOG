@@ -47,7 +47,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
     <div>
       <div className="flex gap-3 flex-wrap items-center px-2 py-3 dark:bg-background dark:border-border border bg-gray-200 justify-center  rounded-md">
         <TooltipCom text={"Add Image"}>
-          <button onClick={openModal} className="tiptop-button">
+          <button type="button" onClick={openModal} className="tiptop-button">
             <ImageIcon size={20} />
           </button>
         </TooltipCom>
@@ -60,6 +60,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Bold"}>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
             className={
@@ -74,6 +75,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Italic"}>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
             className={
@@ -88,6 +90,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Strikethrough"}>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
             className={
@@ -102,6 +105,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Code"}>
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
             className={
@@ -116,6 +120,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Paragraph"}>
           <button
+            type="button"
             onClick={() => editor.chain().focus().setParagraph().run()}
             className={
               editor.isActive("paragraph")
@@ -129,6 +134,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text={"Heading h1"}>
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
@@ -144,6 +150,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Heading 2">
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
@@ -159,6 +166,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Heading 3">
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 3 }).run()
             }
@@ -174,6 +182,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Align Left">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setTextAlign("left").run()}
             className={
               editor.isActive({ textAlign: "left" })
@@ -187,6 +196,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Align Center">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setTextAlign("center").run()}
             className={
               editor.isActive({ textAlign: "center" })
@@ -200,6 +210,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Align Right">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setTextAlign("right").run()}
             className={
               editor.isActive({ textAlign: "right" })
@@ -213,6 +224,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Align Justify">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setTextAlign("justify").run()}
             className={
               editor.isActive({ textAlign: "justify" })
@@ -226,6 +238,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Bullet List">
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={
               editor.isActive("bulletList")
@@ -238,6 +251,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
         </TooltipCom>
         <TooltipCom text="Sink Bullet List">
           <button
+            type="button"
             onClick={() =>
               editor.chain().focus().sinkListItem("listItem").run()
             }
@@ -250,6 +264,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Ordered List">
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={
               editor.isActive("orderedList")
@@ -262,6 +277,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
         </TooltipCom>
         <TooltipCom text="Sink List">
           <button
+            type="button"
             className="tiptop-button cursor-pointer"
             onClick={() =>
               editor.chain().focus().sinkListItem("listItem").run()
@@ -274,6 +290,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Code Block">
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             className={
               editor.isActive("codeBlock")
@@ -287,6 +304,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Blockquote">
           <button
+            type="button"
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             className={
               editor.isActive("blockquote")
@@ -300,6 +318,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Horizontal Rule">
           <button
+            type="button"
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           >
             <GoHorizontalRule width={20} height={20} />
@@ -308,6 +327,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Undo">
           <button
+            type="button"
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().chain().focus().undo().run()}
           >
@@ -317,6 +337,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
 
         <TooltipCom text="Redo">
           <button
+            type="button"
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().chain().focus().redo().run()}
           >
