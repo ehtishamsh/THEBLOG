@@ -12,7 +12,7 @@ async function page() {
   } else {
     return (
       <div className="relative">
-        <CreatePost />
+        <CreatePost email={session?.user?.email} />
       </div>
     );
   }
