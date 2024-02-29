@@ -11,14 +11,18 @@ interface RecentBlogData {
   tags: string[];
 }
 async function RecentBlogData() {
-  const data = await fetch("http://localhost:3000/api/user/blogs/", {
+  const data = await fetch("http://localhost:3000/api/user/blogs", {
     method: "GET",
   });
   const data1 = await data.json();
-  console.log(data1);
   const createBlog = data1.blogs.map((item: RecentBlogData, index: number) => {
     return (
-      <div key={index}>
+      <div
+        key={index}
+        className={`${
+          index === 0 ? "col-span-2" : index === 1 ? "col-span-1" : "col-span-3"
+        }`}
+      >
         <Link
           className="transition-all duration-400 "
           href={`/blog/${item.slug}`}
@@ -26,7 +30,7 @@ async function RecentBlogData() {
           <img
             src={item.image}
             alt=""
-            className="transition-all duration-400 object-cover max-h-[240px] max-lg:max-h-72 max-sm:h-[220px] min-w-full mb-8 rounded-sm"
+            className="transition-all duration-400 object-cover max-h-[380px] max-lg:max-h-72 max-sm:h-[220px] min-w-full mb-8 rounded-sm"
           />
           <h3 className="transition-all duration-400 text-base font-semibold text-purple-900 mb-3">
             Sunday , 1 Jan 2023
