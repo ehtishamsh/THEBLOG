@@ -112,7 +112,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(1, "Description is required")
-    .max(250, "Description is too long"),
+    .max(400, "Description is too long"),
 });
 function CreatePost({ email }: { email: string | null | undefined }) {
   const [tags, setTags] = useState<Tag[]>([]);
