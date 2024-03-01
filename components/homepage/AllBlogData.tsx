@@ -25,21 +25,21 @@ function AllBlogData() {
           className="max-h-60 object-cover min-w-full mb-4 transition-all duration-400"
         />
 
-        <p className="transition-all duration-400 text-base font-semibold text-purple-900 mb-3">
+        <p className="transition-all duration-400 text-sm font-semibold text-purple-900 mb-3">
           {item.date}
         </p>
         <div className="transition-all duration-400 flex justify-between items-center mb-3">
-          <h3 className="transition-all duration-400 text-2xl font-semibold max-lg:text-xl  ">
+          <h3 className="transition-all duration-400 text-base font-semibold max-sm:text-sm  ">
             UX review presentations
           </h3>
           <ArrowTopRightIcon width={16} height={16} />
         </div>
-        <p className="transition-all duration-400 text-base text-gray-400 font-normal mb-6 line-clamp-4">
+        <p className="transition-all duration-400 text-sm text-gray-400 font-normal mb-6 line-clamp-4">
           {item.description}
         </p>
         <div className="transition-all duration-400 flex items-center gap-3 flex-wrap">
           {item.tag.map((tag) => (
-            <GetColor tag={tag.tagName} key={tag.id} />
+            <GetColor tagName={tag.tagName} key={tag.id} />
           ))}
         </div>
       </Link>

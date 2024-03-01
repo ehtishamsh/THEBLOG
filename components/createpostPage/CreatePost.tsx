@@ -11,6 +11,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-list-item";
 import Image from "@tiptap/extension-image";
+import CustomImage from "@/components/createpostPage/Image";
 
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
@@ -86,15 +87,7 @@ const extensions = [
         "dark:bg-slate-700 bg-slate-700  dark:text-gray-300 text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
     },
   }),
-
-  Image.configure({
-    inline: true,
-    allowBase64: true,
-    HTMLAttributes: {
-      class:
-        "w-full max-h-[540px] object-cover rounded-lg border border-border",
-    },
-  }),
+  CustomImage,
   ListItem.configure({
     HTMLAttributes: {
       class: "my-2 ml-6",

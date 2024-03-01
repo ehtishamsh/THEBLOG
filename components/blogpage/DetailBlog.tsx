@@ -1,5 +1,6 @@
 import React from "react";
 import GetColor from "../utils/GetColor";
+import GetContent from "./GetContent";
 
 interface blog {
   title: string;
@@ -7,8 +8,7 @@ interface blog {
   image: string;
   tags: string[];
 }
-function DetailBlog({ blog }: { blog: any }) {
-  console.log(blog);
+function DetailBlog({ blog }: { blog: blog }) {
   return (
     <div className="transition-all duration-400 px-2 flex flex-col justify-start items-start  mt-3">
       <p className="transition-all duration-400 text-base font-semibold mb-8 dark:text-purple-900 text-purple-700 ">
@@ -19,13 +19,17 @@ function DetailBlog({ blog }: { blog: any }) {
       </h1>
       <img
         src={blog.image}
-        alt=""
+        alt={blog.title}
         className="object-cover w-full max-h-[500px] mb-8"
       />
       <div className="transition-all duration-400 gap-8 flex flex-col justify-start items-start">
-        {blog.content}
+        <GetContent content={blog.content} />
       </div>
-      <div className="mt-8"></div>
+      <div className="mt-8 flex gap-3">
+        {blog.tags.map((tag, index) => (
+          <GetColor tagName={tag} key={index} />
+        ))}
+      </div>
     </div>
   );
 }

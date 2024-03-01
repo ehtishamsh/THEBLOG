@@ -7,7 +7,6 @@ import React from "react";
 
 function SideBar() {
   const path = usePathname();
-  console.log(path);
   return (
     <nav className="relative h-screen border-r pt-16 lg:block w-72">
       <div className="space-y-4 py-4">

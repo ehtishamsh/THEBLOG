@@ -16,7 +16,6 @@ function GetColor({ tagName }: { tagName: string }) {
     tagColors[tagName] || defaultColors
   } text-sm font-semibold`;
 
-  console.log(tagName);
   return <div className={classNames}>{tagName}</div>;
 }
 

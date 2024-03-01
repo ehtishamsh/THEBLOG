@@ -2,16 +2,21 @@ import React from "react";
 import BlogsRecent from "./BlogsRecent";
 import DetailBlog from "./DetailBlog";
 
-async function BlogPage({ blog }: { blog: any }) {
+async function BlogPage({ params }: { params: string }) {
+  const slug = params;
+  const data = await fetch(`http://localhost:3000/api/user/blogs/${slug}`, {
+    method: "GET",
+  });
+  const blog = await data.json();
   return (
-    <div className="px-2 py-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="transition-all duration-400 gap-8 grid grid-cols-1 grid-rows-2">
-          <DetailBlog blog={blog} />
+    <div className="px-2 py-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 justify-start items-start">
+        <div className="transition-all duration-400 gap-7 flex flex-col justify-start items-start flex-wrap max-md:order-2 max-md:col-span-1">
+          <BlogsRecent />
         </div>
-      </div>
-      <div className="max-w-7xl mx-auto">
-        <BlogsRecent />
+        <div className="transition-all duration-400 gap-8 flex flex-col justify-start items-start col-span-3 max-md:col-span-1">
+          <DetailBlog blog={blog.formatedBlog} />
+        </div>
       </div>
     </div>
   );
