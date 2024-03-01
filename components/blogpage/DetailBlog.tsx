@@ -1,7 +1,9 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 import GetContent from "./GetContent";
 import Loading from "@/app/(dashboard)/admin/loading";
+import { toast } from "../ui/use-toast";
 
 interface blog {
   title: string;
@@ -9,17 +11,34 @@ interface blog {
   image: string;
   tags: string[];
 }
-async function DetailBlog({ params }: { params: string }) {
-  const slug = params;
-  const fetchdata = await fetch(
-    `http://localhost:3000/api/user/blogs/${slug}`,
-    {
-      method: "GET",
-    }
-  );
-  const data = await fetchdata.json();
-  const blog = data.formatedBlog;
-
+function DetailBlog({ params }: { params: string }) {
+  const [blog, setBlogs] = useState<blog>({} as blog);
+  useEffect(() => {
+    const slug = params;
+    const fetchData = async () => {
+      try {
+        const data = await fetch(
+          `http://localhost:3000/api/user/blogs/${slug}`,
+          {
+            method: "GET",
+          }
+        );
+        const blog = await data.json();
+        setBlogs(blog);
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Error",
+          description: "Something went wrong.",
+          variant: "destructive",
+        });
+      }
+    };
+    fetchData();
+    return () => {
+      setBlogs({} as blog);
+    };
+  }, []);
   return (
     <>
       <div className="transition-all duration-400 px-2 flex flex-col justify-start items-start  mt-3">
