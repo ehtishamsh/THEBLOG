@@ -3,7 +3,7 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import React from "react";
 
-function GetContent({ content }: { content: string }) {
+function GetContent({ content = "" }: { content: string }) {
   const options = {
     replace: (domNode: any) => {
       if (domNode.name === "img" && domNode.attribs && domNode.attribs.src) {
