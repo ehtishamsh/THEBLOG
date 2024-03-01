@@ -1,10 +1,10 @@
 import BlogPage from "@/components/blogpage/BlogPage";
 import React from "react";
 
-async function page({ params }: { params: { slug: string } }) {
+function page() {
   return (
     <>
-      <BlogPage params={params.slug} />
+      <BlogPage />
     </>
   );
 }

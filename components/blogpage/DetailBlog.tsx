@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 import GetContent from "./GetContent";
 import { toast } from "../ui/use-toast";
+import { useParams } from "next/navigation";
 
 interface blog {
   title: string;
@@ -10,12 +11,13 @@ interface blog {
   image: string;
   tags: string[];
 }
-function DetailBlog({ params }: { params: string }) {
+function DetailBlog() {
+  const { slug } = useParams();
+  console.log(slug);
   const [blog, setBlogs] = useState<blog>({} as blog);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const slug = params;
         const data = await fetch(
           `http://localhost:3000/api/user/blogs/${slug}`,
           {
