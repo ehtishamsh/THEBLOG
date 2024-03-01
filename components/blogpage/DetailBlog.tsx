@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 import GetContent from "./GetContent";
-import Loading from "@/app/(dashboard)/admin/loading";
 import { toast } from "../ui/use-toast";
 
 interface blog {
@@ -14,9 +13,9 @@ interface blog {
 function DetailBlog({ params }: { params: string }) {
   const [blog, setBlogs] = useState<blog>({} as blog);
   useEffect(() => {
-    const slug = params;
     const fetchData = async () => {
       try {
+        const slug = params;
         const data = await fetch(
           `http://localhost:3000/api/user/blogs/${slug}`,
           {
@@ -24,7 +23,7 @@ function DetailBlog({ params }: { params: string }) {
           }
         );
         const blog = await data.json();
-        setBlogs(blog);
+        setBlogs(blog.formatedBlog);
       } catch (error) {
         console.log(error);
         toast({

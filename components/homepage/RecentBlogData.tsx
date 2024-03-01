@@ -16,13 +16,18 @@ function RecentBlogData() {
   const [data, setData] = useState<RecentBlogData[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch("http://localhost:3000/api/user/blogs", {
-        method: "GET",
-      });
-      const data1 = await data.json();
-      setData(data1.blogs);
+      try {
+        const data = await fetch("http://localhost:3000/api/user/blogs", {
+          method: "GET",
+        });
+        const data1 = await data.json();
+        setData(data1.blogs);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
+
     return () => {
       setData([]);
     };
