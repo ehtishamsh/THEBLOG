@@ -1,7 +1,7 @@
 import React from "react";
 import RecentBlogData from "./RecentBlogData";
 
-const RecentBlogs: React.FC = () => {
+function RecentBlogs() {
   return (
     <div className="py-8">
       <h1 className="text-2xl font-semibold mb-8 max-sm:text-lg">
@@ -12,6 +12,6 @@ const RecentBlogs: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RecentBlogs;

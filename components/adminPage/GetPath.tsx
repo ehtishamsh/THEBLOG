@@ -10,7 +10,7 @@ interface PathSegment {
   path: string;
 }
 
-const GetPath: React.FC = () => {
+function GetPath () {
   const router = usePathname();
 
   const isUUID = (id: string): boolean => {

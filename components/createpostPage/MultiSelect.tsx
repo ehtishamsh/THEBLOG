@@ -8,11 +8,15 @@ interface Tag {
   tagName: string;
 }
 
-const Multiselect: React.FC<{
+const Multiselect = ({
+  selectedTags,
+  setSelectedTags,
+  tags,
+}: {
   selectedTags: Tag[];
   setSelectedTags: React.Dispatch<React.SetStateAction<Tag[]>>;
   tags: Tag[];
-}> = ({ selectedTags, setSelectedTags, tags }) => {
+}) => {
   const [tagInput, setTagInput] = useState<string>("");
   const [tagSuggestions, setTagSuggestions] = useState<Tag[]>([]);
 

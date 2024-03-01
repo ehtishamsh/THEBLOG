@@ -1,6 +1,7 @@
+"use client";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 
 interface RecentBlogData {
@@ -10,12 +11,23 @@ interface RecentBlogData {
   slug: string;
   tags: string[];
 }
-async function RecentBlogData() {
-  const data = await fetch("http://localhost:3000/api/user/blogs", {
-    method: "GET",
-  });
-  const data1 = await data.json();
-  const createBlog = data1.blogs.map((item: RecentBlogData, index: number) => {
+
+function RecentBlogData() {
+  const [data, setData] = useState<RecentBlogData[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch("http://localhost:3000/api/user/blogs", {
+        method: "GET",
+      });
+      const data1 = await data.json();
+      setData(data1.blogs);
+    };
+    fetchData();
+    return () => {
+      setData([]);
+    };
+  }, []);
+  const createBlog = data.map((item: RecentBlogData, index: number) => {
     return (
       <div
         key={index}
