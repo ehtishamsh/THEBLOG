@@ -14,7 +14,7 @@ function GetContent({ content = "" }: { content: string }) {
             alt={"image demo"}
             layout="responsive"
             width={1152}
-            height={576}
+            height={560}
             className="rounded-sm object-cover"
           />
         );
