@@ -2,6 +2,7 @@
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import GetColor from "../utils/GetColor";
 
 interface RecentBlogData {
@@ -17,10 +18,8 @@ function RecentBlogData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetch("http://localhost:3000/api/user/blogs", {
-          method: "GET",
-        });
-        const data1 = await data.json();
+        const data = await axios.get("http://localhost:3000/api/user/blogs");
+        const data1 = await data.data;
         setData(data1.blogs);
       } catch (error) {
         console.log(error);

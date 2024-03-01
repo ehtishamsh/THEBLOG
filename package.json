@@ -39,6 +39,7 @@
     "@tiptap/starter-kit": "^2.2.2",
     "@types/jsonwebtoken": "^9.0.5",
     "@uploadthing/react": "^6.2.4",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

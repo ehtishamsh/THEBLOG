@@ -4,6 +4,7 @@ import GetColor from "../utils/GetColor";
 import GetContent from "./GetContent";
 import { toast } from "../ui/use-toast";
 import { useParams } from "next/navigation";
+import axios from "axios";
 
 interface blog {
   title: string;
@@ -13,18 +14,14 @@ interface blog {
 }
 function DetailBlog() {
   const { slug } = useParams();
-  console.log(slug);
   const [blog, setBlogs] = useState<blog>({} as blog);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetch(
-          `http://localhost:3000/api/user/blogs/${slug}`,
-          {
-            method: "GET",
-          }
+        const data = await axios.get(
+          `http://localhost:3000/api/user/blogs/single/${slug}`
         );
-        const blog = await data.json();
+        const blog = await data.data;
         setBlogs(blog.formatedBlog);
       } catch (error) {
         console.log(error);
