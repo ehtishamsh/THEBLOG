@@ -3,13 +3,7 @@ import BlogsRecent from "./BlogsRecent";
 import DetailBlog from "./DetailBlog";
 import RecentBlogData from "../homepage/RecentBlogData";
 
-type blog = {
-  title: string;
-  content: string;
-  image: string;
-  tags: string[];
-};
-function BlogPage({ blog }: { blog: blog }) {
+function BlogPage() {
   return (
     <div className="px-2 py-8 max-w-7xl mx-auto">
       <div className="grid grid-cols-4 gap-8 max-md:grid-cols-1 justify-start items-start">
@@ -20,7 +14,7 @@ function BlogPage({ blog }: { blog: blog }) {
           <RecentBlogData className={`max-h-[200px]`} />
         </div>
         <div className="transition-all duration-400 gap-8 flex flex-col justify-start items-start col-span-3 max-md:col-span-1">
-          <DetailBlog blog={blog} />
+          <DetailBlog />
         </div>
       </div>
     </div>
