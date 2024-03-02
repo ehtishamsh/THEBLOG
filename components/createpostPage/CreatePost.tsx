@@ -10,7 +10,7 @@ import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-list-item";
-import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
 import CustomImage from "@/components/createpostPage/Image";
 
 import TextAlign from "@tiptap/extension-text-align";
@@ -75,7 +75,7 @@ const extensions = [
   }),
   Paragraph.configure({
     HTMLAttributes: {
-      class: "text-base dark:text-gray-200 text-gray-600 mb-2 relative",
+      class: "text-base dark:text-gray-300 text-gray-800 mb-2 relative",
     },
   }),
   Placeholder.configure({
@@ -84,13 +84,21 @@ const extensions = [
   CodeBlock.configure({
     HTMLAttributes: {
       class:
-        "bg-black dark:text-gray-300 border border-border text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
+        "bg-black dark:text-gray-200 border border-border text-gray-200 text-sm font-mono my-4 flex  rounded-md p-4",
     },
   }),
   CustomImage,
   ListItem.configure({
     HTMLAttributes: {
       class: "my-2 ml-6",
+    },
+  }),
+  Link.configure({
+    openOnClick: true,
+    linkOnPaste: true,
+    autolink: true,
+    HTMLAttributes: {
+      class: "text-yellow-300 underline underline-offset-[6px] italic",
     },
   }),
 ];
@@ -260,7 +268,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
             )}
           />
 
-          <h1 className="text-4xl max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
+          <h1 className="text-4xl  max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
             Upload Cover Image...
           </h1>
           {!hide && (

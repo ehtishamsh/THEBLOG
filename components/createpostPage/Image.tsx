@@ -24,34 +24,36 @@ function ImageNode(props: any) {
   return (
     <>
       <NodeViewWrapper className={className} data-drag-handle>
-        <img src={src} alt={alt} className="object-cover h-[400px] w-full" />
-        <span className="flex justify-center items-center mt-5 flex-col gap-4">
-          <span className="flex justify-center items-center gap-4  bg-[#ffffff14]   rounded-md backdrop-blur-lg px-2 py-1 text-muted-foreground">
-            {alt ? (
-              <span>
-                <Check width={24} height={24} className="text-green-500" />
-              </span>
-            ) : (
-              <span className="text-xl">
-                <BsExclamationCircle size={24} className="text-red-500" />
-              </span>
-            )}
+        <div className="relative">
+          <img src={src} alt={alt} className="object-cover h-[400px] w-full" />
+          <span className="flex justify-center items-center mt-5 flex-col gap-4 absolute top-0 left-0 right-0 bottom-0">
+            <span className="flex justify-center items-center border border-border gap-4  bg-[#000000a3]   rounded-md backdrop-blur-lg px-2 py-1 text-muted-foreground">
+              {alt ? (
+                <span>
+                  <Check width={24} height={24} className="text-green-500" />
+                </span>
+              ) : (
+                <span className="text-xl">
+                  <BsExclamationCircle size={24} className="text-red-500" />
+                </span>
+              )}
 
-            {alt ? (
-              <span className="font-semibold">{alt}</span>
-            ) : (
-              <span className="text">Alt text missing.</span>
-            )}
-            <Button
-              className="text-xs"
-              variant={"outline"}
-              type="button"
-              onClick={() => setModal(true)}
-            >
-              {alt ? "Edit" : "Add"}
-            </Button>
+              {alt ? (
+                <span className="font-semibold">{alt}</span>
+              ) : (
+                <span className="text">Alt text missing.</span>
+              )}
+              <Button
+                className="text-xs"
+                variant={"outline"}
+                type="button"
+                onClick={() => setModal(true)}
+              >
+                {alt ? "Edit" : "Add"}
+              </Button>
+            </span>
           </span>
-        </span>
+        </div>
       </NodeViewWrapper>
       <div
         className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-all duration-300 ${
