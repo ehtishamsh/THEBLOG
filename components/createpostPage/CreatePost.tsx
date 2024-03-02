@@ -84,7 +84,7 @@ const extensions = [
   CodeBlock.configure({
     HTMLAttributes: {
       class:
-        "dark:bg-slate-700 bg-slate-700  dark:text-gray-300 text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
+        "bg-black dark:text-gray-300 border border-border text-gray-400 text-sm font-mono my-4 flex  rounded-md p-4",
     },
   }),
   CustomImage,
