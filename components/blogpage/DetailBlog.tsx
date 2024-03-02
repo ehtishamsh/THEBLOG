@@ -21,9 +21,7 @@ function DetailBlog() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const data = await axios.get(
-          `http://localhost:3000/api/user/blogs/single/${slug}`
-        );
+        const data = await axios.get(`/api/user/blogs/single/${slug}`);
         const blog = await data.data;
         setBlogs(blog.formatedBlog);
         setLoading(false);

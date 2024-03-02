@@ -73,12 +73,9 @@ export const columns: ColumnDef<User>[] = [
       const router = useRouter();
       const onDelete = async () => {
         try {
-          const response = await fetch(
-            `http://localhost:3000/api/admin/user/delete/${user.id}`,
-            {
-              method: "DELETE",
-            }
-          );
+          const response = await fetch(`/api/admin/user/delete/${user.id}`, {
+            method: "DELETE",
+          });
 
           if (response.ok) {
             setOpen(false);

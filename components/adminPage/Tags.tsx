@@ -3,7 +3,7 @@ import { DataTable } from "@/app/(dashboard)/admin/tags/data-table";
 import { Button } from "../ui/button";
 import Link from "next/link";
 export default async function Tags() {
-  const data = await fetch("http://localhost:3000/api/admin/tag/get", {
+  const data = await fetch("/api/admin/tag/get", {
     method: "GET",
   });
 

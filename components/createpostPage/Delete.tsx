@@ -13,7 +13,7 @@ const Delete = ({
   setHide: React.Dispatch<React.SetStateAction<boolean>> | (() => void);
 }) => {
   const testDelete = async () => {
-    const res = await fetch("http://localhost:3000/api/uploadthing", {
+    const res = await fetch("/api/uploadthing", {
       method: "DELETE",
       body: JSON.stringify({
         url: imgurl,

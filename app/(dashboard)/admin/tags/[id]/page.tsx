@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import React from "react";
 
 async function page({ params }: { params: { id: string } }) {
-  const data = await fetch(`http://localhost:3000/api/admin/tag/${params.id}`, {
+  const data = await fetch(`/api/admin/tag/${params.id}`, {
     method: "GET",
   });
   const data1 = await data.json();

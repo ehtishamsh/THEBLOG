@@ -49,7 +49,7 @@ function TagAction({ name, emailAdd }: { name: string; emailAdd: string }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response = await fetch(
-      `http://localhost:3000/api/admin/user/getSingle/${params.id}`,
+      `/api/admin/user/getSingle/${params.id}`,
       {
         method: "POST",
         headers: {

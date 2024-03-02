@@ -4,7 +4,7 @@ import { BsTags } from "react-icons/bs";
 import { EditIcon } from "lucide-react";
 
 async function Dashboard() {
-  const getTotal = await fetch("http://localhost:3000/api/admin/total", {
+  const getTotal = await fetch("/api/admin/total", {
     method: "GET",
   });
   const total = await getTotal.json();

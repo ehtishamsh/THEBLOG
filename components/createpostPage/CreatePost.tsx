@@ -127,7 +127,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
   useEffect(() => {
     setLoading(true);
     const fetchTags = async () => {
-      const response = await fetch("http://localhost:3000/api/user/tags");
+      const response = await fetch("/api/user/tags");
       const data = await response.json();
       setTags(data.tags);
       setLoading(false);
@@ -197,7 +197,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
         return null;
       }
 
-      const response = await fetch("http://localhost:3000/api/user/create", {
+      const response = await fetch("/api/user/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

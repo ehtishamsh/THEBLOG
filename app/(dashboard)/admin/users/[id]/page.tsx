@@ -2,12 +2,9 @@ import TagAction from "@/components/adminPage/users/TagAction";
 import React from "react";
 
 async function page({ params }: { params: { id: string } }) {
-  const getData = await fetch(
-    `http://localhost:3000/api/admin/user/getSingle/${params.id}`,
-    {
-      method: "GET",
-    }
-  );
+  const getData = await fetch(`/api/admin/user/getSingle/${params.id}`, {
+    method: "GET",
+  });
   const data = await getData.json();
   console.log(data);
   return (

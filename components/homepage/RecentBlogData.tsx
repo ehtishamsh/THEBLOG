@@ -24,7 +24,7 @@ function RecentBlogData({ className }: { className?: string }) {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const data = await axios.get("http://localhost:3000/api/user/blogs");
+        const data = await axios.get("/api/user/blogs");
         const data1 = await data.data;
         if (slug) {
           const filteredData = data1.blogs.filter(
