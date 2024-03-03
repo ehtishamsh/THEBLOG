@@ -66,13 +66,13 @@ function DetailBlog() {
           <div className="transition-all duration-400 flex flex-col gap-3 mb-4 justify-start items-center">
             <div className="flex justify-start items-center">
               <Image
-                width={55}
-                height={55}
+                width={65}
+                height={65}
                 src={blog?.user?.image}
                 alt={blog?.user?.username}
-                className="rounded-full border border-border w-[55px] h-[55px]"
+                className="rounded-full border border-border w-[65px] h-[65px]"
               />
-              <p className="transition-all duration-400 text-base text-gray-600  font-semibold ml-3 uppercase">
+              <p className="transition-all duration-400 text-base text-muted-foreground font-semibold ml-3 uppercase">
                 {blog?.user?.username}
               </p>
             </div>
