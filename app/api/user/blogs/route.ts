@@ -5,13 +5,14 @@ export async function GET(req: NextRequest) {
   try {
     const blogs = await db?.blog.findMany({
       orderBy: {
-        id: "desc",
+        createdAt: "desc",
       },
       select: {
         title: true,
         description: true,
         image: true,
         slug: true,
+        createdAt: true,
         blogDetail: {
           select: {
             tag: {
@@ -25,11 +26,19 @@ export async function GET(req: NextRequest) {
     });
 
     const formatedBlogs = blogs.map((blog) => {
+      const date = blog?.createdAt as string | Date as string;
+      const formateDate: string = new Date(date).toLocaleString("en-US", {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
       return {
         title: blog.title,
         description: blog.description,
         image: blog.image,
         slug: blog.slug,
+        createdAt: formateDate,
         tags: blog.blogDetail.map((detail) => detail.tag.tagName),
       };
     });

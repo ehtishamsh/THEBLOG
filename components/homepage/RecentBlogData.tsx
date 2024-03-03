@@ -14,6 +14,7 @@ interface RecentBlogData {
   image: string;
   slug: string;
   tags: string[];
+  createdAt: string;
 }
 
 function RecentBlogData({ className }: { className?: string }) {
@@ -63,10 +64,10 @@ function RecentBlogData({ className }: { className?: string }) {
           <img
             src={item.image}
             alt=""
-            className={`transition-all duration-400 object-cover  ${className} min-w-full mb-8 rounded-sm`}
+            className={`transition-all duration-400 object-cover border-2 border-border  ${className} min-w-full mb-3 rounded-sm`}
           />
           <h3 className="transition-all duration-400 text-base font-semibold text-purple-900 mb-3">
-            Sunday , 1 Jan 2023
+            {item.createdAt}
           </h3>
           <div className="transition-all duration-400 flex justify-between items-center mb-3">
             <h3 className="transition-all duration-400 text-2xl font-semibold max-sm:text-xl ">

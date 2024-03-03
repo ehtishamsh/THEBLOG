@@ -13,19 +13,37 @@ export async function GET(
         title: true,
         content: true,
         image: true,
+        createdAt: true,
         blogDetail: {
           select: {
             tag: true,
+            user: {
+              select: {
+                username: true,
+                image: true,
+              },
+            },
           },
         },
       },
+    });
+
+    const date = blog?.createdAt as string | Date as string;
+
+    const formateDate: string = new Date(date).toLocaleString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
 
     const formatedBlog = {
       title: blog?.title,
       content: blog?.content,
       image: blog?.image,
+      createdAt: formateDate,
       tags: blog?.blogDetail.map((detail) => detail.tag.tagName),
+      user: blog?.blogDetail[0].user,
     };
     if (!blog) {
       return NextResponse.json({ blog: null });

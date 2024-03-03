@@ -27,6 +27,7 @@ import { GoHorizontalRule } from "react-icons/go";
 import { BsBlockquoteLeft } from "react-icons/bs";
 import { PiCodeBlock } from "react-icons/pi";
 import TooltipCom from "../utils/TooltipCom";
+import Link from "./Ext/Link";
 function Tiptap({ editor }: { editor: Editor | null }) {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -328,6 +329,7 @@ function Tiptap({ editor }: { editor: Editor | null }) {
         <TooltipCom text="Undo">
           <button
             type="button"
+            className="cursor-pointer tiptop-button"
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().chain().focus().undo().run()}
           >
@@ -338,17 +340,18 @@ function Tiptap({ editor }: { editor: Editor | null }) {
         <TooltipCom text="Redo">
           <button
             type="button"
+            className="cursor-pointer tiptap-button"
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().chain().focus().redo().run()}
           >
             <Redo width={20} height={20} />
           </button>
         </TooltipCom>
+        <Link editor={editor} />
       </div>
       <div className="mt-9">
         <EditorContent editor={editor} />
       </div>
-      <div className="flex gap-3 flex-col items-center w-full mt-8"></div>
     </div>
   );
 }

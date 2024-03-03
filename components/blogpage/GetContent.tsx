@@ -1,6 +1,6 @@
 "use client";
 import parse from "html-react-parser";
-import Image from "next/image";
+import img from "next/image";
 import React from "react";
 
 function GetContent({ content = "" }: { content: string }) {
@@ -9,10 +9,9 @@ function GetContent({ content = "" }: { content: string }) {
       if (domNode.name === "img" && domNode.attribs && domNode.attribs.src) {
         const { src, alt, width, height } = domNode.attribs;
         return (
-          <Image
+          <img
             src={src}
-            alt={"image demo"}
-            layout="responsive"
+            alt={alt}
             width={1152}
             height={560}
             className="rounded-sm object-cover"

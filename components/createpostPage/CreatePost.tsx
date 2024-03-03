@@ -36,6 +36,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const extensions = [
   StarterKit.configure({
@@ -131,7 +132,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-
+  const router = useRouter();
   useEffect(() => {
     setLoading(true);
     const fetchTags = async () => {
@@ -151,60 +152,51 @@ function CreatePost({ email }: { email: string | null | undefined }) {
   const handleSave = useCallback(
     async (values: z.infer<typeof formSchema>) => {
       const savedContent = editor?.getHTML();
-      if (imgurl === undefined || imgurl === null || imgurl === "") {
-        toast({
-          title: "Error",
-          description: "Please add an image",
-          variant: "destructive",
-        });
-        return null;
-      }
 
       if (
-        savedContent === undefined ||
-        savedContent === null ||
-        savedContent === "" ||
-        savedContent?.length <= 300
+        !imgurl ||
+        !savedContent ||
+        savedContent.length <= 300 ||
+        !tags ||
+        tags.length === 0 ||
+        (!tags.length &&
+          !savedContent &&
+          !imgurl &&
+          savedContent?.length <= 300) ||
+        !email
       ) {
+        let errorMessage = "";
+
+        if (!imgurl) errorMessage = "Please add an image";
+        else if (!savedContent || savedContent.length <= 300)
+          errorMessage = "Please add content";
+        else if (!tags || tags.length === 0) errorMessage = "Please add tags";
+        else if (!email) errorMessage = "Please login";
+        else if (
+          !tags.length &&
+          !savedContent &&
+          !imgurl &&
+          savedContent?.length <= 300
+        )
+          errorMessage = "Please add content and tags";
+
         toast({
           title: "Error",
-          description: "Please add content",
+          description: errorMessage,
           variant: "destructive",
         });
-        return null;
-      }
-      if (tags === undefined || tags === null || tags.length === 0) {
-        toast({
-          title: "Error",
-          description: "Please add tags",
-          variant: "destructive",
-        });
+
         return null;
       }
 
-      if (
-        tags.length === 0 &&
-        savedContent === "" &&
-        imgurl === undefined &&
-        savedContent?.length <= 300
-      ) {
-        toast({
-          title: "Error",
-          description: "Please add content and tags",
-          variant: "destructive",
-        });
-        return null;
-      }
-
-      if (email === undefined || email === "" || email === null) {
-        toast({
-          title: "Error",
-          description: "Please login",
-          variant: "destructive",
-        });
-        return null;
-      }
-
+      const slug =
+        values.title
+          .toLowerCase()
+          .replace(/ /g, "-")
+          .replace(/[^\w-]+/g, "") +
+        "-" +
+        new Date().getTime();
+      console.log("slug", slug);
       const response = await fetch("/api/user/create", {
         method: "POST",
         headers: {
@@ -217,13 +209,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
           content: `${savedContent}`,
           tags: selectedTags,
           cover: imgurl,
-          slug:
-            values.title
-              .toLowerCase()
-              .replace(/ /g, "-")
-              .replace(/[^\w-]+/g, "") +
-            "-" +
-            new Date().getTime(),
+          slug: slug,
         }),
       });
       if (response.ok) {
@@ -232,6 +218,9 @@ function CreatePost({ email }: { email: string | null | undefined }) {
           description: "Post created successfully",
           variant: "success",
         });
+        setTimeout(() => {
+          router.push(`/blog/${slug}`);
+        }, 4000);
       } else {
         toast({
           title: "Error",
@@ -315,12 +304,14 @@ function CreatePost({ email }: { email: string | null | undefined }) {
             )}
           />
           <Tiptap editor={editor} />
-          <Multiselect
-            selectedTags={selectedTags}
-            setSelectedTags={setSelectedTags}
-            tags={tags}
-          />
-          <Button type="submit" variant={"outline"}>
+          <div className="mt-10">
+            <Multiselect
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              tags={tags}
+            />
+          </div>
+          <Button type="submit" className="mt-14" variant={"outline"}>
             Save
           </Button>
         </form>
