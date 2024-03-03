@@ -1,12 +1,17 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const take = params.id;
   try {
     const blogs = await db?.blog.findMany({
       orderBy: {
         createdAt: "desc",
       },
+      take: parseInt(take),
       select: {
         title: true,
         description: true,

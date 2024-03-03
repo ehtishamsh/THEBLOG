@@ -151,8 +151,9 @@ function CreatePost({ email }: { email: string | null | undefined }) {
 
   const handleSave = useCallback(
     async (values: z.infer<typeof formSchema>) => {
+      // TODO: Add validation
       const savedContent = editor?.getHTML();
-
+      // TODO: Add validation
       if (
         !imgurl ||
         !savedContent ||
@@ -189,14 +190,15 @@ function CreatePost({ email }: { email: string | null | undefined }) {
         return null;
       }
 
+      // create slug
       const slug =
         values.title
           .toLowerCase()
-          .replace(/ /g, "-")
+          .replace(/\s+/g, "-") // Replace one or more spaces with a single hyphen
           .replace(/[^\w-]+/g, "") +
         "-" +
         new Date().getTime();
-      console.log("slug", slug);
+      // create post
       const response = await fetch("/api/user/create", {
         method: "POST",
         headers: {

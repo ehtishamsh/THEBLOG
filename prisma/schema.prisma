@@ -15,7 +15,7 @@ model User {
   username   String   @unique
   password   String
   role       String   @default("user")
-  image      String  @default("profile")  
+  image      String  @default("https://utfs.io/f/eda80490-795b-43d7-b3a6-8e292bf3aae8-n92lk7.png")  
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   blogDetail BlogDetail[]

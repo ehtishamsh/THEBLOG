@@ -17,7 +17,13 @@ interface RecentBlogData {
   createdAt: string;
 }
 
-function RecentBlogData({ className }: { className?: string }) {
+function RecentBlogData({
+  className,
+  ammount,
+}: {
+  className?: string;
+  ammount?: number;
+}) {
   const [data, setData] = useState<RecentBlogData[]>([]);
   const [loading, setLoading] = useState(false);
   const { slug } = useParams();
@@ -25,7 +31,7 @@ function RecentBlogData({ className }: { className?: string }) {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const data = await axios.get("/api/user/blogs");
+        const data = await axios.get(`/api/user/blogs/recent/${ammount}`);
         const data1 = await data.data;
         if (slug) {
           const filteredData = data1.blogs.filter(
@@ -41,12 +47,12 @@ function RecentBlogData({ className }: { className?: string }) {
       }
     };
     fetchData();
-
+    console.log(data);
     return () => {
       setData([]);
     };
   }, []);
-  const createBlog = data.map((item: RecentBlogData, index: number) => {
+  const createBlog = data?.map((item: RecentBlogData, index: number) => {
     return (
       <motion.div
         initial={{ opacity: 0 }}

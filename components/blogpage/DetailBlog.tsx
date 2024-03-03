@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
 import DetailBlogS from "../skeleton/DetailBlogS";
+import Image from "next/image";
 interface blog {
   title: string;
   content: string;
@@ -58,12 +59,24 @@ function DetailBlog() {
           <p className="transition-all duration-400 text-base font-semibold mb-8 dark:text-purple-900 text-purple-700 ">
             {blog?.createdAt}
           </p>
-          <div className="transition-all duration-400 flex flex-col justify-start items-center">
-            <img src="" alt="" />
-          </div>
+
           <h1 className="transition-all duration-400 text-4xl font-bold mb-8">
             {blog?.title}
           </h1>
+          <div className="transition-all duration-400 flex flex-col gap-3 mb-4 justify-start items-center">
+            <div className="flex justify-start items-center">
+              <Image
+                width={55}
+                height={55}
+                src={blog?.user?.image}
+                alt={blog?.user?.username}
+                className="rounded-full border border-border w-[55px] h-[55px]"
+              />
+              <p className="transition-all duration-400 text-base text-gray-600  font-semibold ml-3 uppercase">
+                {blog?.user?.username}
+              </p>
+            </div>
+          </div>
           <img
             src={blog?.image}
             alt={blog?.title}

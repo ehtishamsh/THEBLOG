@@ -11,7 +11,7 @@ function BlogPage() {
           <h1 className="text-xl font-semibold mb-4 max-sm:text-lg">
             Recent Blogs
           </h1>
-          <RecentBlogData className={`max-h-[200px]`} />
+          <RecentBlogData className={`max-h-[200px]`} ammount={8} />
         </div>
         <div className="transition-all duration-400 gap-8 flex flex-col justify-start items-start col-span-3 max-md:col-span-1">
           <DetailBlog />

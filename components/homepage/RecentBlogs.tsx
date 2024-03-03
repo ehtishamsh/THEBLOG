@@ -8,7 +8,10 @@ function RecentBlogs() {
         Recent Blogs
       </h1>
       <div className="transition-all duration-400 grid grid-cols-3 grid-rows-2 gap-9 max-md:grid-cols-2 max-sm:grid-cols-1 ">
-        <RecentBlogData className={"h-[400px] max-lg:h-72 max-sm:h-[220px]"} />
+        <RecentBlogData
+          className={"h-[400px] max-lg:h-72 max-sm:h-[220px]"}
+          ammount={3}
+        />
       </div>
     </div>
   );
