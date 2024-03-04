@@ -82,7 +82,7 @@ function DetailBlog() {
             alt={blog?.title}
             className="object-cover w-full max-h-[500px] mb-8 transition-all duration-400 border border-border rounded-md"
           />
-          <div className="transition-all duration-400">
+          <div className="transition-all duration-400  grid grid-cols-1 overflow-hidden">
             <GetContent content={blog?.content} />
           </div>
           <div className="mt-8 flex gap-3 flex-wrap transition-all duration-400">

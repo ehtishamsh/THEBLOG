@@ -45,8 +45,8 @@ function Tiptap({ editor }: { editor: Editor | null }) {
     return null;
   }
   return (
-    <div>
-      <div className="flex gap-3 flex-wrap items-center px-2 py-3 dark:bg-background dark:border-border border bg-gray-200 justify-center  rounded-md">
+    <div className="relative">
+      <div className="flex gap-3 flex-wrap items-center px-2 sticky z-50  top-0 left-0 py-3 dark:bg-background dark:border-border border bg-gray-200 justify-center  rounded-md">
         <TooltipCom text={"Add Image"}>
           <button type="button" onClick={openModal} className="tiptop-button">
             <ImageIcon size={20} />

@@ -61,9 +61,9 @@ const extensions = [
         ? node.attrs.level
         : this.options.levels[0];
       const classes: Record<number, string> = {
-        1: "text-4xl",
-        2: "text-2xl",
-        3: "text-xl",
+        1: "text-4xl max-sm:text-2xl",
+        2: "text-2xl max-sm:text-xl",
+        3: "text-xl max-sm:text-lg",
       };
       return [
         `h${level}`,
@@ -76,7 +76,8 @@ const extensions = [
   }),
   Paragraph.configure({
     HTMLAttributes: {
-      class: "text-base dark:text-gray-300 text-gray-800 mb-2 relative",
+      class:
+        "text-base dark:text-gray-300 line-height[1.5] text-gray-800 mb-4 after:content-['']",
     },
   }),
   Placeholder.configure({
@@ -85,7 +86,7 @@ const extensions = [
   CodeBlock.configure({
     HTMLAttributes: {
       class:
-        "bg-black dark:text-gray-200 border border-border text-gray-200 text-sm font-mono my-4 flex  rounded-md p-4",
+        "bg-black text-wrap dark:text-gray-200 border border-border text-gray-200 text-sm font-mono my-4 flex  rounded-md p-4",
     },
   }),
   CustomImage,
@@ -99,7 +100,7 @@ const extensions = [
     linkOnPaste: true,
     autolink: true,
     HTMLAttributes: {
-      class: "text-yellow-300 underline underline-offset-[6px] italic",
+      class: "font-semibold  border-b-2 pb-1 border-blue-400",
     },
   }),
 ];
@@ -305,6 +306,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
               </FormItem>
             )}
           />
+
           <Tiptap editor={editor} />
           <div className="mt-10">
             <Multiselect
