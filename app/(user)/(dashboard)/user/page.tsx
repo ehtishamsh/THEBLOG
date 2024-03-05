@@ -1,14 +1,11 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import { redirect, usePathname } from "next/navigation";
 
-function page() {
+function Page() {
   const pathname = usePathname();
-  const router = useRouter();
   if (pathname === "/user") {
-    return router.push("/user/profile");
+    return redirect("/user/profile");
   }
-  return null;
 }
 
-export default page;
+export default Page;

@@ -1,14 +1,14 @@
 import GetPath from "@/components/adminPage/GetPath";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 import React from "react";
 
 async function page() {
   const session = await getServerSession(authOptions);
-
   if (session === null) {
-    return (window.location.href = "/sign-in");
+    return redirect("/sign-in");
   }
   return (
     <div className="px-5 mt-8">
