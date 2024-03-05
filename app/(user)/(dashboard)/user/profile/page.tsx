@@ -1,12 +1,15 @@
 import GetPath from "@/components/adminPage/GetPath";
+import { Button } from "@/components/ui/button";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import React from "react";
 
 async function page() {
   const session = await getServerSession(authOptions);
+  console.log(session);
   if (session === null) {
     return redirect("/sign-in");
   }
@@ -19,10 +22,29 @@ async function page() {
         </h1>
         <div className="bg-accent rounded-lg w-fit p-1 mt-6">
           <h1 className="text-base  rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
-            Overview
+            Profile
           </h1>
         </div>
-        <div className="mt-4"></div>
+        <div className="mt-8 flex gap-8">
+          <Image
+            src={session?.user?.image as string}
+            alt="profile"
+            className="rounded-3xl border-2 border-border"
+            width={200}
+            height={200}
+          />
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-semibold">
+              {session?.user?.username}
+            </h1>
+            <span className="text-base text-muted-foreground">
+              {session?.user?.email}
+            </span>
+            <Button variant={"outline"} className="w-fit">
+              Edit Profile
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
