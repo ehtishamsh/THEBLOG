@@ -1,6 +1,9 @@
+import { UploadButton, UploadDropzone } from "@/app/utils/uploadthing";
 import GetPath from "@/components/adminPage/GetPath";
 import { Button } from "@/components/ui/button";
+import UploadImage from "@/components/userPage/UploadImage";
 import { authOptions } from "@/lib/auth";
+import { UploadCloud } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -26,13 +29,8 @@ async function page() {
           </h1>
         </div>
         <div className="mt-8 flex gap-8">
-          <Image
-            src={session?.user?.image as string}
-            alt="profile"
-            className="rounded-3xl border-2 border-border"
-            width={200}
-            height={200}
-          />
+          <UploadImage imageUrl={session?.user?.image as string} />
+
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl font-semibold">
               {session?.user?.username}
