@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import { Trash2, UploadCloud } from "lucide-react";
 import { UploadButton } from "@/app/utils/uploadthing";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import Delete from "../createpostPage/Delete";
 import { toast } from "../ui/use-toast";
@@ -12,7 +11,6 @@ import { toast } from "../ui/use-toast";
 function UploadImage({ imageUrl }: { imageUrl: string }) {
   const [open, setOpen] = useState(false);
   const [img, setImg] = useState<string>("");
-  const { data: session, update } = useSession();
 
   return (
     <div>

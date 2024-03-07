@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function UPDATE(req: NextRequest) {
   try {
     const { image, email } = await req.json();
     const data = await db?.user?.update({
