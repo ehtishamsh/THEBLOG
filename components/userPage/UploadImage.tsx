@@ -1,17 +1,47 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { UploadCloud } from "lucide-react";
+import { Trash2, UploadCloud } from "lucide-react";
 import { UploadButton } from "@/app/utils/uploadthing";
 import Image from "next/image";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { motion } from "framer-motion";
+import Delete from "../createpostPage/Delete";
+import { toast } from "../ui/use-toast";
 
 function UploadImage({ imageUrl }: { imageUrl: string }) {
   const [open, setOpen] = useState(false);
-  const [img, setImg] = useState<any>();
+  const [img, setImg] = useState<string>("");
+
+  const handleClick = async () => {
+    const { data: session, update } = useSession();
+    if (!session) {
+      alert("Please sign in first");
+    }
+    if (img !== "") {
+      const res = await fetch("/api/user/image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.ok) {
+        update({ ...session, image: img });
+      } else {
+        toast({
+          title: "Error",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    }
+
+    setOpen(false);
+    setImg("");
+  };
   return (
-    <div className="w-full ">
-      <div className="w-full h-full relative">
+    <div>
+      <div className="relative">
         <Image
           src={imageUrl as string}
           alt="profile"
@@ -21,7 +51,7 @@ function UploadImage({ imageUrl }: { imageUrl: string }) {
         />
         <Button
           onClick={() => setOpen(!open)}
-          className="absolute bottom-2 right-2 rounded-full w-11 p-0 h-11 "
+          className="absolute bottom-1 right-1 rounded-full w-11 p-0 h-11 "
           variant={"outline"}
         >
           <UploadCloud width={20} height={20} />
@@ -32,17 +62,49 @@ function UploadImage({ imageUrl }: { imageUrl: string }) {
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className="bg-background border border-border rounded-md p-4 ">
-          <h1 className="text-lg font-semibold">Upload Profile</h1>
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(file) => {
-              setImg(file);
-            }}
-            onUploadError={(error) => {
-              console.error(error);
-            }}
-          />
+        <div className="bg-background border border-border rounded-md p-4 flex flex-col gap-5 min-w-72 items-center justify-center">
+          <h1 className="text-lg font-semibold text-center">Upload Profile</h1>
+          <div className="relative w-fit flex justify-center items-center">
+            {img && (
+              <>
+                <motion.img
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  src={img}
+                  alt="profile"
+                  className="rounded-3xl border-2 border-border max-h-52 object-contain"
+                />
+                <motion.div
+                  className="absolute top-1 right-1"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Delete imgurl={img} setImgurl={setImg} setHide={setOpen} />
+                </motion.div>
+              </>
+            )}
+          </div>
+
+          {!img && (
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(file) => {
+                setImg(file[0].url);
+              }}
+              onUploadError={(error) => {
+                console.error(error);
+              }}
+            />
+          )}
+          {img && (
+            <Button onClick={handleClick} className="w-fit" variant={"outline"}>
+              Done
+            </Button>
+          )}
         </div>
       </div>
     </div>
