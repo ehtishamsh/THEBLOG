@@ -14,34 +14,6 @@ function UploadImage({ imageUrl }: { imageUrl: string }) {
   const [img, setImg] = useState<string>("");
   const { data: session, update } = useSession();
 
-  const handleClick = async () => {
-    if (!session) {
-      alert("Please sign in first");
-    }
-    if (img !== "") {
-      try {
-        const res = await fetch("/api/user/profile/image", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ image: img, email: session?.user.email }),
-        });
-        if (res.ok) {
-          update({ ...session, image: img });
-        }
-      } catch (error) {
-        console.log(error);
-        toast({
-          title: "Error",
-          description: "Something went wrong",
-        });
-      }
-    }
-
-    setOpen(false);
-    setImg("");
-  };
   return (
     <div>
       <div className="relative">
@@ -104,7 +76,11 @@ function UploadImage({ imageUrl }: { imageUrl: string }) {
             />
           )}
           {img && (
-            <Button onClick={handleClick} className="w-fit" variant={"outline"}>
+            <Button
+              onClick={() => setOpen(false)}
+              className="w-fit"
+              variant={"outline"}
+            >
               Done
             </Button>
           )}
