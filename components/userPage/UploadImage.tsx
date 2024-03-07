@@ -12,26 +12,29 @@ import { toast } from "../ui/use-toast";
 function UploadImage({ imageUrl }: { imageUrl: string }) {
   const [open, setOpen] = useState(false);
   const [img, setImg] = useState<string>("");
+  const { data: session, update } = useSession();
 
   const handleClick = async () => {
-    const { data: session, update } = useSession();
     if (!session) {
       alert("Please sign in first");
     }
     if (img !== "") {
-      const res = await fetch("/api/user/image", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res.ok) {
-        update({ ...session, image: img });
-      } else {
+      try {
+        const res = await fetch("/api/user/profile/image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: img, email: session?.user.email }),
+        });
+        if (res.ok) {
+          update({ ...session, image: img });
+        }
+      } catch (error) {
+        console.log(error);
         toast({
           title: "Error",
           description: "Something went wrong",
-          variant: "destructive",
         });
       }
     }
