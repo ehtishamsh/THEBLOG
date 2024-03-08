@@ -298,7 +298,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
                   <Input
                     className=" text-2xl !outline-none input---title border-none focus:!outline-none max-md:text-xl max-sm:text-base mb-5 transition-all
                               duration-300 placeholder:text-placeholder-default placeholder:italic"
-                    placeholder="Enter your ..."
+                    placeholder="Enter your description..."
                     {...field}
                   />
                 </FormControl>
