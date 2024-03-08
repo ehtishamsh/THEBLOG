@@ -6,7 +6,7 @@ async function page({ params }: { params: { id: string } }) {
     method: "GET",
   });
   const data = await getData.json();
-  console.log(data);
+
   return (
     <div className="px-5 mt-8">
       <TagAction

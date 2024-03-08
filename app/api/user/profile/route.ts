@@ -1,17 +1,19 @@
 import { db } from "@/lib/db";
+
 import { NextRequest, NextResponse } from "next/server";
 
-export async function UPDATE(req: NextRequest) {
+export async function PUT(req: NextRequest) {
   try {
-    const { image, email } = await req.json();
+    const { img, email } = await req.json();
     const data = await db?.user?.update({
       where: {
         email: email,
       },
       data: {
-        image: image,
+        image: img,
       },
     });
+  
 
     return NextResponse.json({
       user: data,

@@ -47,7 +47,7 @@ function RecentBlogData({
       }
     };
     fetchData();
-    console.log(data);
+
     return () => {
       setData([]);
     };

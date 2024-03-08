@@ -51,7 +51,15 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session) {
+        return {
+          ...token,
+          picture: session?.image || token?.picture,
+          username: session?.username || token?.username,
+        };
+      }
+
       if (user) {
         return {
           ...token,
@@ -60,6 +68,18 @@ export const authOptions: NextAuthOptions = {
           picture: user.image,
         };
       }
+
+      const updateData = await db?.user.update({
+        where: {
+          email: token.email as string,
+        },
+        data: {
+          image: token.picture as string,
+          username: token.username as string,
+        },
+      });
+      console.log(updateData);
+
       return token;
     },
     async session({ session, user, token }) {
