@@ -1,6 +1,5 @@
 "use client";
-import { AvatarIcon, DashboardIcon } from "@radix-ui/react-icons";
-import { User2Icon } from "lucide-react";
+import { AvatarIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
