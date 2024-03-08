@@ -7,7 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React from "react";
 
-function layout({
+function RootLayout({
   children,
   session,
 }: {
@@ -23,4 +23,4 @@ function layout({
   );
 }
 
-export default layout;
+export default RootLayout;
