@@ -19,31 +19,11 @@ function SideBar() {
               <Link href={"/user/profile"} className="mt-5">
                 <span
                   className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path === "/profile" ? "bg-accent" : ""
+                    path === "/user/profile" ? "bg-accent" : ""
                   } transparent`}
                 >
                   <AvatarIcon className="mr-2 h-4 w-4" />
                   <span>Profile</span>
-                </span>
-              </Link>
-              <Link href={"/admin/tags"} className="mt-5">
-                <span
-                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path === "/admin/tags" ? "bg-accent" : ""
-                  } transparent`}
-                >
-                  <User2Icon className="mr-2 h-4 w-4" />
-                  <span>Tags</span>
-                </span>
-              </Link>
-              <Link href={"/admin/users"} className="mt-5">
-                <span
-                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
-                    path === "/admin/users" ? "bg-accent" : ""
-                  } transparent`}
-                >
-                  <User2Icon className="mr-2 h-4 w-4" />
-                  <span>Users</span>
                 </span>
               </Link>
             </nav>

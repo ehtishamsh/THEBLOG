@@ -7,26 +7,41 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User2Icon } from "lucide-react";
+import { User2Icon } from "lucide-react";
 
-import { BiLogIn } from "react-icons/bi";
+import { BiLogIn, BiSolidUserAccount } from "react-icons/bi";
 import SignOut from "../form/SignOut";
 
 export function AccountDropDown({ session }: any) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="px-2.5 py-2.5 bg-background border border-border hover:bg-muted rounded-lg">
-          <User2Icon width={20} height={20} />
+        <button
+          className={` ${
+            session?.user ? "rounded-full p-1" : "px-2.5 py-2.5 rounded-lg"
+          } bg-background border border-border hover:bg-muted `}
+        >
+          {session?.user ? (
+            <img
+              src={session?.user?.image}
+              alt="avatar"
+              className="object-fit rounded-full w-8 h-8"
+            />
+          ) : (
+            <User2Icon width={20} height={20} />
+          )}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-36 max-sm:w-28">
-        <DropdownMenuLabel>Account</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {(session?.user?.username && (
+            <p>hey,{session?.user?.username}</p>
+          )) || <p>Account</p>}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {session?.user?.role === "admin" ? (
@@ -59,6 +74,15 @@ export function AccountDropDown({ session }: any) {
             </>
           ) : (
             <>
+              <DropdownMenuItem
+                onClick={() => (window.location.href = "/user/profile")}
+                className="cursor-pointer"
+              >
+                Profile
+                <DropdownMenuShortcut>
+                  <BiSolidUserAccount size={20} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
               <SignOut />
             </>
           )}

@@ -35,13 +35,18 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
       transition={{ duration: 0.5 }}
     >
       <div className="relative">
-        <Image
-          src={imageUrl as string}
-          alt="profile"
-          className="rounded-3xl border-2 border-border"
-          width={200}
-          height={200}
-        />
+        <div className="w-48 h-48 ">
+          <Image
+            src={imageUrl as string}
+            alt="profile"
+            className="rounded-3xl w-full h-full object-cover border-2 border-border"
+            width={192}
+            height={192}
+            loader={({ src, width, quality }) =>
+              `${src}?w=${width}&q=${quality || 75}`
+            }
+          />
+        </div>
         <Button
           onClick={() => setOpen(!open)}
           className="absolute bottom-1 right-1 rounded-full w-11 p-0 h-11 "
