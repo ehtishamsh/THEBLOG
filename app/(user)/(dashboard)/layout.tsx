@@ -1,26 +1,20 @@
 "use client";
-import GetPath from "@/components/adminPage/GetPath";
+import Provider from "@/app/utils/context/Provider";
 import SideBar from "@/components/userPage/SideBar";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { redirect } from "next/navigation";
+
+import { Session, getServerSession } from "next-auth";
+
 import React from "react";
 
-function RootLayout({
-  children,
-  session,
-}: {
+type Props = {
   children: React.ReactNode;
-  session: any;
-}) {
+};
+export default function layout({ children }: Props) {
   return (
-    <SessionProvider session={session}>
-      <div className="flex overflow-hidden">
+    <div className="flex overflow-hidden">
+      <Provider>
         <SideBar /> {children}
-      </div>
-    </SessionProvider>
+      </Provider>
+    </div>
   );
 }
-
-export default RootLayout;
