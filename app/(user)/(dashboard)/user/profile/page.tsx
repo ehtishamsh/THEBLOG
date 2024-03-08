@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function page() {
+function Page() {
   const { data: session, status } = useSession();
   if (session === null) {
     return redirect("/sign-in");
@@ -87,4 +87,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

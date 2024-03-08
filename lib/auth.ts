@@ -78,7 +78,6 @@ export const authOptions: NextAuthOptions = {
           username: token.username as string,
         },
       });
-      console.log(updateData);
 
       return token;
     },
