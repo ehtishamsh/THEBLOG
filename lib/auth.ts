@@ -3,6 +3,16 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
 import { compare } from "bcrypt";
+type User = {
+  id: string;
+  email: string;
+  username: string;
+  password: string;
+  role: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
@@ -68,8 +78,7 @@ export const authOptions: NextAuthOptions = {
           picture: user.image,
         };
       }
-
-      const updateData = await db?.user.update({
+      const updateData: User = await db?.user.update({
         where: {
           email: token.email as string,
         },

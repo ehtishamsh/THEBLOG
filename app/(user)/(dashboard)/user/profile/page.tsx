@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import Editname from "@/components/userPage/Editname";
 
 function Page() {
   const { data: session, status } = useSession();
@@ -77,9 +78,9 @@ function Page() {
               <Skeleton className="w-[130px] h-6" />
             )}
 
-            <Button variant={"outline"} className="w-fit">
-              Edit Profile
-            </Button>
+            {status === "authenticated" && (
+              <Editname userName={session?.user?.username} />
+            )}
           </div>
         </div>
       </div>

@@ -11,14 +11,41 @@ import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 
 function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [img, setImg] = useState<string>("");
   const { data: session, update } = useSession();
   const router = useRouter();
+  useEffect(() => {
+    if (img !== "") {
+      setTimeout(async () => {
+        const res = await fetch("/api/uploadthing", {
+          method: "DELETE",
+          body: JSON.stringify({
+            url: img,
+          }),
+        });
+        if (res.ok) {
+          setImg("");
+          toast({
+            title: "Alert",
+            description: "Your image has been removed",
+            variant: "default",
+          });
+        } else {
+          toast({
+            title: "Alert",
+            description: "Something went wrong",
+            variant: "destructive",
+          });
+        }
+        console.log(img);
+      }, 40000);
+    }
+  }, [img]);
 
   function handleDone() {
     update({
-      image: img,
+      image: img as string,
     });
     setOpen(false);
     toast({
@@ -26,6 +53,8 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
       description: "Your profile has been updated",
       variant: "success",
     });
+    setImg("");
+
     router.refresh();
   }
   return (
@@ -61,7 +90,7 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
         }`}
       >
         <div className="bg-background border relative border-border rounded-md px-4 py-9 flex flex-col gap-5 min-w-72 items-center justify-center">
-          <h1 className="text-lg font-semibold text-center">Upload Profile</h1>
+          <h1 className="text-lg font-semibold text-center">Upload Image</h1>
           <div className="relative w-fit flex justify-center items-center">
             {img && (
               <>
@@ -107,7 +136,6 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
             variant={"outline"}
             className="w-fit absolute top-2 right-2 p-2"
           >
-            {" "}
             <X width={20} height={20} />
           </Button>
         </div>
