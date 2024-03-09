@@ -13,7 +13,7 @@ export default function layout({ children }: Props) {
   return (
     <div className="flex overflow-hidden">
       <Provider>
-        <SideBar /> {children}
+        <SideBar /> <div className="w-full pt-2">{children}</div>
       </Provider>
     </div>
   );
