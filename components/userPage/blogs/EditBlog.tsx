@@ -21,13 +21,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { getSession, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Multiselect from "@/components/createpostPage/MultiSelect";
 import Tiptap from "@/components/createpostPage/Tiptap";
 import Delete from "@/components/createpostPage/Delete";
 import { extensions } from "./Ext";
 
-const content = "";
+interface data {
+  id: string;
+  title: string;
+  content: string;
+  description: string;
+  image: string;
+  slug: string;
+  createdAt: string;
+  blogDetail: [
+    {
+      tag: {
+        tagName: string;
+      };
+    }
+  ];
+}
 interface Tag {
   id: string;
   tagName: string;
@@ -46,12 +61,17 @@ function EditBlog({
   email: string | null | undefined;
   id: string;
 }) {
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [title, setTitle] = useState<string>("");
-  const [hide, setHide] = useState<boolean>(false);
-  const [description, setdescription] = useState<string>("");
-  const [imgurl, setImgurl] = useState<string>();
+  const [data, setData] = useState<data>();
 
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [cont, setCont] = useState<string>(data?.content as string);
+  const [title, setTitle] = useState<string>(data?.title as string);
+  const [content, setContent] = useState<string>();
+  const [hide, setHide] = useState<boolean>(false);
+  const [description, setdescription] = useState<string>(
+    data?.description as string
+  );
+  const [imgurl, setImgurl] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,7 +96,10 @@ function EditBlog({
     };
   }, []);
 
-  const editor: Editor | null = useEditor({ extensions, content });
+  const editor: Editor | null = useEditor({
+    extensions,
+    content: cont as string,
+  });
 
   const handleSave = useCallback(
     async (values: z.infer<typeof formSchema>) => {
@@ -162,6 +185,32 @@ function EditBlog({
     },
     [editor, title, description, selectedTags, imgurl]
   );
+  useEffect(() => {
+    const fetchcontent = async () => {
+      try {
+        const response = await fetch(`/api/user/profile/${id}`, {
+          method: "GET",
+        });
+        const blogs = await response.json();
+        setData(blogs.data);
+        const formatetag: Tag[] = blogs.data.blogDetail.map((item: any) => {
+          return { tagName: item.tag.tagName, id: item.tag.id };
+        });
+        setSelectedTags(formatetag);
+        setImgurl(blogs.data.image);
+        editor?.commands.clearContent();
+        editor?.commands.setContent(
+          `<div>${blogs?.data?.content as string}</div>`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchcontent();
+    return () => {
+      fetchcontent();
+    };
+  }, []);
 
   return (
     <div className="px-2 py-6 mt-7 relative">
@@ -181,6 +230,7 @@ function EditBlog({
                               duration-300 placeholder:text-placeholder-default placeholder:italic"
                     placeholder="Enter your title..."
                     {...field}
+                    value={data?.title}
                   />
                 </FormControl>
                 <FormMessage />
@@ -228,6 +278,7 @@ function EditBlog({
                               duration-300 placeholder:text-placeholder-default placeholder:italic"
                     placeholder="Enter your description..."
                     {...field}
+                    value={data?.description}
                   />
                 </FormControl>
                 <FormMessage />
