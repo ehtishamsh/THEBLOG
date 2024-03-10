@@ -4,6 +4,7 @@ import IMG from "next/image";
 
 import { Editor, useEditor } from "@tiptap/react";
 
+import { motion } from "framer-motion";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import BulletList from "@tiptap/extension-bullet-list";
 import { object, z } from "zod";
@@ -26,6 +27,9 @@ import Multiselect from "@/components/createpostPage/MultiSelect";
 import Tiptap from "@/components/createpostPage/Tiptap";
 import Delete from "@/components/createpostPage/Delete";
 import { extensions } from "./Ext";
+import EditTiptap from "./EditTiptap";
+import Loading from "@/app/(dashboard)/admin/loading";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface data {
   id: string;
@@ -64,13 +68,11 @@ function EditBlog({
   const [data, setData] = useState<data>();
 
   const [tags, setTags] = useState<Tag[]>([]);
-  const [cont, setCont] = useState<string>(data?.content as string);
-  const [title, setTitle] = useState<string>(data?.title as string);
-  const [content, setContent] = useState<string>();
+  const [cont, setCont] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [hide, setHide] = useState<boolean>(false);
-  const [description, setdescription] = useState<string>(
-    data?.description as string
-  );
+
+  const [description, setdescription] = useState<string>("");
   const [imgurl, setImgurl] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -83,12 +85,10 @@ function EditBlog({
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const router = useRouter();
   useEffect(() => {
-    setLoading(true);
     const fetchTags = async () => {
       const response = await fetch("/api/user/tags");
       const data = await response.json();
       setTags(data.tags);
-      setLoading(false);
     };
     fetchTags();
     return () => {
@@ -96,15 +96,10 @@ function EditBlog({
     };
   }, []);
 
-  const editor: Editor | null = useEditor({
-    extensions,
-    content: cont as string,
-  });
-
   const handleSave = useCallback(
     async (values: z.infer<typeof formSchema>) => {
       // TODO: Add validation
-      const savedContent = editor?.getHTML();
+      const savedContent = cont;
       // TODO: Add validation
       if (
         !imgurl ||
@@ -183,9 +178,10 @@ function EditBlog({
         });
       }
     },
-    [editor, title, description, selectedTags, imgurl]
+    [title, description, selectedTags, imgurl]
   );
   useEffect(() => {
+    setLoading(true);
     const fetchcontent = async () => {
       try {
         const response = await fetch(`/api/user/profile/${id}`, {
@@ -193,15 +189,18 @@ function EditBlog({
         });
         const blogs = await response.json();
         setData(blogs.data);
-        const formatetag: Tag[] = blogs.data.blogDetail.map((item: any) => {
+        const formatetag: Tag[] = blogs?.data?.blogDetail.map((item: any) => {
           return { tagName: item.tag.tagName, id: item.tag.id };
         });
         setSelectedTags(formatetag);
-        setImgurl(blogs.data.image);
-        editor?.commands.clearContent();
-        editor?.commands.setContent(
-          `<div>${blogs?.data?.content as string}</div>`
-        );
+        setImgurl(blogs?.data?.image);
+        setTitle(blogs?.data?.title);
+        setdescription(blogs?.data?.description);
+
+        setTimeout(() => {
+          setCont(blogs?.data?.content);
+          setLoading(false);
+        }, 5000);
       } catch (error) {
         console.log(error);
       }
@@ -219,24 +218,35 @@ function EditBlog({
           className="flex flex-col  max-w-7xl mx-auto"
           onSubmit={form.handleSubmit(handleSave)}
         >
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className=" text-4xl !outline-none input---title border-none focus:!outline-none max-md:text-3xl max-sm:text-2xl mb-5 transition-all
+          {!loading ? (
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <motion.div
+                      className="w-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Input
+                        className=" text-4xl !outline-none input---title border-none focus:!outline-none max-md:text-3xl max-sm:text-2xl mb-5 transition-all
                               duration-300 placeholder:text-placeholder-default placeholder:italic"
-                    placeholder="Enter your title..."
-                    {...field}
-                    value={data?.title}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                        placeholder="Enter your title..."
+                        {...field}
+                        value={data?.title}
+                      />
+                    </motion.div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : (
+            <Skeleton className="w-full h-[40px] rounded-xl" />
+          )}
 
           <h1 className="text-4xl  max-md:text-3xl max-sm:text-2xl mb-5 transition-all p-2 text-placeholder-default italic">
             Upload Cover Image...
@@ -252,14 +262,15 @@ function EditBlog({
               }}
             />
           )}
-          <div className="relative max-w-5xl mx-auto mb-6">
+          <div className="relative max-w-5xl mx-auto mb-6 max-h-[600px]">
             {imgurl && (
-              <IMG
+              <motion.img
                 src={imgurl}
                 alt="img"
-                className="w-full object-cover rounded-lg"
-                width={1024}
-                height={1024}
+                className="w-full object-cover rounded-lg "
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
               />
             )}
 
@@ -267,26 +278,41 @@ function EditBlog({
               <Delete imgurl={imgurl} setImgurl={setImgurl} setHide={setHide} />
             )}
           </div>
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className=" text-2xl !outline-none input---title border-none focus:!outline-none max-md:text-xl max-sm:text-base mb-5 transition-all
+          {!loading ? (
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <motion.div
+                      className="w-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Input
+                        className=" text-2xl !outline-none input---title border-none focus:!outline-none max-md:text-xl max-sm:text-base mb-5 transition-all
                               duration-300 placeholder:text-placeholder-default placeholder:italic"
-                    placeholder="Enter your description..."
-                    {...field}
-                    value={data?.description}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                        placeholder="Enter your description..."
+                        {...field}
+                        value={data?.description}
+                      />
+                    </motion.div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : (
+            <Skeleton className="w-full h-[40px] rounded-xl mt-5 mb-5" />
+          )}
 
-          <Tiptap editor={editor} />
+          {!loading ? (
+            <EditTiptap cont={cont} setCont={setCont} />
+          ) : (
+            <Skeleton className="h-96 w-full rounded-lg my-5" />
+          )}
           <div className="mt-10">
             <Multiselect
               selectedTags={selectedTags}
