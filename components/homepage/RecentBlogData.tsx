@@ -86,7 +86,12 @@ function RecentBlogData({
           </h4>
           <div className="transition-all duration-400 flex items-center gap-3 flex-wrap">
             {item.tags.map((tag) => (
-              <GetColor tagName={tag} key={tag} />
+              <GetColor
+                tagName={tag}
+                key={tag}
+                padding="p-2"
+                textSize="text-sm"
+              />
             ))}
           </div>
         </Link>

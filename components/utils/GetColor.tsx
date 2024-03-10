@@ -1,6 +1,14 @@
 import React from "react";
 
-function GetColor({ tagName }: { tagName: string }) {
+function GetColor({
+  tagName,
+  textSize,
+  padding,
+}: {
+  tagName: string;
+  textSize: string;
+  padding: string;
+}) {
   const tagColors: Record<string, string> = {
     Design: "bg-red-100 text-red-700",
     Research: "bg-purple-100 text-purple-700",
@@ -12,9 +20,9 @@ function GetColor({ tagName }: { tagName: string }) {
 
   const defaultColors = "bg-gray-100 text-gray-700";
 
-  const classNames = `transition-all duration-400 p-2 rounded-3xl ${
+  const classNames = `transition-all duration-400 ${padding}  rounded-3xl ${
     tagColors[tagName] || defaultColors
-  } text-sm font-semibold`;
+  } ${textSize} font-semibold`;
 
   return <div className={classNames}>{tagName}</div>;
 }

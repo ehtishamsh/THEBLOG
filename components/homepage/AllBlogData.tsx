@@ -39,7 +39,12 @@ function AllBlogData() {
         </p>
         <div className="transition-all duration-400 flex items-center gap-3 flex-wrap">
           {item.tag.map((tag) => (
-            <GetColor tagName={tag.tagName} key={tag.id} />
+            <GetColor
+              tagName={tag.tagName}
+              key={tag.id}
+              padding="p-2"
+              textSize="text-sm"
+            />
           ))}
         </div>
       </Link>

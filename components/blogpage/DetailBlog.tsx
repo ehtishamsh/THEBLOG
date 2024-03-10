@@ -87,7 +87,12 @@ function DetailBlog() {
           </div>
           <div className="mt-8 flex gap-3 flex-wrap transition-all duration-400">
             {blog?.tags?.map((tag: string, index: number) => (
-              <GetColor tagName={tag} key={index} />
+              <GetColor
+                tagName={tag}
+                key={index}
+                padding="p-2"
+                textSize="text-sm"
+              />
             ))}
           </div>
         </motion.div>

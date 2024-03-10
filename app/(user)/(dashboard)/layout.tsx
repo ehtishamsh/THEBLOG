@@ -11,7 +11,7 @@ type Props = {
 };
 export default function layout({ children }: Props) {
   return (
-    <div className="flex overflow-hidden">
+    <div className="flex">
       <Provider>
         <SideBar /> <div className="w-full pt-2">{children}</div>
       </Provider>
