@@ -9,7 +9,7 @@ import { Edit, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-function page() {
+function Page() {
   return (
     <div className="px-2 max-w-6xl">
       <div className="mt-8 px-5 flex flex-col gap-5 w-full">
@@ -36,4 +36,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

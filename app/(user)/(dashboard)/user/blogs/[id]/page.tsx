@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import React from "react";
 
-function page() {
+function Page() {
   const params = useParams();
   const { data: session } = useSession();
   return (
@@ -14,4 +14,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
