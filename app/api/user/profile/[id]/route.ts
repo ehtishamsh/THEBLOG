@@ -54,3 +54,14 @@ export async function GET(
     return NextResponse.json({ message: "Something went wrong", status: 500 });
   }
 }
+
+interface FormData {
+  id: string;
+  email: string;
+  title: string;
+  description: string;
+  content: string;
+  tags: [{ id: string; tagName: string }];
+  cover: string;
+  slug: string;
+}

@@ -51,6 +51,9 @@ function ValidateBlog({
 
     setValidate(!!warningMessage);
     setWarningM(warningMessage);
+    if (warningMessage) {
+      setValidate(false);
+    }
   }, [selectedTags, title, description, cont, imgurl]);
   return <span className="text-red-500">{validate && warningMessage}</span>;
 }

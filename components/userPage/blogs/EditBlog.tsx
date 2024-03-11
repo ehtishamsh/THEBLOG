@@ -67,15 +67,6 @@ function EditBlog({
   }, []);
 
   const handleSave = useCallback(async () => {
-    if (validate === false) {
-      toast({
-        title: "Error",
-        description: "Please fix validation errors",
-        variant: "destructive",
-      });
-      return null;
-    }
-
     // TODO: Add validation
     const savedContent = cont;
     // TODO: Add validation
@@ -124,12 +115,13 @@ function EditBlog({
       "-" +
       new Date().getTime();
     // create post
-    const response = await fetch("/api/user/profile/edit", {
+    const response = await fetch("/api/user/profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        id: data?.id,
         email: email,
         title: title,
         description: description,
@@ -142,7 +134,7 @@ function EditBlog({
     if (response.ok) {
       toast({
         title: "Success",
-        description: "Post created successfully",
+        description: "Post edited successfully",
         variant: "success",
       });
       setTimeout(() => {
