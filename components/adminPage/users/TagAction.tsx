@@ -49,7 +49,7 @@ function TagAction({ name, emailAdd }: { name: string; emailAdd: string }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response = await fetch(
-      `/api/admin/user/getSingle/${params.id}`,
+      `https://theblogs-ecru.vercel.app/api/admin/user/getSingle/${params.id}`,
       {
         method: "POST",
         headers: {

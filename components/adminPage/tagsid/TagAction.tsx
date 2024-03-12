@@ -41,16 +41,19 @@ function TagAction({ tag }: { tag: string }) {
   }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch("/api/admin/tag/add/edit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: params.id,
-        tagName: values.tagName,
-      }),
-    });
+    const response = await fetch(
+      "https://theblogs-ecru.vercel.app/api/admin/tag/add/edit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: params.id,
+          tagName: values.tagName,
+        }),
+      }
+    );
     if (response.ok) {
       toast({
         variant: "success",

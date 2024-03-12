@@ -3,9 +3,12 @@ import { DataTable } from "@/app/(dashboard)/admin/tags/data-table";
 import { Button } from "../ui/button";
 import Link from "next/link";
 export default async function Tags() {
-  const data = await fetch("/api/admin/tag/get", {
-    method: "GET",
-  });
+  const data = await fetch(
+    "https://theblogs-ecru.vercel.app/api/admin/tag/get",
+    {
+      method: "GET",
+    }
+  );
 
   const data1 = await data?.json();
   return (

@@ -4,9 +4,12 @@ import { BsTags } from "react-icons/bs";
 import { EditIcon } from "lucide-react";
 
 async function Dashboard() {
-  const getTotal = await fetch("/api/admin/total", {
-    method: "GET",
-  });
+  const getTotal = await fetch(
+    "https://theblogs-ecru.vercel.app/api/admin/total",
+    {
+      method: "GET",
+    }
+  );
   const total = await getTotal.json();
   return (
     <div className="px-5 mt-8">
