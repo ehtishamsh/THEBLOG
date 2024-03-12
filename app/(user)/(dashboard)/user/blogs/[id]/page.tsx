@@ -8,9 +8,9 @@ function Page() {
   const params = useParams();
   const { data: session } = useSession();
   return (
-    <div className="max-w-6xl mr-auto">
+    <>
       <EditBlog email={session?.user?.email} id={params.id as string} />
-    </div>
+    </>
   );
 }
 
