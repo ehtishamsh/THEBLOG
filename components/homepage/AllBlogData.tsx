@@ -18,9 +18,12 @@ function AllBlogData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/user/blogs", {
-          method: "GET",
-        });
+        const response = await fetch(
+          "https://theblogs-ecru.vercel.app/api/user/blogs",
+          {
+            method: "GET",
+          }
+        );
         const getData = await response.json();
         setData(getData.blogs);
         console.log(getData);
