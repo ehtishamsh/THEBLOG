@@ -1,47 +1,68 @@
 "use client";
-import React, { useState } from "react";
-import blogData from "../utils/Data";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import GetColor from "../utils/GetColor";
 
 interface data {
+  id: string;
   title: string;
   description: string;
   image: string;
-  date: string;
-  link: string;
-  tag: { id: number; tagName: string }[];
-  id: number;
+  slug: string;
+  createdAt: string;
+  blogDetail: string[];
 }
 function AllBlogData() {
-  const [data, setData] = useState<data[]>(blogData);
-  const createElement = data.map((item: data) => {
+  const [data, setData] = useState<data[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/user/blogs", {
+          method: "GET",
+        });
+        const getData = await response.json();
+        setData(getData.blogs);
+        console.log(getData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+    return () => {
+      setData([]);
+    };
+  }, []);
+  const createElement = data?.map((item: data) => {
     return (
-      <Link href={`/blog${item.link}`} key={item.id}>
+      <Link
+        href={`/blog/${item.slug}`}
+        key={item.id}
+        className="hover:scale-105 transition-all duration-500 flex justify-between items-start flex-col gap-3"
+      >
         <img
-          src={item.image}
-          alt={item.title}
-          className="max-h-60 object-cover min-w-full mb-4 transition-all duration-400"
+          src={item?.image}
+          alt={item?.title}
+          className="h-52 object-cover min-w-full border border-border rounded-md  transition-all duration-400"
         />
 
-        <p className="transition-all duration-400 text-sm font-semibold text-purple-900 mb-3">
-          {item.date}
+        <p className="transition-all duration-400 text-sm font-semibold text-purple-900">
+          {}
         </p>
-        <div className="transition-all duration-400 flex justify-between items-center mb-3">
+        <div className="transition-all duration-400 flex justify-between items-center">
           <h3 className="transition-all duration-400 text-base font-semibold max-sm:text-sm  ">
-            UX review presentations
+            {item?.title}
           </h3>
           <ArrowTopRightIcon width={16} height={16} />
         </div>
-        <p className="transition-all duration-400 text-sm text-gray-400 font-normal mb-6 line-clamp-4">
-          {item.description}
+        <p className="transition-all duration-400 text-sm text-gray-400 font-normal line-clamp-3">
+          {item?.description}
         </p>
         <div className="transition-all duration-400 flex items-center gap-3 flex-wrap">
-          {item.tag.map((tag) => (
+          {item?.blogDetail?.map((tag, index) => (
             <GetColor
-              tagName={tag.tagName}
-              key={tag.id}
+              tagName={tag}
+              key={tag + index}
               padding="p-2"
               textSize="text-sm"
             />
