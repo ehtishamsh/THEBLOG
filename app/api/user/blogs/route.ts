@@ -37,13 +37,9 @@ export async function GET(req: NextRequest) {
         },
       },
     });
-    const blogs = data.map((blog) => ({
-      ...blog,
-      blogDetail: blog.blogDetail.map((detail) => detail.tag.tagName),
-      createdAt: blog.createdAt.toString(),
-    }));
+
     return NextResponse.json({
-      blogs,
+      data,
       status: 200,
       message: "success",
     });

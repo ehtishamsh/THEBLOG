@@ -13,29 +13,13 @@ interface data {
   createdAt: string;
   blogDetail: string[];
 }
-function AllBlogData() {
-  const [data, setData] = useState<data[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://theblogs-ecru.vercel.app/api/user/blogs",
-          {
-            method: "GET",
-          }
-        );
-        const getData = await response.json();
-        setData(getData.blogs);
-        console.log(getData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-    return () => {
-      setData([]);
-    };
-  }, []);
+async function AllBlogData() {
+  const response = await fetch("http://localhost:3000/api/user/blogs", {
+    method: "GET",
+  });
+  const getData = await response.json();
+  const data = getData;
+  console.log(getData);
   const createElement = data?.map((item: data) => {
     return (
       <Link
