@@ -11,15 +11,18 @@ interface data {
   image: string;
   slug: string;
   createdAt: string;
-  blogDetail: string[];
+  blogDetail: [{ tag: { tagName: string } }];
 }
 async function AllBlogData() {
-  const response = await fetch("http://localhost:3000/api/user/blogs", {
-    method: "GET",
-  });
+  const response = await fetch(
+    "https://theblogs-ecru.vercel.app/api/user/blogs",
+    {
+      method: "GET",
+    }
+  );
   const getData = await response.json();
-  const data = getData;
-  console.log(getData);
+  const data = getData.data;
+  console.log(data[0].blogDetail);
   const createElement = data?.map((item: data) => {
     return (
       <Link
@@ -48,8 +51,8 @@ async function AllBlogData() {
         <div className="transition-all duration-400 flex items-center gap-3 flex-wrap">
           {item?.blogDetail?.map((tag, index) => (
             <GetColor
-              tagName={tag}
-              key={tag + index}
+              tagName={tag.tag.tagName}
+              key={tag.tag.tagName + index}
               padding="p-2"
               textSize="text-sm"
             />
