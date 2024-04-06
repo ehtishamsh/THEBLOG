@@ -46,7 +46,6 @@ const ImageUploadModal = ({
         <UploadButton
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
-            console.log("Files", res);
             onImageUpload(res[0].url);
           }}
         />

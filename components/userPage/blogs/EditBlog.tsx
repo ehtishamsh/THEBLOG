@@ -218,7 +218,6 @@ function EditBlog({
         <UploadDropzone
           endpoint="imageUploader"
           onClientUploadComplete={(res) => {
-            console.log("Files", res);
             setImgurl(res[0].url);
             setLoading(false);
             setHide(true);

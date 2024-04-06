@@ -189,7 +189,7 @@ function CreatePost({ email }: { email: string | null | undefined }) {
             <UploadDropzone
               endpoint="imageUploader"
               onClientUploadComplete={(res) => {
-                console.log("Files", res);
+          
                 setImgurl(res[0].url);
                 setLoading(false);
                 setHide(true);

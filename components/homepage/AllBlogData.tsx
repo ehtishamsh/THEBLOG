@@ -22,7 +22,7 @@ async function AllBlogData() {
   );
   const getData = await response.json();
   const data = getData.data;
-  console.log(data[0].blogDetail);
+
   const createElement = data?.map((item: data) => {
     return (
       <Link
