@@ -17,7 +17,7 @@ async function AllBlogData() {
   const response = await fetch(
     "https://theblogs-ecru.vercel.app/api/user/blogs",
     {
-      method: "GET",
+      cache: "no-store",
     }
   );
   const getData = await response.json();
