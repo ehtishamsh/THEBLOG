@@ -1,5 +1,6 @@
 "use client";
 import { AvatarIcon } from "@radix-ui/react-icons";
+import { Edit } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -23,6 +24,16 @@ function SideBar() {
                 >
                   <AvatarIcon className="mr-2 h-4 w-4" />
                   <span>Profile</span>
+                </span>
+              </Link>
+              <Link href={"/user/blogs"} className="mt-5">
+                <span
+                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
+                    path === "/user/blogs" ? "bg-accent" : ""
+                  } transparent`}
+                >
+                  <Edit className="mr-2 h-4 w-4" />
+                  <span>Your Blogs</span>
                 </span>
               </Link>
             </nav>
