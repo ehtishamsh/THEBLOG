@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Home, X } from "lucide-react";
+import { Edit, Home, X } from "lucide-react";
 import { animate, motion } from "framer-motion";
 import Link from "next/link";
 import { BiSolidBusiness } from "react-icons/bi";
@@ -93,7 +93,7 @@ function NavbarDashBoard() {
                       path === "/user/blogs" ? "bg-accent" : ""
                     } transition-all duration-300 rounded-md border border-border`}
                   >
-                    Your Blogs
+                    <Edit width={25} height={25} /> Your Blogs
                   </Link>
                 </div>
               ) : null}
