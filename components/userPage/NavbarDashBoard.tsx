@@ -2,7 +2,7 @@
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { AvatarIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Edit, Home, X } from "lucide-react";
 import { animate, motion } from "framer-motion";
 import Link from "next/link";
@@ -85,7 +85,7 @@ function NavbarDashBoard() {
                       path === "/user/profile" ? "bg-accent" : ""
                     } transition-all duration-300 rounded-md border border-border flex justify-center items-center gap-3`}
                   >
-                    Profile
+                    <AvatarIcon width={25} height={25} /> Profile
                   </Link>
                   <Link
                     href={"/user/blogs"}
