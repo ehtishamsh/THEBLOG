@@ -1,13 +1,11 @@
 "use client";
-import { UploadButton, UploadDropzone } from "@/app/utils/uploadthing";
+
 import GetPath from "@/components/adminPage/GetPath";
-import { Button } from "@/components/ui/button";
+
 import UploadImage from "@/components/userPage/UploadImage";
-import { authOptions } from "@/lib/auth";
-import { UploadCloud } from "lucide-react";
-import { getServerSession } from "next-auth";
+
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+
 import { redirect } from "next/navigation";
 import { motion } from "framer-motion";
 

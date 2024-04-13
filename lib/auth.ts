@@ -50,6 +50,9 @@ export const authOptions: NextAuthOptions = {
         if (!password) {
           return null;
         }
+        if (existingUser.emailVerified === false) {
+          return null;
+        }
         return {
           id: `${existingUser.id}`,
           username: existingUser.username,

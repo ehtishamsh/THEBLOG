@@ -40,12 +40,16 @@ export async function POST(req: Request) {
       });
     }
     const hashedPassword = await hash(password, 10); // hash password
+    const emailVerifcationTokken = crypto.randomUUID();
     const newUser = await db?.user.create({
       data: {
         username,
         email,
         password: hashedPassword,
         role: "user",
+        emailToken: emailVerifcationTokken,
+        emailVerified: false,
+        emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 24),
       },
     }); // create new user
     const { password: _, ...user } = newUser; // remove password from user
