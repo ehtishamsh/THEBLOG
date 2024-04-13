@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { getSession, signIn } from "next-auth/react";
+import { db } from "@/lib/db";
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
@@ -41,6 +42,14 @@ export default function SignIn() {
       password: values.password,
       redirect: false,
     });
+    const prisma = await db.user.findFirst({ where: { email: values.email } });
+    if (prisma?.emailVerified === false) {
+      toast({
+        title: "Error",
+        description: "Please verify your email",
+        variant: "destructive",
+      });
+    }
     if (signInData?.error) {
       toast({
         title: "Error",
@@ -115,6 +124,7 @@ export default function SignIn() {
                 <Button type="submit" className="w-full">
                   Sign in
                 </Button>
+                {<p className="text-center text-sm text-muted-foreground"></p>}
               </form>
             </Form>
           </div>

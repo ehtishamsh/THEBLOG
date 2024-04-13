@@ -57,6 +57,7 @@ export async function POST(req: Request) {
       user: user,
       message: "User created successfully",
       status: 200,
+      redirect: "/sign-in",
     });
   } catch (error) {
     return NextResponse.json({
