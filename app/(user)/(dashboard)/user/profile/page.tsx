@@ -23,10 +23,10 @@ function Page() {
   return (
     <div className="px-5 mt-8">
       <GetPath />
-      <div className="px-5 mt-8">
+      <div className="px-5 max-sm:px-0 mt-8">
         {status === "authenticated" ? (
           <motion.h1
-            className={`text-3xl font-bold tracking-tight`}
+            className={`text-3xl font-bold max-sm:text-xl tracking-tight`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -38,7 +38,7 @@ function Page() {
         )}
 
         <div className="bg-accent rounded-lg w-fit p-1 mt-6">
-          <h1 className="text-base  rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
+          <h1 className="text-base rounded-lg font-semibold tracking-tight text-foreground bg-background py-1 px-3">
             Profile
           </h1>
         </div>
@@ -54,7 +54,7 @@ function Page() {
           <div className="flex flex-col gap-2">
             {status === "authenticated" ? (
               <motion.h1
-                className="text-3xl font-semibold"
+                className="text-3xl font-semibold max-sm:text-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}

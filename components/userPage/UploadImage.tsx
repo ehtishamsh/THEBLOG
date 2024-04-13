@@ -64,11 +64,11 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
       transition={{ duration: 0.5 }}
     >
       <div className="relative">
-        <div className="w-48 h-48 ">
+        <div className="w-48 max-xs:w-36 h-48 max-xs:h-36">
           <Image
             src={imageUrl as string}
             alt="profile"
-            className="rounded-3xl w-full h-full object-cover border-2 border-border"
+            className="rounded-3xl  w-full h-full object-cover border-2 border-border"
             width={192}
             height={192}
             loader={({ src, width, quality }) =>
