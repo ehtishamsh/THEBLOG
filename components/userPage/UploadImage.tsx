@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { Trash2, UploadCloud, X } from "lucide-react";
+import { UploadCloud, X } from "lucide-react";
 import { UploadButton } from "@/app/utils/uploadthing";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Delete from "../createpostPage/Delete";
 import { toast } from "../ui/use-toast";
 import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
   const [open, setOpen] = useState<boolean>(false);

@@ -18,6 +18,9 @@ model User {
   image      String  @default("https://utfs.io/f/eda80490-795b-43d7-b3a6-8e292bf3aae8-n92lk7.png")  
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+emailVerified Boolean  @default(false)
+emailToken    String? 
+  emailTokenExpiry DateTime? 
   blogDetail BlogDetail[]
 }
 
