@@ -91,7 +91,7 @@ function NavbarDashBoard() {
                     href={"/user/blogs"}
                     className={`text-lg text-center min-w-max block mx-3 px-2 py-2 max-xs:text-base hover:bg-accent ${
                       path === "/user/blogs" ? "bg-accent" : ""
-                    } transition-all duration-300 rounded-md border border-border`}
+                    } transition-all duration-300 rounded-md border border-border flex justify-center items-center gap-3`}
                   >
                     <Edit width={25} height={25} /> Your Blogs
                   </Link>

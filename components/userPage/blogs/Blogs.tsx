@@ -24,7 +24,7 @@ export default function Blogs() {
   }, []);
 
   return (
-    <div className="container mx-auto pb-8">
+    <div className=" mx-auto pb-8 max-w-7xl">
       <DataTable columns={columns} data={data?.blogs || []} />
     </div>
   );

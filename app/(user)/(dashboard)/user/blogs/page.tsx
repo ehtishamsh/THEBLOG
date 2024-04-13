@@ -12,7 +12,7 @@ import React from "react";
 function Page() {
   return (
     <div className="px-2 max-w-6xl">
-      <div className="mt-8 px-5 flex flex-col gap-5 w-full">
+      <div className="mt-8 px-5 max-sm:px-0 flex flex-col gap-5 w-full">
         <GetPath />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">

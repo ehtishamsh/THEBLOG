@@ -44,7 +44,7 @@ export const columns: ColumnDef<blog>[] = [
       return (
         <img
           src={blog.image}
-          className="max-w-40 border border-border rounded-lg"
+          className="max-w-40 max-sm:max-w-20 border border-border rounded-lg"
           alt="cover image"
         />
       );
@@ -65,7 +65,7 @@ export const columns: ColumnDef<blog>[] = [
     },
     cell: function Cell({ row }) {
       const blog = row.original;
-      return <p className="line-clamp-1">{blog.title}</p>;
+      return <p className="line-clamp-1 max-sm:text-xs">{blog.title}</p>;
     },
   },
 
@@ -75,7 +75,7 @@ export const columns: ColumnDef<blog>[] = [
     cell: function Cell({ row }) {
       const blog = row.original;
       return (
-        <p className="line-clamp-3 text-xs text-muted-foreground">
+        <p className="line-clamp-3 text-xs max-sm:text-xs text-muted-foreground">
           {blog.description}
         </p>
       );
@@ -92,7 +92,12 @@ export const columns: ColumnDef<blog>[] = [
       });
       const createElement: JSX.Element[] = mapTags.map((tag) => {
         return (
-          <GetColor key={tag} tagName={tag} padding="p-1" textSize="text-xs" />
+          <GetColor
+            key={tag}
+            tagName={tag}
+            padding="p-1"
+            textSize="text-xs max-sm:text-xs"
+          />
         );
       });
       return (
