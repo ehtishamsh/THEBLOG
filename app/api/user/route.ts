@@ -50,7 +50,7 @@ export async function POST(req: Request) {
         role: "user",
         emailToken: emailVerifcationTokken,
         emailVerified: false,
-        emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 24),
+        emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 5),
       },
     }); // create new user
     // send email verification
