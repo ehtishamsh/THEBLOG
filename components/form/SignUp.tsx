@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z
   .object({
@@ -46,7 +47,9 @@ export default function SignUp() {
       confirmPassword: "",
     },
   });
+  const [loading, setLoading] = useState(false);
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     const response = await fetch("/api/user", {
       method: "POST",
       headers: {
@@ -59,7 +62,16 @@ export default function SignUp() {
       }),
     });
     if (response.ok) {
-      router.push("/sign-in");
+      toast({
+        title: "Success",
+        description: "Email verification link sent to your email.",
+        variant: "success",
+      });
+
+      setTimeout(() => {
+        router.push("/sign-in");
+        setLoading(false);
+      }, 5000);
     } else {
       toast({
         title: "Error",
@@ -89,79 +101,83 @@ export default function SignUp() {
             </p>
           </div>
           <div className="grid gap-6 w-full">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your username..."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            {loading ? (
+              <div>Loading....</div>
+            ) : (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-8"
+                >
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your username..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your email..." {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your password..."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Re-enter your password."
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your email..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter your password..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Re-enter your password."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Button type="submit" className="w-full">
-                  Sign Up
-                </Button>
-              </form>
-            </Form>
+                  <Button type="submit" className="w-full">
+                    Sign Up
+                  </Button>
+                </form>
+              </Form>
+            )}
           </div>
         </div>
       </div>

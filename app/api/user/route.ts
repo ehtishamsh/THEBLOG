@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { hash } from "bcrypt";
 import * as z from "zod";
+import { sendEmail } from "@/lib/mail";
 
 const userSchema = z.object({
   username: z
@@ -52,6 +53,13 @@ export async function POST(req: Request) {
         emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 24),
       },
     }); // create new user
+    // send email verification
+
+    const sendMail = await sendEmail({
+      to: newUser.email,
+      subject: "Verify your email",
+      body: `Click here to verify your email: http://localhost:3000/verify/${emailVerifcationTokken}`,
+    });
     const { password: _, ...user } = newUser; // remove password from user
     return NextResponse.json({
       user: user,

@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { getSession, signIn } from "next-auth/react";
 import { db } from "@/lib/db";
 const formSchema = z.object({
