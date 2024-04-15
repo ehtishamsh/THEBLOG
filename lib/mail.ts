@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-export async function sendEmail({ to, text }: { to: string; text: string }) {
+export async function sendEmail({ to, body }: { to: string; body: string }) {
   const { SMTP_EMAIL, SMTP_PASS } = process.env;
   const transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com",
@@ -20,9 +20,7 @@ export async function sendEmail({ to, text }: { to: string; text: string }) {
       from: SMTP_EMAIL,
       to: to,
       subject: `Verify your email`,
-      html: `
-        <p> ${text} </p>
-        `,
+      html: body,
     });
 
     return NextResponse.json({ message: "EMAIL SENT" });
