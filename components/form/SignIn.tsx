@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { redirect, useRouter } from "next/navigation";
 import { getSession, signIn } from "next-auth/react";
 import { db } from "@/lib/db";
+import { sendEmail } from "@/lib/mail";
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
@@ -49,6 +50,41 @@ export default function SignIn() {
         description: "Please verify your email",
         variant: "destructive",
       });
+    }
+    if (
+      prisma?.emailTokenExpiry &&
+      new Date(prisma?.emailTokenExpiry).getTime() < new Date().getTime()
+    ) {
+      toast({
+        title: "Error",
+        description: "Old email token expired, check your email for new token.",
+        variant: "destructive",
+      });
+      const updateData = await db.user.update({
+        where: {
+          id: prisma?.id,
+        },
+        data: {
+          emailToken: crypto.randomUUID(),
+          emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 25),
+          emailVerified: false,
+        },
+      });
+      if (updateData) {
+        sendEmail({
+          body: `<body style="background-color: #f3f4f6; font-family: Arial, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                  <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">Verify Your Email Address</h2>
+                  <p style="margin-bottom: 20px;">Click the button below to verify your email address:</p>
+                  <a href="https://theblogs-ecru.vercel.app/verify/${prisma?.emailToken}" style="background-color: #3b82f6; color: #ffffff; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 4px; display: inline-block; transition: background-color 0.3s ease;">Verify Email Address</a>
+                  <p style="margin-top: 20px;">If you didn't create an account with us, you can safely ignore this email.</p>
+              </div>
+          </div>
+      </body>`,
+          to: prisma?.email,
+        });
+      }
     }
     if (signInData?.error) {
       toast({

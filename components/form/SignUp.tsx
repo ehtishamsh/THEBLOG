@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -47,7 +48,7 @@ export default function SignUp() {
       confirmPassword: "",
     },
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const response = await fetch("/api/user", {
@@ -71,8 +72,10 @@ export default function SignUp() {
 
       setTimeout(() => {
         router.push("/sign-in");
-        setLoading(false);
-      }, 5000);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      }, 4000);
     } else {
       toast({
         title: "Error",
@@ -103,7 +106,9 @@ export default function SignUp() {
           </div>
           <div className="grid gap-6 w-full">
             {loading ? (
-              <div>Loading....</div>
+              <div className="flex justify-center items-center h-[40vh] max-md:h-[30vh] animate-pulse">
+                <Loader2 className="animate-spin h-14 w-14 " />
+              </div>
             ) : (
               <Form {...form}>
                 <form
