@@ -10,7 +10,7 @@ function Verfiy({ tokken }: { tokken: string }) {
   useEffect(() => {
     const verify = async () => {
       const res = await fetch(
-        `http://localhost:3000/api/user/verify/${tokken}`,
+        `https://theblogs-ecru.vercel.app/api/user/verify/${tokken}`,
         {
           method: "GET",
         }

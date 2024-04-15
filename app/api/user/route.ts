@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     // send email verification
     sendEmail({
       to: email,
-      text: `Please verify your email by clicking here: http://localhost:3000/verify/${emailVerifcationTokken}`,
+      text: `Please verify your email by clicking here: https://theblogs-ecru.vercel.app/verify/${emailVerifcationTokken}`,
     });
 
     const { password: _, ...user } = newUser; // remove password from user
