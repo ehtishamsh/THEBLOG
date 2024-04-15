@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const formSchema = z
   .object({
@@ -64,7 +64,8 @@ export default function SignUp() {
     if (response.ok) {
       toast({
         title: "Success",
-        description: "Email verification link sent to your email.",
+        description:
+          "Email verification link sent to your email. Note: Check your spam folder.",
         variant: "success",
       });
 

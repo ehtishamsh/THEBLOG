@@ -1,37 +1,33 @@
+import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-export async function sendEmail({
-  to,
-  subject,
-  body,
-}: {
-  to: string;
-  subject: string;
-  body: string;
-}) {
+export async function sendEmail({ to, text }: { to: string; text: string }) {
   const { SMTP_EMAIL, SMTP_PASS } = process.env;
   const transporter = nodemailer.createTransport({
-    service: "outlook",
+    host: "smtp-mail.outlook.com",
+    port: 587,
+    tls: {
+      ciphers: "SSLv3",
+      rejectUnauthorized: false,
+    },
+
     auth: {
       user: SMTP_EMAIL,
       pass: SMTP_PASS,
     },
   });
   try {
-    const testResult = await transporter.verify();
-    console.log(testResult);
-  } catch (error) {
-    console.log(error);
-    return;
-  }
-  try {
-    const sendResult = await transporter.sendMail({
+    const mail = await transporter.sendMail({
       from: SMTP_EMAIL,
-      subject,
-      to,
-      html: body,
+      to: to,
+      subject: `Verify your email`,
+      html: `
+        <p> ${text} </p>
+        `,
     });
-    console.log(sendResult);
+
+    return NextResponse.json({ message: "EMAIL SENT" });
   } catch (error) {
     console.log(error);
+    NextResponse.json({ message: "COULD NOT SEND MESSAGE" });
   }
 }

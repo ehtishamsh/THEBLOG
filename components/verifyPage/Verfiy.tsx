@@ -57,7 +57,6 @@ function Verfiy({ tokken }: { tokken: string }) {
       }
     }, 4000);
   }, [data]);
-  console.log(data);
   return (
     <div className="Max-w-7xl mx-auto flex justify-center items-center">
       <div className="animate-pulse">

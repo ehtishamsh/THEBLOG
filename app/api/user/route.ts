@@ -50,16 +50,15 @@ export async function POST(req: Request) {
         role: "user",
         emailToken: emailVerifcationTokken,
         emailVerified: false,
-        emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 5),
+        emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 25),
       },
     }); // create new user
     // send email verification
-
-    const sendMail = await sendEmail({
-      to: newUser.email,
-      subject: "Verify your email",
-      body: `Click here to verify your email: http://localhost:3000/verify/${emailVerifcationTokken}`,
+    sendEmail({
+      to: email,
+      text: `Please verify your email by clicking here: http://localhost:3000/verify/${emailVerifcationTokken}`,
     });
+
     const { password: _, ...user } = newUser; // remove password from user
     return NextResponse.json({
       user: user,

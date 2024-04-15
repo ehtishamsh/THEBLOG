@@ -13,7 +13,6 @@ export async function GET(
         emailToken: token,
       },
     });
-    console.log(checkUser);
     if (!checkUser) {
       return NextResponse.json({
         message: "Invalid token",
@@ -44,6 +43,8 @@ export async function GET(
       },
       data: {
         emailVerified: true,
+        emailToken: null,
+        emailTokenExpiry: null,
       },
     });
 
