@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import nodemailer from "nodemailer";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,10 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getSession, signIn } from "next-auth/react";
-import { db } from "@/lib/db";
-import { sendEmail } from "@/lib/mail";
+
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
