@@ -4,9 +4,27 @@ import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
+interface DATA {
+  message: string;
+  user?: {
+    id: string;
+    email: string;
+    username: string;
+    password: string;
+    role: string;
+    image: string;
+    createdAt: Date;
+    updatedAt: Date;
+    emailVerified: boolean;
+    emailToken: string | null;
+    emailTokenExpiry: Date | null;
+  } | null;
+  type: string;
+  redirect: string;
+}
 function Verfiy({ tokken }: { tokken: string }) {
   const { toast } = useToast();
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<DATA>();
   const router = useRouter();
   useEffect(() => {
     const verify = async () => {

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       },
     });
     if (!user) {
-      return NextResponse.json({ message: "User not found" });
+      return NextResponse.json({ message: "User not found", type: "notfound" });
     }
 
     if (
