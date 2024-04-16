@@ -42,7 +42,7 @@ export default function SignIn() {
       redirect: false,
     });
     const checkToken = await fetch(
-      "http://localhost:3000/api/user/checktoken",
+      "https://theblogs-ecru.vercel.app/api/user/checktoken",
       {
         method: "POST",
         headers: {
