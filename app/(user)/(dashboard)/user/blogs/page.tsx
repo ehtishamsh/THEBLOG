@@ -6,10 +6,16 @@ import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import Blogs from "@/components/userPage/blogs/Blogs";
 import GetColor from "@/components/utils/GetColor";
 import { Edit, Plus, Trash } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 function Page() {
+  const { data: session } = useSession();
+  if (session === null) {
+    return redirect("/sign-in");
+  }
   return (
     <div className="px-2 max-w-6xl">
       <div className="mt-8 px-5 max-sm:px-0 flex flex-col gap-5 w-full">

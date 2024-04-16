@@ -1,16 +1,32 @@
-import { getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "./lib/auth";
-import { useSession } from "next-auth/react";
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isPublicPath = path == "/sign-in" || path == "/sign-up";
-  const tokken = request.cookies?.get("next-auth.session-token")?.value || "";
-  if (isPublicPath && tokken) {
-    return NextResponse.redirect(new URL("/home", request.url));
+  const protectedPaths = [
+    "/create",
+    "/admin",
+    "/user/profile",
+    "/user/blogs",
+    // Add other user-specific paths here
+  ];
+
+  if (protectedPaths.some((pattern) => path.startsWith(pattern))) {
+    // Check if user is signed in
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (!token) {
+      // Redirect to sign-in if not signed in
+      return NextResponse.redirect(new URL("/sign-in", request.url));
+    }
   }
+
+  // Allow access for public and other paths
   return NextResponse.next();
 }
+
 export const config = {
   matcher: [
     "/admin/:path*",
