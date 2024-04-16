@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 function Verfiy({ tokken }: { tokken: string }) {
   const { toast } = useToast();
@@ -58,11 +59,21 @@ function Verfiy({ tokken }: { tokken: string }) {
     }, 4000);
   }, [data]);
   return (
-    <div className="Max-w-7xl mx-auto h-[calc(100vh-80px)] flex justify-center items-center">
+    <div className="Max-w-7xl mx-auto h-[70vh] flex justify-center items-center">
       <div className="animate-pulse">
-        <h1 className="text-3xl font-semibold mb-4">Verifying...</h1>
+        <h1 className="text-3xl font-semibold mb-4">Account Verification</h1>
         <p className="text-2xl font-semibold">
-          Please wait while we verify your account
+          {data?.type === "valid" ? (
+            "<span className='text-green-500'>Your account has been verified</span>"
+          ) : data?.type === "invalid" ? (
+            "Your token is invalid please try again"
+          ) : data?.type === "expired" ? (
+            "Expired Token"
+          ) : (
+            <span className="flex justify-center items-center  mt-5 animate-pulse">
+              <Loader2 className="animate-spin h-14 w-14 " />
+            </span>
+          )}
         </p>
       </div>
     </div>
