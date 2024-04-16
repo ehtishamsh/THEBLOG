@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       },
     }); // create new user
     // send email verification
-    sendEmail({
+    await sendEmail({
       to: email,
       body: `<body style="background-color: #f3f4f6; font-family: Arial, sans-serif;">
       <div style="max-width: 600px; margin: 0 auto; padding: 20px;">

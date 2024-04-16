@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
           emailVerified: false,
         },
       });
-      sendEmail({
+      await sendEmail({
         body: `<body style="background-color: #f3f4f6; font-family: Arial, sans-serif;">
     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
