@@ -23,7 +23,7 @@ function Verfiy({ tokken }: { tokken: string }) {
     };
     verify();
     return () => {};
-  }, [tokken]);
+  }, []);
   useEffect(() => {
     setTimeout(async () => {
       if (data?.type === "valid") {
@@ -57,6 +57,7 @@ function Verfiy({ tokken }: { tokken: string }) {
         }, 2000);
       }
     }, 4000);
+    return () => {};
   }, [data]);
   return (
     <div className="Max-w-7xl mx-auto h-[70vh] flex justify-center items-center">

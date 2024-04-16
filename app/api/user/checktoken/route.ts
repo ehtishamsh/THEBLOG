@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
             <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">Verify Your Email Address</h2>
             <p style="margin-bottom: 20px;">Click the button below to verify your email address:</p>
-            <a href="https://theblogs-ecru.vercel.app/verify/${user?.emailToken}" style="background-color: #3b82f6; color: #ffffff; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 4px; display: inline-block; transition: background-color 0.3s ease;">Verify Email Address</a>
+            <a href="https://theblogs-ecru.vercel.app/verify/${updateData?.emailToken}" style="background-color: #3b82f6; color: #ffffff; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 4px; display: inline-block; transition: background-color 0.3s ease;">Verify Email Address</a>
             <p style="margin-top: 20px;">If you didn't create an account with us, you can safely ignore this email.</p>
         </div>
     </div>

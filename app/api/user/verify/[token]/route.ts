@@ -5,14 +5,15 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { token: string } }
 ) {
-  const { token } = params;
-
   try {
+    const { token } = params;
+
     const checkUser = await db?.user.findFirst({
       where: {
-        emailToken: token,
+        emailToken: `${token}`,
       },
     });
+    console.log(checkUser);
     if (!checkUser) {
       return NextResponse.json({
         message: "Invalid token",
