@@ -64,7 +64,9 @@ function Verfiy({ tokken }: { tokken: string }) {
         <h1 className="text-3xl font-semibold mb-4">Account Verification</h1>
         <p className="text-2xl font-semibold">
           {data?.type === "valid" ? (
-            "<span className='text-green-500'>Your account has been verified</span>"
+            <span className="text-green-500">
+              Your account has been verified
+            </span>
           ) : data?.type === "invalid" ? (
             "Your token is invalid please try again"
           ) : data?.type === "expired" ? (
