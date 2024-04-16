@@ -58,7 +58,7 @@ function Verfiy({ tokken }: { tokken: string }) {
     }, 4000);
   }, [data]);
   return (
-    <div className="Max-w-7xl mx-auto flex justify-center items-center">
+    <div className="Max-w-7xl mx-auto h-[calc(100vh-80px)] flex justify-center items-center">
       <div className="animate-pulse">
         <h1 className="text-3xl font-semibold mb-4">Verifying...</h1>
         <p className="text-2xl font-semibold">

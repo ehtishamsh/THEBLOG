@@ -48,7 +48,7 @@ export default function SignUp() {
       confirmPassword: "",
     },
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const response = await fetch("/api/user", {
