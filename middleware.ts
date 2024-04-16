@@ -9,13 +9,13 @@ export async function middleware(request: NextRequest) {
     "/user/blogs",
     // Add other user-specific paths here
   ];
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
   if (protectedPaths.some((pattern) => path.startsWith(pattern))) {
     // Check if user is signed in
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
 
     if (!token) {
       // Redirect to sign-in if not signed in
@@ -23,6 +23,12 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  if (path === "/") {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+  if (token && (path === "/sign-in" || path === "/sign-up")) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
   // Allow access for public and other paths
   return NextResponse.next();
 }
