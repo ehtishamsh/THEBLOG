@@ -3,16 +3,19 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
 import { compare } from "bcrypt";
-type User = {
-  id: string;
-  email: string;
-  username: string;
-  password: string;
-  role: string;
-  image: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+type User =
+  | {
+      id: string;
+      email: string;
+      username: string;
+      password: string;
+      role: string;
+      image: string;
+      createdAt: Date;
+      updatedAt: Date;
+      error?: string;
+    }
+  | any;
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
@@ -51,9 +54,8 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         if (existingUser.emailVerified === false) {
-          return null;
+          throw new Error("unverified");
         }
-
         return {
           id: `${existingUser.id}`,
           username: existingUser.username,
@@ -65,6 +67,20 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      if (user) {
+        // Check if there's a user object
+        if (typeof user === "string") {
+          // Check if it's an error message (string)
+          // Handle the custom error here (user as string)
+          throw new Error(user);
+        } else {
+          // User object without error
+          return true;
+        }
+      }
+      return true; // No user object (successful sign-in)
+    },
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update" && session) {
         return {

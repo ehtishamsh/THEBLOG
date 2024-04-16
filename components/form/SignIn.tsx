@@ -43,65 +43,54 @@ export default function SignIn() {
       password: values.password,
       redirect: false,
     });
-    const prisma = await db.user.findFirst({ where: { email: values.email } });
-    if (prisma?.emailVerified === false) {
-      toast({
-        title: "Error",
-        description: "Please verify your email",
-        variant: "destructive",
-      });
-    }
-    if (
-      prisma?.emailTokenExpiry &&
-      new Date(prisma?.emailTokenExpiry).getTime() < new Date().getTime()
-    ) {
-      toast({
-        title: "Error",
-        description: "Old email token expired, check your email for new token.",
-        variant: "destructive",
-      });
-      const updateData = await db.user.update({
-        where: {
-          id: prisma?.id,
+    const checkToken = await fetch(
+      "http://localhost:3000/api/user/checktoken",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        data: {
-          emailToken: crypto.randomUUID(),
-          emailTokenExpiry: new Date(Date.now() + 1000 * 60 * 60 * 25),
-          emailVerified: false,
-        },
-      });
-      if (updateData) {
-        const sendmail = async () => {
-          const postData = await fetch(
-            "https://theblogs-ecru.vercel.app/api/user/sendmail",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: prisma?.email,
-              }),
-            }
-          );
-        };
-        sendmail();
+        body: JSON.stringify({ email: values.email }),
       }
-    }
-    if (signInData?.error) {
-      toast({
-        title: "Error",
-        description: "Invalid email or password",
-        variant: "destructive",
-      });
-    } else {
-      const userSession = await getSession();
-      if (userSession?.user?.role === "admin") {
-        router.push("/admin");
-        router.refresh();
+    );
+    if (checkToken.ok) {
+      const checkTokenData = await checkToken.json();
+      if (signInData?.error === "CredentialsSignin") {
+        toast({
+          title: "Error",
+          description: "Invalid email or password",
+          variant: "destructive",
+        });
+      } else if (signInData?.error === "unverified") {
+        if (checkTokenData?.type === "invalid") {
+          toast({
+            title: "Error",
+            description: "Invalid email or password",
+            variant: "destructive",
+          });
+        } else if (checkTokenData?.type === "sentalready") {
+          toast({
+            title: "Error",
+            description: "Email already sent",
+            variant: "destructive",
+          });
+        } else if (checkTokenData?.type === "sent") {
+          toast({
+            title: "success",
+            description:
+              "Email verification sent again. Check your spam folder.",
+            variant: "success",
+          });
+        }
       } else {
-        router.push("/");
-        router.refresh();
+        const userSession = await getSession();
+        if (userSession?.user?.role === "admin") {
+          router.push("/admin");
+          router.refresh();
+        } else {
+          router.push("/");
+          router.refresh();
+        }
       }
     }
   };
