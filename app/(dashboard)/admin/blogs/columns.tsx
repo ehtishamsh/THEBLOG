@@ -68,7 +68,7 @@ export const columns: ColumnDef<blog>[] = [
     },
     cell: function Cell({ row }) {
       const blog = row.original;
-      const getName = blog.blogDetail[0].user.username;
+      const getName = blog.blogDetail[0]?.user?.username;
       return (
         <p className="line-clamp-1 max-sm:text-xs bg-muted p-1 text-center rounded-full">
           {getName}
