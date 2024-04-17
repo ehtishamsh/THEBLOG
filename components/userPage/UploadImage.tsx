@@ -38,7 +38,6 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
             variant: "destructive",
           });
         }
-        console.log(img);
       }, 40000);
     }
   }, [img]);
