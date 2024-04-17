@@ -20,8 +20,8 @@ const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
     .string()
-    .min(1, "Password is required")
-    .max(8, "Password must be less than 8 characters"),
+    .min(8, "Password must be at least 8 characters")
+    .max(16, "Password must be less than 16 characters"),
 });
 
 export default function SignIn() {

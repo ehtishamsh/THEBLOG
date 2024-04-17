@@ -28,8 +28,8 @@ const formSchema = z
     email: z.string().min(1, "Email is required").email("Invalid email"),
     password: z
       .string()
-      .min(1, "Password is required")
-      .max(8, "Password must be less than 8 characters"),
+      .min(8, "Password must be at least 8 characters")
+      .max(16, "Password must be less than 16 characters"),
     confirmPassword: z.string().min(1, "Password Confirmation is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
