@@ -1,4 +1,6 @@
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 interface DATA {
@@ -17,8 +19,18 @@ interface DATA {
 [];
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
   try {
     const data: DATA[] = await db?.blog?.findMany({
+      where: {
+        blogDetail: {
+          every: {
+            user: {
+              email: session?.user?.email as string,
+            },
+          },
+        },
+      },
       select: {
         description: true,
         createdAt: true,
@@ -38,6 +50,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    console.log(data);
     return NextResponse.json({
       data,
       status: 200,
