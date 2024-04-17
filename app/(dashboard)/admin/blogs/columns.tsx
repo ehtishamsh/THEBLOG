@@ -118,13 +118,16 @@ export const columns: ColumnDef<blog>[] = [
       const [open, setOpen] = useState(false);
       const onDelete = async () => {
         try {
-          const response = await fetch("http://localhost:3000/api/admin/blog", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: blog.id }),
-          });
+          const response = await fetch(
+            "https://theblogs-ecru.vercel.app/api/admin/blogs",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: blog.id }),
+            }
+          );
 
           if (response.ok) {
             setOpen(false);

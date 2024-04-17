@@ -1,6 +1,6 @@
 "use client";
 import { DashboardIcon } from "@radix-ui/react-icons";
-import { User2Icon } from "lucide-react";
+import { Notebook, Tags, User2Icon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -32,7 +32,7 @@ function SideBar() {
                     path === "/admin/tags" ? "bg-accent" : ""
                   } transparent`}
                 >
-                  <User2Icon className="mr-2 h-4 w-4" />
+                  <Tags className="mr-2 h-4 w-4" />
                   <span>Tags</span>
                 </span>
               </Link>
@@ -44,6 +44,16 @@ function SideBar() {
                 >
                   <User2Icon className="mr-2 h-4 w-4" />
                   <span>Users</span>
+                </span>
+              </Link>
+              <Link href={"/admin/blogs"} className="mt-5">
+                <span
+                  className={`group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground ${
+                    path === "/admin/blogs" ? "bg-accent" : ""
+                  } transparent`}
+                >
+                  <Notebook className="mr-2 h-4 w-4" />
+                  <span>Blogs</span>
                 </span>
               </Link>
             </nav>

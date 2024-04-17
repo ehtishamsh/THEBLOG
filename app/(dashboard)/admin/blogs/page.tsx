@@ -22,17 +22,11 @@ function Page() {
         <GetPath />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Blogs</h1>
+            <h1 className="text-3xl font-bold tracking-tight">User Blogs</h1>
             <span className="text-sm text-muted-foreground">
-              Manage your blogs
+              Manage the user blogs.
             </span>
           </div>
-          <Link
-            href={"/create"}
-            className="flex items-center gap-5 bg-foreground text-black border-placeholder-default border px-3 py-2 rounded-lg"
-          >
-            <Plus width={20} height={20} /> Add New
-          </Link>
         </div>
         <DropdownMenuSeparator />
         <ManageBlogs />

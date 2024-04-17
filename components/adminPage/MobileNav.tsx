@@ -4,26 +4,32 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { DashboardIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Tags, User2Icon, X } from "lucide-react";
+import { Notebook, Tags, User2Icon, X } from "lucide-react";
 import Link from "next/link";
 const links = [
   {
     href: "/admin",
     text: "Dashboard",
     icon: <DashboardIcon width={25} height={25} />,
-    path: "/home",
+    path: "/admin",
   },
   {
     href: "/admin/tags",
     text: "Tags",
     icon: <Tags width={25} height={25} />,
-    path: null,
+    path: "/admin/tags",
   },
   {
     href: "/admin/users",
     text: "Users",
     icon: <User2Icon width={25} height={25} />,
-    path: "/user/profile",
+    path: "/admin/users",
+  },
+  {
+    href: "/admin/blogs",
+    text: "Blogs",
+    icon: <Notebook width={25} height={25} />,
+    path: "/admin/blogs",
   },
 ];
 function MobileNav() {

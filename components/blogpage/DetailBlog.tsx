@@ -54,7 +54,7 @@ function DetailBlog() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="transition-all duration-400 px-2 flex flex-col justify-start items-start  mt-3"
+          className="transition-all duration-400 px-2 flex flex-col justify-start items-start w-full mt-3"
         >
           <p className="transition-all duration-400 text-base font-semibold mb-8 dark:text-purple-900 text-purple-700 ">
             {blog?.createdAt}

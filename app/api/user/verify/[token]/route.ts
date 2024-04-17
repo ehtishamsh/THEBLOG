@@ -13,7 +13,7 @@ export async function GET(
         emailToken: `${token}`,
       },
     });
-    console.log(checkUser);
+
     if (!checkUser) {
       return NextResponse.json({
         message: "Invalid token",
