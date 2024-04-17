@@ -64,7 +64,7 @@ function UploadImage({ imageUrl, email }: { imageUrl: string; email: string }) {
       transition={{ duration: 0.5 }}
     >
       <div className="relative">
-        <div className="w-48 max-xs:w-36 h-48 max-xs:h-36">
+        <div className="w-48 max-sm:w-full ">
           <Image
             src={imageUrl as string}
             alt="profile"

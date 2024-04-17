@@ -12,7 +12,7 @@ export default async function Tags() {
 
   const data1 = await data?.json();
   return (
-    <div className="container mx-auto pb-8">
+    <div className="mx-auto pb-8 max-w-7xl px-4 max-sm:px-0 w-full">
       <DataTable columns={columns} data={data1.tags} />
     </div>
   );

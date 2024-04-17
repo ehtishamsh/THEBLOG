@@ -7,7 +7,7 @@ export default async function UserTags() {
   });
   const data = await users.json();
   return (
-    <div className="container mx-auto pb-8">
+    <div className="max-w-7xl w-full px-4 mx-auto pb-8 max-sm:px-0">
       <DataTable columns={columns} data={data.users} />
     </div>
   );

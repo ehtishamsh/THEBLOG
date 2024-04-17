@@ -8,7 +8,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 async function page() {
-  
   const session = await getServerSession(authOptions);
   if (session == null || session.user?.role !== "admin") {
     return redirect("/sign-in");
@@ -18,22 +17,23 @@ async function page() {
         <GetPath />
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">Tags</h1>
+            <h1 className="text-3xl font-bold tracking-tight max-sm:text-xl">
+              Tags
+            </h1>
             <span className="text-sm text-muted-foreground">
               Manage the tags.
             </span>
           </div>
           <Link
             href={"/admin/tags/new"}
-            className="flex items-center gap-5 bg-foreground text-black border-placeholder-default border px-3 py-2 rounded-lg"
+            className="flex items-center gap-5 bg-foreground max-sm:text-sm text-black border-placeholder-default border px-3 py-2 rounded-lg"
           >
-            <Plus width={20} height={20} /> Add
+            <Plus className="w-5 h-5 max-sm:w-4 max-sm:h-4" /> Add
           </Link>
         </div>
         <DropdownMenuSeparator />
         <Tags />
         <DropdownMenuSeparator />
-      
       </div>
     );
   }

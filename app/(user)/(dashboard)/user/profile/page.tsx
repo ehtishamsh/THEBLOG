@@ -40,7 +40,7 @@ function Page() {
             Profile
           </h1>
         </div>
-        <div className="mt-8 flex gap-8 border border-border p-4 rounded-lg">
+        <div className="mt-8 flex gap-8  max-sm:gap-3 max-sm:flex-col border border-border p-4 rounded-lg">
           {status === "authenticated" ? (
             <UploadImage
               imageUrl={session?.user?.image as string}
