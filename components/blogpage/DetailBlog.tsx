@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 import GetContent from "./GetContent";
 import { toast } from "../ui/use-toast";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
 import DetailBlogS from "../skeleton/DetailBlogS";
 import Image from "next/image";
-interface blog {
+type blog = {
   title: string;
   content: string;
   image: string;
@@ -18,18 +18,30 @@ interface blog {
     username: string;
     image: string;
   };
-}
+  blog?: null;
+} | null;
 function DetailBlog() {
   const { slug } = useParams();
   const [blog, setBlogs] = useState<blog>({} as blog);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (blog?.blog === null) {
+      toast({
+        title: "Error",
+        description: "Something went wrong.",
+        variant: "destructive",
+      });
+      redirect("/home");
+    }
+  }, [blog]);
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
       try {
         const data = await axios.get(`/api/user/blogs/single/${slug}`);
         const blog = await data.data;
-        setBlogs(blog.formatedBlog);
+        setBlogs(blog?.formatedBlog || blog);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -68,8 +80,8 @@ function DetailBlog() {
               <Image
                 width={50}
                 height={50}
-                src={blog?.user?.image}
-                alt={blog?.user?.username}
+                src={blog?.user?.image as string}
+                alt={blog?.user?.username as string}
                 className="rounded-full border border-border w-[50px] h-[50px]"
               />
               <p className="transition-all duration-400 text-base text-muted-foreground font-semibold ml-3 uppercase">
@@ -83,7 +95,7 @@ function DetailBlog() {
             className="object-cover w-full max-h-[500px] mb-8 transition-all duration-400 border border-border rounded-md"
           />
           <div className="transition-all duration-400  grid grid-cols-1 overflow-hidden">
-            <GetContent content={blog?.content} />
+            <GetContent content={blog?.content as string} />
           </div>
           <div className="mt-8 flex gap-3 flex-wrap transition-all duration-400">
             {blog?.tags?.map((tag: string, index: number) => (

@@ -28,6 +28,14 @@ export async function GET(
       },
     });
 
+    if (!blog) {
+      return NextResponse.json({
+        blog: null,
+        status: 404,
+        message: "Not found",
+        type: "error",
+      });
+    }
     const date = blog?.createdAt as string | Date as string;
 
     const formateDate: string = new Date(date).toLocaleString("en-US", {
