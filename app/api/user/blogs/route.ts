@@ -50,7 +50,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(data);
     return NextResponse.json({
       data,
       status: 200,
