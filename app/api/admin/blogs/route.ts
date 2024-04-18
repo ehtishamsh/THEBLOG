@@ -34,7 +34,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
         { status: 500 }
       );
     }
-    return NextResponse.json({ blogs, status: 200 });
+    const formatedBlogs = blogs.map((blog) => {
+      return {
+        ...blog,
+        username: blog.blogDetail[0]?.user?.username,
+      };
+    });
+    return NextResponse.json({ blogs: formatedBlogs, status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Something went wrong" },

@@ -14,7 +14,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import GetColor from "@/components/utils/GetColor";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowData } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -35,6 +35,7 @@ interface blog {
 
   image: string;
   slug: string;
+  username: string;
   title: string;
 }
 
@@ -54,7 +55,7 @@ export const columns: ColumnDef<blog>[] = [
     },
   },
   {
-    accessorKey: "Username",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <Button
@@ -77,7 +78,8 @@ export const columns: ColumnDef<blog>[] = [
     },
   },
   {
-    accessorKey: "Title",
+    accessorKey: "title",
+    header: "Title",
 
     cell: function Cell({ row }) {
       const blog = row.original;
