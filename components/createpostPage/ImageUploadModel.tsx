@@ -1,6 +1,7 @@
 import { UploadButton } from "@/app/utils/uploadthing";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiXMark } from "react-icons/hi2";
+import { useToast } from "../ui/use-toast";
 
 const ImageUploadModal = ({
   onImageUpload,
@@ -11,11 +12,25 @@ const ImageUploadModal = ({
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   modalOpen: boolean;
 }) => {
+  const { toast } = useToast();
   const [imageUrl, setImageUrl] = useState("");
 
   const handleUrlSubmit = () => {
-    onImageUpload(imageUrl);
-    setImageUrl("");
+    if (
+      !imageUrl ||
+      imageUrl === "" ||
+      imageUrl === " " ||
+      imageUrl.length < 5
+    ) {
+      return toast({
+        title: "Alert",
+        description: "Please enter an image url",
+        variant: "destructive",
+      });
+    } else {
+      onImageUpload(imageUrl);
+      setImageUrl("");
+    }
   };
 
   const closeModal = () => setModalOpen(false);
@@ -28,10 +43,10 @@ const ImageUploadModal = ({
       <div className="  w-96 max-sm:w-80 p-6 rounded-sm  bg-white border border-black relative">
         <label className="block mb-2 text-black">Image URL:</label>
         <input
-          type="text"
+          type="url"
           value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
-          className="w-full mb-4 p-2 border border-gray-300 text-black rounded bg-gray-200"
+          className="w-full imgUrl mb-4 p-2 border border-gray-300 text-black rounded bg-gray-200"
         />
         <button
           onClick={handleUrlSubmit}

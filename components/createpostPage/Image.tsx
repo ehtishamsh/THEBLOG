@@ -25,7 +25,11 @@ function ImageNode(props: any) {
     <>
       <NodeViewWrapper className={className} data-drag-handle>
         <div className="relative">
-          <img src={src} alt={alt} className="object-cover h-[400px] w-full" />
+          <img
+            src={src}
+            alt={alt}
+            className="object-contain max-h-[600px] w-full"
+          />
           <span className="flex justify-center items-center mt-5 flex-col gap-4 absolute top-0 left-0 right-0 bottom-0">
             <span className="flex justify-center items-center border border-border gap-4  bg-[#000000a3]   rounded-md backdrop-blur-lg px-2 py-1 text-muted-foreground">
               {alt ? (
