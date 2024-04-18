@@ -20,7 +20,7 @@ function GetColor({
 
   const defaultColors = "bg-gray-100 text-gray-700";
 
-  const classNames = `transition-all duration-400 ${padding}  rounded-3xl ${
+  const classNames = `transition-all duration-400 ${padding}  rounded-full ${
     tagColors[tagName] || defaultColors
   } ${textSize} font-semibold`;
 

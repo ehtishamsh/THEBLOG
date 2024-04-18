@@ -8,6 +8,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import DetailBlogS from "../skeleton/DetailBlogS";
 import Image from "next/image";
+import ShareButtons from "./ShareButtons";
 type blog = {
   title: string;
   content: string;
@@ -97,15 +98,19 @@ function DetailBlog() {
           <div className="transition-all duration-400  grid grid-cols-1 overflow-hidden">
             <GetContent content={blog?.content as string} />
           </div>
-          <div className="mt-8 flex gap-3 flex-wrap transition-all duration-400">
-            {blog?.tags?.map((tag: string, index: number) => (
-              <GetColor
-                tagName={tag}
-                key={index}
-                padding="p-2"
-                textSize="text-sm"
-              />
-            ))}
+          <p className="text-xl mt-4 font-semibold">Tags:</p>
+          <div className="transition-all duration-400 flex flex-col justify-start items-start">
+            <div className="mt-3 flex gap-3 flex-wrap  transition-all duration-400">
+              {blog?.tags?.map((tag: string, index: number) => (
+                <GetColor
+                  tagName={tag}
+                  key={index}
+                  padding="px-4 py-2"
+                  textSize="text-sm"
+                />
+              ))}
+            </div>
+            <ShareButtons />
           </div>
         </motion.div>
       )}
