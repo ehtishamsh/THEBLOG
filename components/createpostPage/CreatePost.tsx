@@ -7,7 +7,7 @@ const Delete = dynamic(() => import("./Delete"));
 import { Editor, useEditor } from "@tiptap/react";
 import { UploadDropzone } from "@/app/utils/uploadthing";
 import dynamic from "next/dynamic";
-
+import slugify from "slugify";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
@@ -100,13 +100,11 @@ function CreatePost({ email }: { email: string | null | undefined }) {
     }
 
     // create slug
-    const slug =
-      title
-        .toLowerCase()
-        .replace(/\s+/g, "-") // Replace one or more spaces with a single hyphen
-        .replace(/[^\w-]+/g, "") +
-      "-" +
-      new Date().getTime();
+    const slug = slugify(title, {
+      lower: true,
+      strict: true,
+      replacement: "-",
+    });
     // create post
     const response = await fetch("/api/user/create", {
       method: "POST",

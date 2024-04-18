@@ -12,6 +12,7 @@ import Delete from "@/components/createpostPage/Delete";
 import EditTiptap from "./EditTiptap";
 import { Skeleton } from "@/components/ui/skeleton";
 import ValidateBlog from "./ValidateBlog";
+import slugify from "slugify";
 
 interface data {
   id: string;
@@ -107,13 +108,11 @@ function EditBlog({
     }
 
     // create slug
-    const slug =
-      title
-        .toLowerCase()
-        .replace(/\s+/g, "-") // Replace one or more spaces with a single hyphen
-        .replace(/[^\w-]+/g, "") +
-      "-" +
-      new Date().getTime();
+    const slug = slugify(title, {
+      lower: true,
+      strict: true,
+      replacement: "-",
+    });
     // create post
     const response = await fetch("/api/user/profile", {
       method: "PUT",
