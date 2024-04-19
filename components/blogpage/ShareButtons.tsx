@@ -73,7 +73,7 @@ function ShareButtons() {
           isCopied ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        Copied
+        Copied to clipboard
       </span>
     </div>
   );
