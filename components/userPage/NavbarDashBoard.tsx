@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { AvatarIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Edit, Home, X } from "lucide-react";
@@ -10,11 +10,20 @@ import { BiSolidBusiness } from "react-icons/bi";
 
 function NavbarDashBoard() {
   const [open, setOpen] = useState<boolean>(false);
+  const [leave, setLeave] = useState<boolean>(false);
   const path = usePathname();
 
   return (
     <>
-      <div className="hidden max-sm:block">
+      <div className={`hidden  max-sm:block`}>
+        <div
+          className={`fixed top-0 left-0 h-screen w-screen bg-transparent z-40 ${
+            open ? "block" : "hidden"
+          } `}
+          onClick={() => leave && setOpen(false)}
+        >
+          &nbsp;
+        </div>
         <Button
           variant="outline"
           className={`p-1 ${open ? "z-[9999] absolute top-8 left-5" : ""}`}
@@ -52,7 +61,12 @@ function NavbarDashBoard() {
               open ? "visible" : "invisible"
             } text-white w-[50vw] h-screen bg-background border border-border absolute top-0 left-0 z-50`}
           >
-            <div className="w-full h-full relative mt-24 flex flex-col gap-4">
+            <div
+              className="w-full h-full relative mt-24 flex flex-col gap-4"
+              onMouseLeave={() => setLeave(true)}
+              onMouseEnter={() => setLeave(false)}
+              onMouseOut={() => setLeave(true)}
+            >
               <Link
                 href={"/home"}
                 className={`text-lg text-center min-w-max block mx-3 px-2 py-2 max-xs:text-base hover:bg-accent ${

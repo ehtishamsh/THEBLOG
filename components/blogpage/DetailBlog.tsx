@@ -83,7 +83,7 @@ function DetailBlog() {
                 height={50}
                 src={blog?.user?.image as string}
                 alt={blog?.user?.username as string}
-                className="rounded-full border border-border w-[50px] h-[50px]"
+                className="rounded-full border border-border w-[50px] h-[50px] object-cover"
               />
               <p className="transition-all duration-400 text-base text-muted-foreground font-semibold ml-3 uppercase">
                 @{blog?.user?.username}

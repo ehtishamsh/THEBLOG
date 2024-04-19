@@ -29,7 +29,7 @@ export function AccountDropDown({ session }: any) {
             <img
               src={session?.user?.image}
               alt="avatar"
-              className="object-fit rounded-full w-8 h-8"
+              className="object-cover rounded-full w-8 h-8"
             />
           ) : (
             <User2Icon width={20} height={20} />
