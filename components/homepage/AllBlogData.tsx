@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import GetColor from "../utils/GetColor";
