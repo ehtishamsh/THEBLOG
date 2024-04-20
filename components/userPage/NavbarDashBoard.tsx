@@ -7,6 +7,7 @@ import { Edit, Home, X } from "lucide-react";
 import { animate, motion } from "framer-motion";
 import Link from "next/link";
 import { BiSolidBusiness } from "react-icons/bi";
+import SearchInput from "../Search/SearchInput";
 
 function NavbarDashBoard() {
   const [open, setOpen] = useState<boolean>(false);
@@ -78,16 +79,10 @@ function NavbarDashBoard() {
                 </span>
                 Home
               </Link>
-              <Link
-                href={"https://ehtishamshah.vercel.app/"}
-                target="_blank"
-                className={`text-lg text-center min-w-max  mx-3 px-2 py-2 max-xs:text-base hover:bg-accent transition-all duration-300 rounded-md border border-border flex justify-center items-center gap-3`}
-              >
-                <span>
-                  <BiSolidBusiness width={25} height={25} />
-                </span>
-                Portfolio
-              </Link>
+              <div className="mx-2 flex justify-center items-center text-lg text-center px-1  transition-all duration-300 rounded-md border border-border  py-1 max-xs:text-base hover:bg-accent ">
+                <SearchInput />
+              </div>
+
               {path === "/user/profile" || path === "/user/blogs" ? (
                 <div className="flex flex-col gap-4">
                   <h1 className="text-SM  text-center text-accent">

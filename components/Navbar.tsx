@@ -5,6 +5,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AccountDropDown } from "./utils/AccountDropDown";
 import NavbarDashBoard from "./userPage/NavbarDashBoard";
+import SearchInput from "./Search/SearchInput";
+import { Edit } from "lucide-react";
+import { Button } from "./ui/button";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
@@ -19,20 +22,13 @@ const Navbar = async () => {
         </div>
         <div className="flex justify-center items-center text-xl gap-4">
           <div className="flex justify-center items-center text-xl gap-4 max-sm:hidden">
-            <Link href={"/"} className="max-sm:hidden">
-              Blog
-            </Link>
-            <Link
-              href={"https://ehtishamshah.vercel.app/"}
-              target="_blank"
-              className="max-sm:hidden"
-            >
-              Portfolio
-            </Link>
+            <SearchInput />
 
             {session?.user ? (
-              <Link href={"/create"} className="max-sm:hidden">
-                Create Post
+              <Link href={"/create"} className="max-sm:hidden ">
+                <Button variant={"outline"} className="px-2 py-1">
+                  <Edit className="h-5 w-5" />
+                </Button>
               </Link>
             ) : null}
           </div>
