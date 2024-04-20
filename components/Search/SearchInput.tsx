@@ -41,7 +41,7 @@ function SearchInput() {
     open: { width: "250px", opacity: 1 },
     closed: { width: 0, opacity: 0 },
   };
-  console.log(searchTerm);
+
   return (
     <div className="flex items-center gap-2 max-sm:gap-1">
       <motion.div
