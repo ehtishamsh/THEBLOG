@@ -22,7 +22,7 @@ function SearchBlogs({ search }: { search: string }) {
     setLoading(true);
     const fetchData = async () => {
       const response = await fetch(
-        "http://localhost:3000/api/user/search/" + search,
+        "https://theblogs-ecru.vercel.app/api/user/search/" + search,
         {
           method: "GET",
         }
