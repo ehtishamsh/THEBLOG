@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -32,6 +32,16 @@ function SearchInput() {
     }
   };
 
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    if (width < 600) {
+      setIsOpen(true);
+    }
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [width]);
+  console.log(width);
   const iconVariants = {
     open: { rotate: 180 },
     closed: { rotate: 0 },
