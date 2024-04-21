@@ -1,5 +1,6 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { ModeToggle } from "./ThemeSwitchButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -8,11 +9,35 @@ import NavbarDashBoard from "./userPage/NavbarDashBoard";
 import SearchInput from "./Search/SearchInput";
 import { Edit } from "lucide-react";
 import { Button } from "./ui/button";
+import { motion } from "framer-motion";
+import { useMotionValueEvent, useScroll } from "framer-motion";
 
-const Navbar = async () => {
-  const session = await getServerSession(authOptions);
+function Navbar({ session }: any) {
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const prev = scrollY?.getPrevious();
+    if (latest > (prev || 0) && latest - 100 > 550) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
   return (
-    <header className="px-5 py-8">
+    <motion.header
+      variants={{
+        visible: {
+          y: 0,
+        },
+        hidden: {
+          y: "-100%",
+        },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="px-5 py-5 fixed top-0 right-0 left-0 z-50 bg-background border-b border-border"
+    >
       <nav className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex justify-center gap-3 items-center">
           <NavbarDashBoard />
@@ -36,8 +61,8 @@ const Navbar = async () => {
           <ModeToggle />
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
-};
+}
 
 export default Navbar;

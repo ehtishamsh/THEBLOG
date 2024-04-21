@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import NavbarContainer from "@/components/NavbarContainer";
 import React from "react";
 
 export default function RootLayout({
@@ -9,8 +9,8 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <Navbar />
-      <main>{children}</main>
+      <NavbarContainer />
+      <main className="mt-28">{children}</main>
       <Footer />
     </>
   );
