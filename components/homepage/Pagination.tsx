@@ -1,7 +1,7 @@
 "use client";
 import { ArrowBigLeft, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 function Pagination({ length, current }: { length: number; current: number }) {
@@ -9,6 +9,7 @@ function Pagination({ length, current }: { length: number; current: number }) {
   const totalPages = Math.ceil(length / 5);
   const router = useRouter();
 
+  const path = usePathname();
   const handlePrevPage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
     if (page > 1) {
@@ -29,7 +30,10 @@ function Pagination({ length, current }: { length: number; current: number }) {
     const buttons = [];
     for (let i = 1; i <= totalPages; i++) {
       buttons.push(
-        <Link key={i + 1} href={`home?page=${i}`}>
+        <Link
+          key={i + 1}
+          href={`${path === "/home" ? "/home" : "/home?page=$" + i}`}
+        >
           <button
             className={`text-sm font-semibold px-4 py-2 ${
               page === i
