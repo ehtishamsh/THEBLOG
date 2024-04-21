@@ -3,7 +3,6 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
 import GetColor from "../utils/GetColor";
 import Link from "next/link";
-import Loader from "../skeleton/Loader";
 import { Loader2 } from "lucide-react";
 interface data {
   id: string;
@@ -54,7 +53,7 @@ function SearchBlogs({ search }: { search: string }) {
           <Link
             href={`/blog/${item.slug}`}
             key={item.id}
-            className="hover:scale-105 transition-all duration-500 max-w-xs max-sm:min-w-full flex justify-between items-start flex-col gap-3"
+            className="transition-all duration-500 max-w-xs max-sm:min-w-full flex justify-between items-start flex-col gap-3"
           >
             <img
               src={item?.image}
@@ -91,7 +90,7 @@ function SearchBlogs({ search }: { search: string }) {
       <p className="text-lg">No blogs found.</p>
     );
   return (
-    <div className="flex items-center gap-5 justify-start flex-wrap mt-4">
+    <div className="flex items-center gap-5 justify-start flex-wrap mt-4 px-4">
       {loading ? (
         <div
           className={`transition-all duration-300 bg-background   w-full h-96 max-sm:h-64 flex justify-center items-center`}

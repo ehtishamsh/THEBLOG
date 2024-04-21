@@ -1,5 +1,4 @@
 import React from "react";
-import BlogsRecent from "./BlogsRecent";
 import DetailBlog from "./DetailBlog";
 import RecentBlogData from "../homepage/RecentBlogData";
 

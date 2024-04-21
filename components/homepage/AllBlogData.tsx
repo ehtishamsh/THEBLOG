@@ -12,11 +12,12 @@ interface data {
   createdAt: string;
   blogDetail: [{ tag: { tagName: string } }];
 }
-async function AllBlogData() {
+async function AllBlogData({ page }: { page: number }) {
   const response = await fetch(
-    "https://theblogs-ecru.vercel.app/api/user/blogs",
+    "https://theblogs-ecru.vercel.app/api/user/blogs/" +
+      `${(page > 0 ? page : 1) || 1}`,
     {
-      cache: "no-store",
+      method: "GET",
     }
   );
   const getData = await response.json();

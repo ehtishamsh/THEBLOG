@@ -1,10 +1,10 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Search, X } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function SearchInput() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,6 @@ function SearchInput() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [width]);
-  console.log(width);
   const iconVariants = {
     open: { rotate: 180 },
     closed: { rotate: 0 },
