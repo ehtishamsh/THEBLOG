@@ -46,13 +46,13 @@ This is a blog project built with Next.js, Prisma, NextAuth, Shadcn UI, Supabase
    Create a `.env.local` file in the root of your project and add the necessary variables:
 
    ```env
- DATABASE_URL= ""
-NEXTAUTH_SECRET= ""
-UPLOADTHING_SECRET= ""
-NEXTAUTH_URL=""
-SMTP_PASS=""
-SMTP_EMAIL=""
-   # Add other necessary environment variables for NextAuth, etc.
+   DATABASE_URL= ""
+   NEXTAUTH_SECRET= ""
+   UPLOADTHING_SECRET= ""
+   NEXTAUTH_URL=""
+   SMTP_PASS=""
+   SMTP_EMAIL=""
+
    ```
 
 4. **Run the development server:**
